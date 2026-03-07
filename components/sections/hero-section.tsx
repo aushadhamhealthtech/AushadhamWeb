@@ -1,7 +1,7 @@
 "use client";
 // Figma illustration asset (node 9:2714)
 // Inline SVG — no external dependency, matches Figma design: patient + doctor consultation + medical items
-import { ArrowRight, Upload, CalendarCheck } from "lucide-react";
+import { Upload, CalendarCheck } from "lucide-react";
 import Link from "next/link";
 
 // Doctor consultation illustration — matches Figma node 9:2714
@@ -119,104 +119,104 @@ function DoctorConsultationIllustration() {
 
 export default function HeroSection() {
     return (
-        <section id="hero" className="relative overflow-hidden" style={{ background: "linear-gradient(160deg, #f0faf7 0%, #e8f5f2 35%, #ffffff 70%)" }}>
-            {/* Large background blob top-right */}
-            <div className="absolute top-0 right-0 w-[680px] h-[680px] opacity-20 pointer-events-none -z-0">
-                <svg viewBox="0 0 600 600" fill="none">
-                    <ellipse cx="420" cy="220" rx="310" ry="270" fill="#3aa692" />
+        <section id="hero" className="relative overflow-hidden" style={{ background: "linear-gradient(175deg, #e8f5f2 0%, #f0faf7 45%, #ffffff 80%)" }}>
+            {/* Soft background blob */}
+            <div className="absolute top-0 right-0 w-[600px] h-[500px] opacity-15 pointer-events-none">
+                <svg viewBox="0 0 600 500" fill="none">
+                    <ellipse cx="400" cy="200" rx="320" ry="260" fill="#3aa692" />
                 </svg>
             </div>
 
-            <div className="max-w-[1440px] mx-auto px-6 lg:px-[99px] pt-16 pb-20 relative z-10">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center min-h-[668px]">
+            {/* ── BLOCK 1: Headline + Upload CTA ── */}
+            <div className="max-w-[1440px] mx-auto px-6 lg:px-[99px] pt-20 pb-16 relative z-10">
+                <div className="flex flex-col gap-7 max-w-[620px]">
+                    <div className="inline-flex items-center gap-2 text-sm font-medium" style={{ color: "#228573" }}>
+                        <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: "#3aa692" }} />
+                        Healthcare made simple
+                    </div>
 
-                    {/* ── Left: Hero copy ── */}
-                    <div className="flex flex-col gap-6 order-2 lg:order-1">
-                        <div className="inline-flex items-center gap-2 text-sm font-medium" style={{ color: "#228573" }}>
-                            <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: "#3aa692" }} />
-                            Healthcare made simple
-                        </div>
+                    <h1
+                        className="text-[44px] md:text-[58px] font-extrabold leading-[1.1] tracking-tight"
+                        style={{ color: "#065b4b" }}
+                    >
+                        Upload Your Health Records{" "}
+                        <br />
+                        <span style={{ color: "#228573" }}>Use Them Anytime, Anywhere</span>
+                    </h1>
 
-                        <h1
-                            className="text-[44px] md:text-[58px] font-extrabold leading-[1.1] tracking-tight"
-                            style={{ color: "#065b4b" }}
-                        >
-                            Upload Your Health Records{" "}
-                            <span style={{ color: "#228573" }}>Use Them Anytime, Anywhere</span>
-                        </h1>
+                    <p className="text-[17px] leading-relaxed" style={{ color: "rgba(6,91,75,0.7)" }}>
+                        Aushadham allows you to store your medical history and reports in your profile for no additional cost.
+                    </p>
 
-                        <p className="text-[17px] leading-relaxed max-w-[520px]" style={{ color: "rgba(6,91,75,0.7)" }}>
-                            Aushadham allows you to store your medical history and organise your data for additional use. Manage records securely and share them with your doctor in one tap.
-                        </p>
-
+                    <div className="flex flex-col gap-6">
                         <Link
                             href="/learn-more"
                             className="text-sm font-semibold hover:underline w-fit"
-                            style={{ color: "rgba(6,91,75,0.6)" }}
+                            style={{ color: "#228573" }}
                         >
                             Learn more →
                         </Link>
 
-                        {/* CTAs — stacked vertically with generous spacing */}
-                        <div className="mt-12 flex flex-col items-start gap-5">
-                            <Link
-                                href="/upload"
-                                className="group inline-flex items-center gap-3 px-8 py-4 text-white text-lg font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5 hover:bg-[#065b4b] bg-[#228573]"
-                            >
-                                <Upload size={20} />
-                                Upload Your Reports Now
-                                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                            </Link>
+                        <Link
+                            href="/upload"
+                            className="group inline-flex items-center gap-3 px-8 py-4 text-white text-[17px] font-semibold rounded-full w-fit transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                            style={{ backgroundColor: "#065b4b" }}
+                        >
+                            <Upload size={19} />
+                            Upload Your Reports Now
+                        </Link>
+                    </div>
+                </div>
+            </div>
 
-                            <Link
-                                href="/book-appointment"
-                                className="group inline-flex items-center gap-3 px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 border-2 border-[#228573] text-[#228573] hover:bg-[#228573] hover:text-white hover:-translate-y-0.5"
-                            >
-                                <CalendarCheck size={20} />
-                                Book an Appointment
-                                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                            </Link>
+            {/* ── BLOCK 2: Illustration (left) + Connect With Doctors (right) ── */}
+            <div className="max-w-[1440px] mx-auto px-6 lg:px-[99px] pb-24 relative z-10">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+                    {/* Left: Illustration */}
+                    <div
+                        className="rounded-[28px] shadow-lg border border-[#d1ece6] overflow-hidden"
+                        style={{ background: "linear-gradient(135deg, #e8f5f2 0%, #c8ebe3 100%)" }}
+                    >
+                        <div className="px-6 pt-6 pb-4">
+                            <DoctorConsultationIllustration />
                         </div>
                     </div>
 
-                    {/* ── Right: Illustration ── */}
-                    <div className="relative order-1 lg:order-2 flex flex-col gap-5">
-
-                        {/* Illustration — no overflow-hidden so the PNG shows completely */}
-                        <div
-                            className="relative rounded-[32px] shadow-xl border border-white"
-                            style={{ background: "linear-gradient(135deg, #e8f5f2 0%, #c8ebe3 100%)" }}
+                    {/* Right: Connect With Doctors copy + Book CTA */}
+                    <div className="flex flex-col gap-7">
+                        <h2
+                            className="text-[38px] md:text-[48px] font-extrabold leading-[1.1] tracking-tight"
+                            style={{ color: "#065b4b" }}
                         >
-                            {/* Inline SVG illustration — doctor consultation scene */}
-                            <div className="px-4 pt-6 pb-[148px]">
-                                <DoctorConsultationIllustration />
-                            </div>
+                            Connect With Doctors{" "}
+                            <br />
+                            <span style={{ color: "#228573" }}>Direct Consult Online</span>
+                        </h2>
 
-                            {/* Overlay card: Connect with Doctors */}
-                            <div
-                                className="absolute bottom-5 left-5 right-5 rounded-2xl p-5 shadow-lg"
-                                style={{ backgroundColor: "#065b4b" }}
-                            >
-                                <h3 className="text-white font-bold text-[17px] leading-snug">
-                                    Connect With Doctors&nbsp;
-                                    <span style={{ color: "#7dd8c9" }}>Direct Consult Online</span>
-                                </h3>
-                                <p className="text-sm leading-relaxed mt-1" style={{ color: "rgba(255,255,255,0.7)" }}>
-                                    Skip the waiting room. Book a Video Call or In-Clinic visit at your convenience.
-                                </p>
-                            </div>
-                        </div>
+                        <p className="text-[16px] leading-relaxed" style={{ color: "rgba(6,91,75,0.7)" }}>
+                            Skip the waiting room and connect with top doctors across India via Video Call or In-Clinic visit. Your Health, Your Schedule!
+                        </p>
 
-                        {/* Stats bar */}
-                        <div className="bg-white rounded-2xl p-5 shadow-md border border-[#e8f5f2] flex items-center justify-around gap-4">
+                        <Link
+                            href="/book-appointment"
+                            className="inline-flex items-center gap-3 px-8 py-4 text-white text-[17px] font-semibold rounded-full w-fit transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                            style={{ backgroundColor: "#228573" }}
+                        >
+                            <CalendarCheck size={19} />
+                            Book an Appointment
+                        </Link>
+
+                        {/* Stats */}
+                        <div className="flex items-center gap-10 mt-2">
                             {[
                                 { value: "500+", label: "Doctors" },
                                 { value: "10K+", label: "Patients" },
                                 { value: "4.9★", label: "Rating" },
                             ].map((stat) => (
-                                <div key={stat.label} className="flex flex-col items-center">
-                                    <span className="text-2xl font-extrabold" style={{ color: "#228573" }}>{stat.value}</span>
-                                    <span className="text-sm" style={{ color: "rgba(6,91,75,0.6)" }}>{stat.label}</span>
+                                <div key={stat.label} className="flex flex-col">
+                                    <span className="text-2xl font-extrabold" style={{ color: "#065b4b" }}>{stat.value}</span>
+                                    <span className="text-sm" style={{ color: "rgba(6,91,75,0.55)" }}>{stat.label}</span>
                                 </div>
                             ))}
                         </div>
