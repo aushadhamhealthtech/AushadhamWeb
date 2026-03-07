@@ -7,19 +7,22 @@ import VisionSection from "@/components/sections/vision-section";
 import TestimonialsSection from "@/components/sections/testimonials-section";
 import ExpertsSection from "@/components/sections/experts-section";
 import DoctorsCTASection from "@/components/sections/doctors-cta-section";
+import AnimationProvider from "@/components/animation-provider";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen flex flex-col">
-      <Navbar />
-      <HeroSection />
-      <HowItWorksSection />
-      <MissionSection />
-      <VisionSection />
-      <TestimonialsSection />
-      <ExpertsSection />
-      <DoctorsCTASection />
-      <Footer />
-    </main>
+    <AnimationProvider>
+      <main className="min-h-screen flex flex-col">
+        <Navbar />
+        <HeroSection />
+        <HowItWorksSection />
+        <MissionSection />
+        <VisionSection />
+        <TestimonialsSection />
+        <ExpertsSection />
+        <DoctorsCTASection />
+        <Footer />
+      </main>
+    </AnimationProvider>
   );
 }

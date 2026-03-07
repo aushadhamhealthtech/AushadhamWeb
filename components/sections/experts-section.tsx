@@ -14,7 +14,9 @@ export default async function ExpertsSection() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
                     {doctors.map((doc) => (
-                        <DoctorCard key={doc.id} {...doc} />
+                        <div key={doc.id} className="reveal-item w-full flex justify-center">
+                            <DoctorCard {...doc} />
+                        </div>
                     ))}
                 </div>
 

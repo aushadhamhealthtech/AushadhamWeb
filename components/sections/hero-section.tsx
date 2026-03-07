@@ -1,8 +1,18 @@
 "use client";
 // Figma illustration asset (node 9:2714)
 // Inline SVG — no external dependency, matches Figma design: patient + doctor consultation + medical items
+import { useRef } from "react";
 import { Upload, CalendarCheck } from "lucide-react";
 import Link from "next/link";
+import { useGSAP } from "@gsap/react";
+import { animateHeroEntrance, animateIllustrationEntrance, animateIllustrationFloat } from "@/lib/animations/hero";
+import { animateCounters, type StatDef } from "@/lib/animations/statsCounter";
+
+const heroStats = [
+    { num: 500, suffix: "+", label: "Doctors", decimals: 0 },
+    { num: 10, suffix: "K+", label: "Patients", decimals: 0 },
+    { num: 4.9, suffix: "\u2605", label: "Rating", decimals: 1 },
+];
 
 // Doctor consultation illustration — matches Figma node 9:2714
 // Scene: patient in armchair (left) + doctor on monitor screen (center) + medicine items (right)
@@ -118,8 +128,29 @@ function DoctorConsultationIllustration() {
 }
 
 export default function HeroSection() {
+    const containerRef = useRef<HTMLElement>(null);
+    const illustrationRef = useRef<HTMLDivElement>(null);
+    const statRefs = useRef<(HTMLSpanElement | null)[]>([]);
+
+    useGSAP(() => {
+        // Hero entrance — sequenced timeline with clearProps on button (fixes disappearing bug)
+        animateHeroEntrance();
+
+        // Illustration: scale+fade entrance, then continuous float loop
+        if (illustrationRef.current) {
+            animateIllustrationEntrance(illustrationRef.current);
+            animateIllustrationFloat(illustrationRef.current);
+        }
+
+        // Stats count-up triggered on scroll
+        const statList: StatDef[] = heroStats
+            .map((stat, i) => ({ el: statRefs.current[i], num: stat.num, suffix: stat.suffix, decimals: stat.decimals }))
+            .filter((s): s is StatDef => s.el !== null);
+        animateCounters(statList);
+    }, { scope: containerRef });
+
     return (
-        <section id="hero" className="relative overflow-hidden" style={{ background: "linear-gradient(175deg, #e8f5f2 0%, #f0faf7 45%, #ffffff 80%)" }}>
+        <section ref={containerRef} id="hero" className="relative overflow-hidden" style={{ background: "linear-gradient(175deg, #e8f5f2 0%, #f0faf7 45%, #ffffff 80%)" }}>
             {/* Soft background blob */}
             <div className="absolute top-0 right-0 w-[600px] h-[500px] opacity-15 pointer-events-none">
                 <svg viewBox="0 0 600 500" fill="none">
@@ -130,13 +161,13 @@ export default function HeroSection() {
             {/* ── BLOCK 1: Headline + Upload CTA ── */}
             <div className="max-w-[1440px] mx-auto px-6 lg:px-[99px] pt-20 pb-16 relative z-10">
                 <div className="flex flex-col gap-7 max-w-[620px]">
-                    <div className="inline-flex items-center gap-2 text-sm font-medium" style={{ color: "#228573" }}>
+                    <div className="hero-badge inline-flex items-center gap-2 text-sm font-medium" style={{ color: "#228573" }}>
                         <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: "#3aa692" }} />
                         Healthcare made simple
                     </div>
 
                     <h1
-                        className="text-[44px] md:text-[58px] font-extrabold leading-[1.1] tracking-tight"
+                        className="hero-title text-[44px] md:text-[58px] font-extrabold leading-[1.1] tracking-tight"
                         style={{ color: "#065b4b" }}
                     >
                         Upload Your Health Records{" "}
@@ -144,14 +175,14 @@ export default function HeroSection() {
                         <span style={{ color: "#228573" }}>Use Them Anytime, Anywhere</span>
                     </h1>
 
-                    <p className="text-[17px] leading-relaxed" style={{ color: "rgba(6,91,75,0.7)" }}>
+                    <p className="hero-desc text-[17px] leading-relaxed" style={{ color: "rgba(6,91,75,0.7)" }}>
                         Aushadham allows you to store your medical history and reports in your profile for no additional cost.
                     </p>
 
                     <div className="flex flex-col gap-6">
                         <Link
                             href="/learn-more"
-                            className="text-sm font-semibold hover:underline w-fit"
+                            className="hero-learn-more text-sm font-semibold hover:underline w-fit"
                             style={{ color: "#228573" }}
                         >
                             Learn more →
@@ -159,7 +190,7 @@ export default function HeroSection() {
 
                         <Link
                             href="/upload"
-                            className="group inline-flex items-center gap-3 px-8 py-4 text-white text-[17px] font-semibold rounded-full w-fit transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+                            className="hero-btn group inline-flex items-center gap-3 px-8 py-4 text-white text-[17px] font-semibold rounded-full w-fit transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5"
                             style={{ backgroundColor: "#065b4b" }}
                         >
                             <Upload size={19} />
@@ -175,6 +206,7 @@ export default function HeroSection() {
 
                     {/* Left: Illustration */}
                     <div
+                        ref={illustrationRef}
                         className="rounded-[28px] shadow-lg border border-[#d1ece6] overflow-hidden"
                         style={{ background: "linear-gradient(135deg, #e8f5f2 0%, #c8ebe3 100%)" }}
                     >
@@ -209,13 +241,15 @@ export default function HeroSection() {
 
                         {/* Stats */}
                         <div className="flex items-center gap-10 mt-2">
-                            {[
-                                { value: "500+", label: "Doctors" },
-                                { value: "10K+", label: "Patients" },
-                                { value: "4.9★", label: "Rating" },
-                            ].map((stat) => (
+                            {heroStats.map((stat, i) => (
                                 <div key={stat.label} className="flex flex-col">
-                                    <span className="text-2xl font-extrabold" style={{ color: "#065b4b" }}>{stat.value}</span>
+                                    <span
+                                        ref={(el) => { statRefs.current[i] = el; }}
+                                        className="text-2xl font-extrabold"
+                                        style={{ color: "#065b4b" }}
+                                    >
+                                        {stat.decimals > 0 ? stat.num.toFixed(stat.decimals) : stat.num}{stat.suffix}
+                                    </span>
                                     <span className="text-sm" style={{ color: "rgba(6,91,75,0.55)" }}>{stat.label}</span>
                                 </div>
                             ))}
