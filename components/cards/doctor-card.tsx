@@ -24,19 +24,14 @@ export default function DoctorCard({
                 <div className="flex items-center gap-1.5 absolute top-5 right-5">
                     <span className="text-xl font-extrabold text-[#228573]">{rating}</span>
                     <div className="flex items-center gap-0.5">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                            <Star
-                                key={i}
-                                size={13}
-                                className={`${
-                                    i < fullStars
-                                        ? "fill-amber-400 text-amber-400"
-                                        : i === fullStars && hasHalf
-                                        ? "fill-amber-200 text-amber-400"
-                                        : "fill-gray-200 text-gray-200"
-                                }`}
-                            />
-                        ))}
+                        {Array.from({ length: 5 }).map((_, i) => {
+                            const cls = i < fullStars
+                                ? "fill-amber-400 text-amber-400"
+                                : i === fullStars && hasHalf
+                                ? "fill-amber-200 text-amber-400"
+                                : "fill-gray-200 text-gray-200";
+                            return <Star key={i} size={13} className={cls} />;
+                        })}
                     </div>
                     {reviewCount && (
                         <span className="text-[11px] text-[#065b4b]/50 font-medium">({reviewCount})</span>
