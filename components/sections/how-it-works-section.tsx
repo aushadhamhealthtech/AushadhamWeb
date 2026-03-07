@@ -1,3 +1,5 @@
+"use client";
+import { useEffect, useRef } from "react";
 import SectionHeading from "@/components/ui/section-heading";
 
 const steps = [
@@ -67,6 +69,27 @@ const steps = [
 ];
 
 export default function HowItWorksSection() {
+    const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        (entry.target as HTMLElement).style.opacity = "1";
+                        (entry.target as HTMLElement).style.transform = "translateY(0)";
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            { threshold: 0.1 }
+        );
+        cardRefs.current.forEach((card) => {
+            if (card) observer.observe(card);
+        });
+        return () => observer.disconnect();
+    }, []);
+
     return (
         <section id="how-it-works" className="py-20 bg-white">
             <div className="max-w-[1440px] mx-auto px-6 lg:px-[92px]">
@@ -74,11 +97,17 @@ export default function HowItWorksSection() {
                     <SectionHeading title="How Aushadham works" />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {steps.map((step, i) => (
                         <div
                             key={step.title}
-                            className="group flex items-start gap-5 p-6 rounded-2xl border border-[#e8f5f2] bg-white hover:bg-[#f0faf7] hover:border-[#3aa692] transition-all duration-200 card-hover"
+                            ref={(el) => { cardRefs.current[i] = el; }}
+                            style={{
+                                opacity: 0,
+                                transform: "translateY(20px)",
+                                transition: `opacity 0.6s ease-out ${i * 0.08}s, transform 0.6s ease-out ${i * 0.08}s`,
+                            }}
+                            className="group flex items-start gap-5 p-6 rounded-2xl border border-[#e8f5f2] bg-white hover:bg-[#f0faf7] hover:border-[#3aa692] transition-colors duration-200 card-hover"
                         >
                             <div className="shrink-0 w-14 h-14 rounded-full bg-[#e8f5f2] group-hover:bg-[#d1ece6] flex items-center justify-center transition-colors duration-200">
                                 {step.icon}

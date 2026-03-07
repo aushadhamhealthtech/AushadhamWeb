@@ -158,7 +158,7 @@ export default function HeroSection() {
                         </Link>
 
                         {/* Primary CTA */}
-                        <div className="mt-4">
+                        <div className="mt-12">
                             <Link
                                 href="/upload"
                                 className="group inline-flex items-center gap-3 px-8 py-4 text-white text-lg font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5 hover:bg-[#065b4b] bg-[#228573]"

@@ -22,7 +22,7 @@ export default function DoctorCard({
     avatarInitials,
 }: DoctorCardProps) {
     return (
-        <div className="bg-white rounded-3xl overflow-hidden shadow-md border border-[#e8f5f2] card-hover transition-all duration-200 flex flex-col w-full max-w-[396px]">
+        <div className="bg-white rounded-3xl overflow-hidden shadow-md border border-[#e8f5f2] card-hover transition-all duration-300 ease-out hover:scale-105 flex flex-col w-full max-w-[396px]">
             {/* Top card with avatar */}
             <div className="relative bg-gradient-to-br from-[#e8f5f2] to-[#c8ebe3] p-6 pb-16 min-h-[152px]">
                 {/* Rating */}

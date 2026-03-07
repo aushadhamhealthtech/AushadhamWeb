@@ -49,20 +49,20 @@ const footerColumns = [
 
 export default function Footer() {
     return (
-        <footer style={{ backgroundColor: "#f0faf7", borderTop: "1px solid #d1ece6" }}>
+        <footer style={{ backgroundColor: "#1f5f4a" }}>
             <div className="max-w-[1440px] mx-auto px-6 lg:px-[121px] py-16">
                 {/* Main grid */}
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10 pb-10" style={{ borderBottom: "1px solid #c5e8e0" }}>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10 pb-10" style={{ borderBottom: "1px solid rgba(255,255,255,0.15)" }}>
 
                     {/* Logo + brand */}
                     <div className="col-span-2 md:col-span-1 flex flex-col gap-4">
                         <div className="flex flex-col items-start gap-1">
                             <FooterLogo />
-                            <span className="font-extrabold tracking-widest uppercase mt-1" style={{ color: "#228573", fontSize: "13px", letterSpacing: "0.15em" }}>
+                            <span className="font-extrabold tracking-widest uppercase mt-1" style={{ color: "#7dd8c9", fontSize: "13px", letterSpacing: "0.15em" }}>
                                 AUSHADHAM
                             </span>
                         </div>
-                        <p className="text-sm leading-relaxed" style={{ color: "rgba(6,91,75,0.7)", maxWidth: "160px" }}>
+                        <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.7)", maxWidth: "160px" }}>
                             Your trusted healthcare companion.
                         </p>
                     </div>
@@ -70,12 +70,12 @@ export default function Footer() {
                     {/* Dynamic link columns */}
                     {footerColumns.map((col) => (
                         <div key={col.heading} className="flex flex-col gap-3">
-                            <h4 className="text-[15px] font-bold mb-1" style={{ color: "#065b4b" }}>{col.heading}</h4>
+                            <h4 className="text-[15px] font-bold mb-1" style={{ color: "white" }}>{col.heading}</h4>
                             {col.links.map((link) => (
                                 <Link
                                     key={link.label}
                                     href={link.href}
-                                    className="text-sm transition-colors duration-200 hover:underline text-[rgba(6,91,75,0.65)] hover:text-[#228573]"
+                                    className="text-sm transition-colors duration-200 hover:underline text-[rgba(255,255,255,0.65)] hover:text-white"
                                 >
                                     {link.label}
                                 </Link>
@@ -85,7 +85,7 @@ export default function Footer() {
 
                     {/* Login / Signup column */}
                     <div className="flex flex-col gap-3 justify-start">
-                        <h4 className="text-[15px] font-bold mb-1" style={{ color: "#065b4b" }}>Get Started</h4>
+                        <h4 className="text-[15px] font-bold mb-1" style={{ color: "white" }}>Get Started</h4>
                         <Link
                             href="/signin"
                             className="px-5 py-2.5 rounded-full text-white text-sm font-semibold text-center transition-all duration-200 hover:opacity-90"
@@ -96,7 +96,7 @@ export default function Footer() {
                         <Link
                             href="/signup"
                             className="px-5 py-2.5 rounded-full text-sm font-semibold text-center transition-all duration-200 hover:opacity-90"
-                            style={{ border: "2px solid #228573", color: "#228573" }}
+                            style={{ border: "2px solid rgba(255,255,255,0.6)", color: "white" }}
                         >
                             Sign up
                         </Link>
@@ -106,7 +106,7 @@ export default function Footer() {
                 {/* Bottom bar */}
                 <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
                     <div className="flex items-center gap-3">
-                        <span className="text-sm font-medium" style={{ color: "rgba(6,91,75,0.65)" }}>Follow us:</span>
+                        <span className="text-sm font-medium" style={{ color: "rgba(255,255,255,0.7)" }}>Follow us:</span>
                         <div className="flex items-center gap-3">
                             {[
                                 { Icon: Facebook, label: "Facebook", href: "#" },
@@ -126,7 +126,7 @@ export default function Footer() {
                             ))}
                         </div>
                     </div>
-                    <p className="text-sm" style={{ color: "rgba(6,91,75,0.55)" }}>
+                    <p className="text-sm" style={{ color: "rgba(255,255,255,0.55)" }}>
                         © 2023 Aushadham. All rights reserved.
                     </p>
                 </div>

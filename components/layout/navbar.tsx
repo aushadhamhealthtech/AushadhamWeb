@@ -64,9 +64,9 @@ function AushadhamLogo() {
 
 const navLinks = [
     { label: "Home", sectionId: "hero" },
+    { label: "How It Works", sectionId: "how-it-works" },
+    { label: "Testimonials", sectionId: "testimonials" },
     { label: "Find Doctors", sectionId: "experts" },
-    { label: "Hospitals", sectionId: "how-it-works" },
-    { label: "About Us", sectionId: "mission" },
 ];
 
 function scrollToSection(id: string) {
