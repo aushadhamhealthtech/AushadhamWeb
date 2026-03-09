@@ -1,3 +1,7 @@
+"use client";
+
+import { useRef, useEffect } from "react";
+import gsap from "gsap";
 import SectionHeading from "@/components/ui/section-heading";
 
 // Rich SVG illustrations for each vision card
@@ -114,44 +118,114 @@ const visionCards = [
     },
 ];
 
-export default function VisionSection() {
+// Reusable card renderer shared by desktop marquee and mobile swipe views
+function VisionCard({ card }: { card: typeof visionCards[number] }) {
     return (
-        <section id="vision" className="py-20 bg-white">
+        <>
+            {/* SVG Illustration */}
+            <div className={`${card.height} p-4`} style={{ backgroundColor: "#f0faf7" }}>
+                {card.illustration}
+            </div>
+            {/* Content */}
+            <div className="bg-white p-6 flex flex-col gap-3 flex-1">
+                {card.featured && (
+                    <span
+                        className="text-xs font-bold px-2.5 py-1 rounded-full w-fit"
+                        style={{ backgroundColor: "#e8f5f2", color: "#228573" }}
+                    >
+                        ★ Most Popular
+                    </span>
+                )}
+                <h3 className="font-bold text-[18px]" style={{ color: "#065b4b" }}>{card.title}</h3>
+                <p className="text-[14px] leading-relaxed" style={{ color: "rgba(6,91,75,0.65)" }}>{card.description}</p>
+            </div>
+        </>
+    );
+}
+
+export default function VisionSection() {
+    const trackRef = useRef<HTMLDivElement>(null);
+    const animRef = useRef<gsap.core.Tween | null>(null);
+
+    useEffect(() => {
+        const track = trackRef.current;
+        if (!track) return;
+
+        // Only run marquee on md+ (≥768px) — mobile gets manual swipe
+        const mq = window.matchMedia("(min-width: 768px)");
+        if (!mq.matches) return;
+
+        // Marquee pattern: duplicate cards fill the track (2× set).
+        // Animating xPercent: -50 moves exactly one set's width → seamless loop.
+        const anim = gsap.fromTo(
+            track,
+            { xPercent: 0 },
+            { xPercent: -50, duration: 30, ease: "linear", repeat: -1 }
+        );
+        animRef.current = anim;
+
+        return () => { anim.kill(); };
+    }, []);
+
+    const handleMouseEnter = (cardEl: HTMLElement) => {
+        animRef.current?.pause();
+        gsap.to(cardEl, { scale: 1.08, duration: 0.3, ease: "power2.out" });
+    };
+
+    const handleMouseLeave = (cardEl: HTMLElement) => {
+        gsap.to(cardEl, { scale: 1, duration: 0.3, ease: "power2.out" });
+        animRef.current?.resume();
+    };
+
+    // Duplicate the cards to create the seamless marquee loop
+    const marqueeCards = [...visionCards, ...visionCards];
+
+    return (
+        <section id="vision" className="py-20 bg-white overflow-hidden">
+            {/* Section heading — stays within max-width container */}
             <div className="max-w-[1440px] mx-auto px-6 lg:px-[92px]">
                 <div className="mb-14">
                     <SectionHeading title="Our Vision" />
                 </div>
+            </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-                    {visionCards.map((card) => (
+            {/* ── DESKTOP: auto-scrolling marquee ── */}
+            <div className="hidden md:block overflow-hidden">
+                <div ref={trackRef} className="flex gap-6 w-max">
+                    {marqueeCards.map((card, i) => (
                         <div
-                            key={card.title}
-                            className={`rounded-3xl overflow-hidden border card-hover shadow-sm transition-all duration-200 flex flex-col ${card.featured
-                                    ? "md:-mt-6 md:shadow-lg ring-2 ring-[#3aa692] border-[#3aa692]"
+                            key={i}
+                            onMouseEnter={(e) => handleMouseEnter(e.currentTarget)}
+                            onMouseLeave={(e) => handleMouseLeave(e.currentTarget)}
+                            className={`rounded-3xl overflow-hidden border shadow-sm flex flex-col w-[380px] flex-shrink-0 cursor-default ${
+                                card.featured
+                                    ? "shadow-lg ring-2 ring-[#3aa692] border-[#3aa692]"
                                     : "border-[#e8f5f2]"
-                                }`}
+                            }`}
                         >
-                            {/* SVG Illustration */}
-                            <div className={`${card.height} p-4`} style={{ backgroundColor: "#f0faf7" }}>
-                                {card.illustration}
-                            </div>
-
-                            {/* Content */}
-                            <div className="bg-white p-6 flex flex-col gap-3 flex-1">
-                                {card.featured && (
-                                    <span
-                                        className="text-xs font-bold px-2.5 py-1 rounded-full w-fit"
-                                        style={{ backgroundColor: "#e8f5f2", color: "#228573" }}
-                                    >
-                                        ★ Most Popular
-                                    </span>
-                                )}
-                                <h3 className="font-bold text-[18px]" style={{ color: "#065b4b" }}>{card.title}</h3>
-                                <p className="text-[14px] leading-relaxed" style={{ color: "rgba(6,91,75,0.65)" }}>{card.description}</p>
-                            </div>
+                            <VisionCard card={card} />
                         </div>
                     ))}
                 </div>
+            </div>
+
+            {/* ── MOBILE: manual swipe scrolling ── */}
+            <div
+                className="md:hidden flex gap-5 overflow-x-auto scroll-smooth px-6"
+                style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
+            >
+                {visionCards.map((card) => (
+                    <div
+                        key={card.title}
+                        className={`rounded-3xl overflow-hidden border shadow-sm flex flex-col w-[300px] flex-shrink-0 snap-start ${
+                            card.featured
+                                ? "shadow-lg ring-2 ring-[#3aa692] border-[#3aa692]"
+                                : "border-[#e8f5f2]"
+                        }`}
+                    >
+                        <VisionCard card={card} />
+                    </div>
+                ))}
             </div>
         </section>
     );

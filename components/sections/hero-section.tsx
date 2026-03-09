@@ -152,15 +152,15 @@ export default function HeroSection() {
     return (
         <section ref={containerRef} id="hero" className="relative overflow-hidden" style={{ background: "linear-gradient(175deg, #e8f5f2 0%, #f0faf7 45%, #ffffff 80%)" }}>
             {/* Soft background blob */}
-            <div className="absolute top-0 right-0 w-[600px] h-[500px] opacity-15 pointer-events-none">
+            <div className="absolute top-0 right-0 w-[600px] h-[420px] md:h-[500px] opacity-15 pointer-events-none overflow-hidden">
                 <svg viewBox="0 0 600 500" fill="none">
                     <ellipse cx="400" cy="200" rx="320" ry="260" fill="#3aa692" />
                 </svg>
             </div>
 
             {/* ── BLOCK 1: Headline + Upload CTA ── */}
-            <div className="max-w-[1440px] mx-auto px-6 lg:px-[99px] pt-20 pb-16 relative z-10">
-                <div className="flex flex-col gap-7 max-w-[620px]">
+            <div className="max-w-[1440px] mx-auto px-6 lg:px-[99px] pt-10 md:pt-20 pb-16 relative z-10">
+                <div className="flex flex-col gap-4 md:gap-7 max-w-[620px]">
                     <div className="hero-badge inline-flex items-center gap-2 text-sm font-medium" style={{ color: "#228573" }}>
                         <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: "#3aa692" }} />
                         Healthcare made simple
@@ -179,15 +179,7 @@ export default function HeroSection() {
                         Aushadham allows you to store your medical history and reports in your profile for no additional cost.
                     </p>
 
-                    <div className="flex flex-col gap-6">
-                        <Link
-                            href="/learn-more"
-                            className="hero-learn-more text-sm font-semibold hover:underline w-fit"
-                            style={{ color: "#228573" }}
-                        >
-                            Learn more →
-                        </Link>
-
+                    <div className="flex flex-col gap-6 -mt-6 md:mt-0">
                         <Link
                             href="/upload"
                             className="hero-btn group inline-flex items-center gap-3 px-8 py-4 text-white text-[17px] font-semibold rounded-full w-fit transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5"
@@ -195,6 +187,14 @@ export default function HeroSection() {
                         >
                             <Upload size={19} />
                             Upload Your Reports Now
+                        </Link>
+
+                        <Link
+                            href="/learn-more"
+                            className="hero-learn-more text-sm font-semibold hover:underline w-fit"
+                            style={{ color: "#228573" }}
+                        >
+                            Learn more →
                         </Link>
                     </div>
                 </div>
