@@ -151,10 +151,10 @@ export default function HeroSection() {
 
     return (
         <section ref={containerRef} id="hero" className="relative overflow-hidden" style={{ background: "linear-gradient(175deg, #e8f5f2 0%, #f0faf7 45%, #ffffff 80%)" }}>
-            {/* Soft background blob — clipping wrapper limits mobile height so bubble ends at "Anytime, Anywhere" */}
-            <div className="absolute top-0 right-0 left-0 h-[180px] md:h-[600px] overflow-hidden pointer-events-none">
+            {/* Soft background blob — clip wrapper ends bubble at bottom of headline on mobile */}
+            <div className="absolute top-0 right-0 left-0 h-[320px] md:h-[600px] overflow-hidden pointer-events-none">
                 <div
-                    className="absolute rounded-full opacity-15 top-[-80px] right-[-80px] w-[280px] h-[280px] md:top-[-120px] md:right-[-120px] md:w-[700px] md:h-[700px]"
+                    className="absolute rounded-full opacity-15 top-[-60px] right-[-60px] w-[340px] h-[340px] md:top-[-120px] md:right-[-120px] md:w-[700px] md:h-[700px]"
                     style={{ backgroundColor: "#3aa692" }}
                 />
             </div>
