@@ -70,6 +70,7 @@ function scrollToSection(id: string) {
 export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [active, setActive] = useState("hero");
+    const [atBottom, setAtBottom] = useState(false);
 
     // Scroll-spy: watch which section is visible
     useEffect(() => {
@@ -92,6 +93,9 @@ export default function Navbar() {
         // Also watch scroll position to set "hero" when at the very top
         const handleScroll = () => {
             if (window.scrollY < 120) setActive("hero");
+            // Hide bottom bar when near the footer (within 80px of page bottom)
+            const distFromBottom = document.documentElement.scrollHeight - window.scrollY - window.innerHeight;
+            setAtBottom(distFromBottom < 80);
         };
         window.addEventListener("scroll", handleScroll, { passive: true });
 
@@ -205,34 +209,27 @@ export default function Navbar() {
 
         {/* ── MOBILE BOTTOM NAV BAR ── */}
         <div
-            className="lg:hidden fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-3"
+            className={`lg:hidden fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-3 transition-opacity duration-300 ${
+                atBottom ? "opacity-0 pointer-events-none" : "opacity-100"
+            }`}
             style={{ backgroundColor: "#1f5f4a" }}
         >
-            {/* Nav links */}
-            <div className="flex items-center gap-4">
-                {navLinks.slice(0, 3).map((link) => {
-                    const isActive = active === link.sectionId;
-                    return (
-                        <button
-                            key={link.label}
-                            onClick={() => scrollToSection(link.sectionId)}
-                            className={`text-xs font-semibold transition-colors ${
-                                isActive ? "text-[#7dd8c9]" : "text-white/60 hover:text-white"
-                            }`}
-                        >
-                            {link.label}
-                        </button>
-                    );
-                })}
-            </div>
-
-            {/* Hamburger to open full menu */}
+            {/* Find Doctors link */}
             <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                aria-label="Toggle navigation menu"
-                className="text-white"
+                onClick={() => scrollToSection("experts")}
+                className={`text-sm font-semibold transition-colors ${
+                    active === "experts" ? "text-[#7dd8c9]" : "text-white/80 hover:text-white"
+                }`}
             >
-                {menuOpen ? <X size={22} /> : <Menu size={22} />}
+                Find Doctors
+            </button>
+
+            {/* Search icon */}
+            <button
+                aria-label="Search"
+                className="text-white/80 hover:text-white transition-colors"
+            >
+                <Search size={22} />
             </button>
         </div>
         </>

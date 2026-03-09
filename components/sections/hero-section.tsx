@@ -154,7 +154,7 @@ export default function HeroSection() {
             {/* Soft background blob — clip wrapper ends bubble at bottom of headline on mobile */}
             <div className="absolute top-0 right-0 left-0 h-[320px] md:h-[600px] overflow-hidden pointer-events-none">
                 <div
-                    className="absolute rounded-full opacity-15 top-[-60px] right-[-60px] w-[340px] h-[340px] md:top-[-120px] md:right-[-120px] md:w-[700px] md:h-[700px]"
+                    className="absolute rounded-full opacity-15 top-[-80px] right-[-80px] w-[420px] h-[420px] md:top-[-120px] md:right-[-120px] md:w-[700px] md:h-[700px]"
                     style={{ backgroundColor: "#3aa692" }}
                 />
             </div>
