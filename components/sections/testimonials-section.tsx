@@ -62,7 +62,7 @@ export default function TestimonialsSection() {
                     {testimonials.map((t) => (
                         <div
                             key={t.name}
-                            className="reveal-item bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl border border-[#e8f5f2] card-hover flex flex-col gap-4 transition-all duration-300 ease-out"
+                            className="reveal-item bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl border border-[#e8f5f2] flex flex-col gap-4 transition-all duration-300 ease-out"
                         >
                             {/* Quote icon */}
                             <Quote size={24} className="text-[#3aa692] opacity-60" />

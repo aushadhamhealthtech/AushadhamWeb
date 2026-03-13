@@ -1,7 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Search, Menu, X, LogOut } from "lucide-react";
+import { Search, LogOut } from "lucide-react";
 import { useSession, signOut } from "@/lib/auth-client";
 import { useAuthModal } from "@/lib/context/auth-modal";
 
@@ -74,11 +74,23 @@ function scrollToSection(id: string) {
 export default function Navbar() {
     const router = useRouter();
     const { openSignIn, openSignUp } = useAuthModal();
-    const [menuOpen, setMenuOpen] = useState(false);
     const [active, setActive] = useState("hero");
     const [atBottom, setAtBottom] = useState(false);
     const [userMenuOpen, setUserMenuOpen] = useState(false);
+    const userMenuRef = useRef<HTMLDivElement>(null);
     const { data: session, isPending } = useSession();
+
+    // Close user dropdown on outside click
+    useEffect(() => {
+        if (!userMenuOpen) return;
+        const handleClick = (e: MouseEvent) => {
+            if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+                setUserMenuOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClick);
+        return () => document.removeEventListener("mousedown", handleClick);
+    }, [userMenuOpen]);
 
     // Scroll-spy: watch which section is visible
     useEffect(() => {
@@ -156,7 +168,7 @@ export default function Navbar() {
                 {/* CTA Buttons or User Menu */}
                 <div className="hidden lg:flex items-center gap-4">
                     {!isPending && session ? (
-                        <div className="relative">
+                        <div className="relative" ref={userMenuRef}>
                             <button
                                 onClick={() => setUserMenuOpen(!userMenuOpen)}
                                 className="px-4 py-2 rounded-full flex items-center gap-2 text-sm font-semibold hover:bg-gray-100 transition-all duration-200"
@@ -202,66 +214,8 @@ export default function Navbar() {
                     )}
                 </div>
 
-                {/* Mobile Hamburger — hidden on mobile (moved to fixed bottom bar) */}
-                <button
-                    className="hidden text-[#228573]"
-                    onClick={() => setMenuOpen(!menuOpen)}
-                    aria-label="Toggle navigation menu"
-                >
-                    {menuOpen ? <X size={24} /> : <Menu size={24} />}
-                </button>
             </div>
 
-            {/* Mobile Menu */}
-            {menuOpen && (
-                <div className="lg:hidden border-t border-gray-100 px-6 py-4 flex flex-col gap-4" style={{ backgroundColor: "#1f5f4a" }}>
-                    {navLinks.map((link) => {
-                        const isActive = active === link.sectionId;
-                        return (
-                            <button
-                                key={link.label}
-                                onClick={() => { scrollToSection(link.sectionId); setMenuOpen(false); }}
-                                className={`text-base font-semibold text-left transition-colors ${isActive ? "text-[#7dd8c9]" : "text-white/70 hover:text-white"
-                                    }`}
-                            >
-                                {link.label}
-                            </button>
-                        );
-                    })}
-                    <div className="flex gap-3 pt-2">
-                        {!isPending && session ? (
-                            <button
-                                onClick={async () => {
-                                    await signOut();
-                                    setMenuOpen(false);
-                                    router.push("/");
-                                }}
-                                className="flex-1 py-2.5 rounded-full text-white text-sm font-semibold flex items-center justify-center gap-2"
-                                style={{ backgroundColor: "#3aa692" }}
-                            >
-                                <LogOut size={16} />
-                                Sign out
-                            </button>
-                        ) : (
-                            <>
-                                <button
-                                    onClick={() => { setMenuOpen(false); openSignUp(); }}
-                                    className="flex-1 py-2.5 rounded-full border border-white/40 text-white text-sm font-semibold text-center"
-                                >
-                                    Sign up
-                                </button>
-                                <button
-                                    onClick={() => { setMenuOpen(false); openSignIn(); }}
-                                    className="flex-1 py-2.5 rounded-full text-white text-sm font-semibold text-center"
-                                    style={{ backgroundColor: "#3aa692" }}
-                                >
-                                    Sign in
-                                </button>
-                            </>
-                        )}
-                    </div>
-                </div>
-            )}
         </nav>
 
         {/* ── MOBILE BOTTOM NAV BAR ── */}

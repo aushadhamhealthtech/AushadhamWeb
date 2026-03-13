@@ -38,7 +38,7 @@ export default function MissionSection() {
                     {missions.map((m) => (
                         <div
                             key={m.stat}
-                            className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-all duration-200 card-hover border border-[#e8f5f2] flex flex-col items-center text-center gap-4"
+                            className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-all duration-200 border border-[#e8f5f2] flex flex-col items-center text-center gap-4"
                         >
                             <div className="w-16 h-16 rounded-full bg-[#e8f5f2] flex items-center justify-center">
                                 {m.icon}

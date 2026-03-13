@@ -133,7 +133,7 @@ export default function Footer() {
                         </div>
                     </div>
                     <p className="text-sm" style={{ color: "rgba(255,255,255,0.55)" }}>
-                        © 2023 Aushadham. All rights reserved.
+                        © {new Date().getFullYear()} Aushadham. All rights reserved.
                     </p>
                 </div>
             </div>

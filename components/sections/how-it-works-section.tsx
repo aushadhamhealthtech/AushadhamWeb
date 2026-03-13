@@ -74,7 +74,9 @@ export default function HowItWorksSection() {
     const sectionRef = useRef<HTMLElement>(null);
 
     useGSAP(() => {
-        revealCards(".step-card", ".steps-section", { stagger: 0.2 });
+        if (sectionRef.current) {
+            revealCards(".step-card", sectionRef.current, { stagger: 0.2 });
+        }
     }, { scope: sectionRef });
 
     return (
@@ -90,7 +92,7 @@ export default function HowItWorksSection() {
                             key={step.title}
                             className="step-card"
                         >
-                            <div className="group flex items-start gap-5 p-6 rounded-2xl border border-[#e8f5f2] bg-white hover:bg-[#f0faf7] hover:border-[#3aa692] hover:scale-[1.05] transition-all duration-300 ease-out card-hover h-full">
+                            <div className="group flex items-start gap-5 p-6 rounded-2xl border border-[#e8f5f2] bg-white hover:bg-[#f0faf7] hover:border-[#3aa692] hover:scale-[1.05] transition-all duration-300 ease-out h-full">
                                 <div className="shrink-0 w-14 h-14 rounded-full bg-[#e8f5f2] group-hover:bg-[#d1ece6] flex items-center justify-center transition-colors duration-200">
                                     {step.icon}
                                 </div>

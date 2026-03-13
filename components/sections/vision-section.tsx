@@ -159,7 +159,7 @@ export default function VisionSection() {
 
         const tick = () => {
             const s = state.current;
-            if (!s.paused && !s.dragging) {
+            if (!s.paused && !s.dragging && !document.hidden) {
                 c.scrollLeft += speed;
                 // Seamless loop: when one full set has passed, jump back
                 const half = t.scrollWidth / 2;

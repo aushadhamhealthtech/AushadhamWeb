@@ -215,7 +215,8 @@ function AuthInput({
                 </span>
                 <input
                     id={id} name={id} type={type} placeholder={placeholder}
-                    required={required} autoComplete={id}
+                    required={required}
+                    autoComplete={type === "email" ? "email" : type === "password" ? (id.includes("signup") ? "new-password" : "current-password") : type === "tel" ? "tel" : id}
                     value={value} onChange={onChange}
                     className="w-full pl-11 pr-12 py-3 rounded-full border text-sm outline-none transition-all duration-200"
                     style={{ borderColor: "#e5e7eb", color: "#065b4b", backgroundColor: "#fafffe" }}
@@ -276,7 +277,7 @@ function SignInView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
                 <AuthInput
-                    id="identifier" label="Email" type="email" placeholder="you@example.com" icon={Mail}
+                    id="email" label="Email" type="email" placeholder="you@example.com" icon={Mail}
                     value={email} onChange={e => setEmail(e.target.value)}
                 />
                 <AuthInput
@@ -384,7 +385,7 @@ function SignUpView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
             name: `${firstName} ${lastName}`.trim(),
             phone: phone || undefined,
             role,
-        });
+        } as Parameters<typeof signUp.email>[0]);
         if (error) {
             setError(error.message || "Sign up failed");
             setLoading(false);
@@ -469,7 +470,7 @@ function SignUpView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
                             <span className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: "#228573" }}>
                                 <User size={14} />
                             </span>
-                            <input id="firstName" type="text" placeholder="First" required
+                            <input id="firstName" type="text" placeholder="First" required autoComplete="given-name"
                                 value={firstName} onChange={e => setFirstName(e.target.value)}
                                 className="w-full pl-10 pr-3 py-3 rounded-xl border text-sm outline-none transition-all duration-200"
                                 style={{ borderColor: "#e5e7eb", color: "#065b4b", backgroundColor: "#fafffe" }}
@@ -482,7 +483,7 @@ function SignUpView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
                         <label htmlFor="lastName" className="text-sm font-semibold" style={{ color: "#065b4b" }}>
                             Last Name<span style={{ color: "#228573" }}>*</span>
                         </label>
-                        <input id="lastName" type="text" placeholder="Last" required
+                        <input id="lastName" type="text" placeholder="Last" required autoComplete="family-name"
                             value={lastName} onChange={e => setLastName(e.target.value)}
                             className="w-full px-3.5 py-3 rounded-xl border text-sm outline-none transition-all duration-200"
                             style={{ borderColor: "#e5e7eb", color: "#065b4b", backgroundColor: "#fafffe" }}
@@ -521,6 +522,7 @@ function SignUpView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
                         <input
                             id="signup-confirm-password" name="signup-confirm-password"
                             type={showPw ? "text" : "password"} placeholder="Repeat your password"
+                            autoComplete="new-password"
                             required value={confirmPw}
                             onChange={(e) => setConfirmPw(e.target.value)}
                             className="w-full pl-11 pr-12 py-3 rounded-full border text-sm outline-none transition-all duration-200"
