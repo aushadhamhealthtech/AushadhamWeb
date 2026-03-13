@@ -1,6 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Search, Menu, X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Search, Menu, X, LogOut } from "lucide-react";
+import { useSession, signOut } from "@/lib/auth-client";
+import { useAuthModal } from "@/lib/context/auth-modal";
 
 
 // Aushadham logo — matches provided image: capsule + dots above, AUSHADHAM text below
@@ -69,9 +72,13 @@ function scrollToSection(id: string) {
 }
 
 export default function Navbar() {
+    const router = useRouter();
+    const { openSignIn, openSignUp } = useAuthModal();
     const [menuOpen, setMenuOpen] = useState(false);
     const [active, setActive] = useState("hero");
     const [atBottom, setAtBottom] = useState(false);
+    const [userMenuOpen, setUserMenuOpen] = useState(false);
+    const { data: session, isPending } = useSession();
 
     // Scroll-spy: watch which section is visible
     useEffect(() => {
@@ -146,21 +153,53 @@ export default function Navbar() {
                     </button>
                 </div>
 
-                {/* CTA Buttons */}
+                {/* CTA Buttons or User Menu */}
                 <div className="hidden lg:flex items-center gap-4">
-                    <a
-                        href="/signup"
-                        className="px-6 py-2.5 rounded-full border border-gray-800 text-gray-900 text-sm font-semibold hover:bg-gray-50 transition-all duration-200 inline-flex items-center justify-center"
-                    >
-                        Sign up
-                    </a>
-                    <a
-                        href="/signin"
-                        className="px-6 py-2.5 rounded-full text-white text-sm font-semibold transition-all duration-200 shadow-sm inline-flex items-center justify-center hover:opacity-90"
-                        style={{ backgroundColor: "#3aa692" }}
-                    >
-                        Sign in
-                    </a>
+                    {!isPending && session ? (
+                        <div className="relative">
+                            <button
+                                onClick={() => setUserMenuOpen(!userMenuOpen)}
+                                className="px-4 py-2 rounded-full flex items-center gap-2 text-sm font-semibold hover:bg-gray-100 transition-all duration-200"
+                                style={{ color: "#228573" }}
+                            >
+                                {session.user?.name || session.user?.email}
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                                </svg>
+                            </button>
+                            {userMenuOpen && (
+                                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200">
+                                    <button
+                                        onClick={async () => {
+                                            await signOut();
+                                            setUserMenuOpen(false);
+                                            router.push("/");
+                                        }}
+                                        className="w-full text-left px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 flex items-center gap-2 rounded-lg first:rounded-t-lg last:rounded-b-lg"
+                                    >
+                                        <LogOut size={16} />
+                                        Sign out
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    ) : (
+                        <>
+                            <button
+                                onClick={openSignUp}
+                                className="px-6 py-2.5 rounded-full border border-gray-800 text-gray-900 text-sm font-semibold hover:bg-gray-50 transition-all duration-200 inline-flex items-center justify-center"
+                            >
+                                Sign up
+                            </button>
+                            <button
+                                onClick={openSignIn}
+                                className="px-6 py-2.5 rounded-full text-white text-sm font-semibold transition-all duration-200 shadow-sm inline-flex items-center justify-center hover:opacity-90"
+                                style={{ backgroundColor: "#3aa692" }}
+                            >
+                                Sign in
+                            </button>
+                        </>
+                    )}
                 </div>
 
                 {/* Mobile Hamburger — hidden on mobile (moved to fixed bottom bar) */}
@@ -190,19 +229,36 @@ export default function Navbar() {
                         );
                     })}
                     <div className="flex gap-3 pt-2">
-                        <a
-                            href="/signup"
-                            className="flex-1 py-2.5 rounded-full border border-white/40 text-white text-sm font-semibold text-center"
-                        >
-                            Sign up
-                        </a>
-                        <a
-                            href="/signin"
-                            className="flex-1 py-2.5 rounded-full text-white text-sm font-semibold text-center"
-                            style={{ backgroundColor: "#3aa692" }}
-                        >
-                            Sign in
-                        </a>
+                        {!isPending && session ? (
+                            <button
+                                onClick={async () => {
+                                    await signOut();
+                                    setMenuOpen(false);
+                                    router.push("/");
+                                }}
+                                className="flex-1 py-2.5 rounded-full text-white text-sm font-semibold flex items-center justify-center gap-2"
+                                style={{ backgroundColor: "#3aa692" }}
+                            >
+                                <LogOut size={16} />
+                                Sign out
+                            </button>
+                        ) : (
+                            <>
+                                <button
+                                    onClick={() => { setMenuOpen(false); openSignUp(); }}
+                                    className="flex-1 py-2.5 rounded-full border border-white/40 text-white text-sm font-semibold text-center"
+                                >
+                                    Sign up
+                                </button>
+                                <button
+                                    onClick={() => { setMenuOpen(false); openSignIn(); }}
+                                    className="flex-1 py-2.5 rounded-full text-white text-sm font-semibold text-center"
+                                    style={{ backgroundColor: "#3aa692" }}
+                                >
+                                    Sign in
+                                </button>
+                            </>
+                        )}
                     </div>
                 </div>
             )}
