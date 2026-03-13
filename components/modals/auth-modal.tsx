@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { useAuthModal } from "@/lib/context/auth-modal";
 import { shakeField } from "@/lib/animations/auth";
-import { signIn, signUp } from "@/lib/auth-client";
+import { signIn, signUp, requestPasswordReset } from "@/lib/auth-client";
 
 type View = "signin" | "signup" | "doctor-onboarding" | "forgot-password";
 
@@ -700,16 +700,21 @@ function ForgotPasswordView({ onSwitch }: { onSwitch: (v: View) => void }) {
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
     const [sent, setSent] = useState(false);
+    const [error, setError] = useState("");
     const successRef = useRef<HTMLDivElement>(null);
 
-    function handleSubmit(e: React.FormEvent) {
+    async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         if (!email) return;
+        setError("");
         setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
+        const { error } = await requestPasswordReset({ email, redirectTo: "/reset-password" });
+        setLoading(false);
+        if (error) {
+            setError(error.message || "Failed to send reset link");
+        } else {
             setSent(true);
-        }, 1400);
+        }
     }
 
     useEffect(() => {
@@ -777,6 +782,12 @@ function ForgotPasswordView({ onSwitch }: { onSwitch: (v: View) => void }) {
                     <p className="auth-field text-sm mb-6" style={{ color: "rgba(6,91,75,0.55)" }}>
                         No worries - enter your email and we&apos;ll send you a reset link.
                     </p>
+
+                    {error && (
+                        <div className="auth-field p-3 mb-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
+                            {error}
+                        </div>
+                    )}
 
                     <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
                         <AuthInput

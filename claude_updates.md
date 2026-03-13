@@ -252,11 +252,87 @@ The mobile navigation is handled by the fixed bottom bar, making this code compl
 
 ---
 
+---
+
+## Password Reset Email Integration (Resend)
+
+### 12. Wired Up Forgot Password Flow with Resend
+
+**Files:**
+- `lib/auth.ts` — Added Resend email provider + `sendResetPassword` callback
+- `lib/auth-client.ts` — Exported `requestPasswordReset` from auth client
+- `components/modals/auth-modal.tsx` — Replaced fake `setTimeout` with real `requestPasswordReset()` API call, added error display
+
+**Problem:** The "Forgot password?" flow in the auth modal was entirely fake — it used a `setTimeout` to simulate sending an email after 1.4 seconds, then showed a "Check your inbox!" success screen. No email was ever sent because Better Auth had no email provider configured.
+
+**Fix:**
+
+1. **Installed Resend** (`npm install resend`) as the email delivery provider
+2. **Configured `sendResetPassword`** in `lib/auth.ts`:
+   - Uses `void resend.emails.send(...)` (non-awaited per Better Auth docs to prevent timing attacks)
+   - Sends a branded HTML email with a "Reset Password" CTA button
+   - Configurable sender via `RESEND_FROM_EMAIL` env var
+3. **Wired the modal to the real API** in `auth-modal.tsx`:
+   - Replaced `setTimeout(() => setSent(true), 1400)` with `await requestPasswordReset({ email, redirectTo: "/reset-password" })`
+   - Added error state and error display for failed requests
+   - Success screen only shows after the API confirms the email was queued
+
+### Environment Variables Required
+
+| Key | Value | Where |
+|-----|-------|-------|
+| `RESEND_API_KEY` | Your Resend API key | `.env.local` + Vercel |
+| `RESEND_FROM_EMAIL` | `Aushadham <noreply@yourdomain.com>` (optional) | `.env.local` + Vercel |
+
+**How to get a Resend API key:**
+1. Sign up at [resend.com](https://resend.com) (free tier: 100 emails/day)
+2. Go to API Keys → Create API Key
+3. Add it to `.env.local` as `RESEND_API_KEY=re_xxxxxxxx`
+4. Add the same key in Vercel → Settings → Environment Variables
+
+**Important:** On Resend's free tier, you can only send from `onboarding@resend.dev` unless you verify your own domain. To use a custom `from` address like `noreply@aushadham.com`, add and verify the domain in Resend's dashboard.
+
+### Reset Password Page (TODO)
+
+The `redirectTo: "/reset-password"` in the forgot password flow points to a page that **doesn't exist yet**. When a user clicks the reset link in their email, they'll be redirected to `/reset-password?token=VALID_TOKEN`. A reset password page needs to be created at `app/reset-password/page.tsx` that:
+1. Reads the `token` query parameter
+2. Shows a "New password" form
+3. Calls Better Auth's `resetPassword` endpoint with the token and new password
+
+---
+
+## Scalar API Documentation Setup
+
+### 13. Installed Scalar + Better Auth OpenAPI Plugin
+
+**Files:**
+- `lib/auth.ts` — Added `openAPI()` plugin from `better-auth/plugins`
+- `app/api/openapi/route.ts` — Created: merges Better Auth's auto-generated spec with manual custom route spec
+- `app/api/docs/route.ts` — Created: Scalar UI served at `/api/docs`
+- `APIs.md` — Updated documentation tooling section
+- `package.json` — Added `@scalar/nextjs-api-reference`
+
+**What it does:**
+
+Interactive API documentation is now live at `/api/docs` (both local and Vercel). The setup uses two spec sources merged into one:
+
+1. **Better Auth `openAPI()` plugin** — Auto-generates OpenAPI spec for all auth endpoints. Stays in sync with `lib/auth.ts` config automatically. If you add a Better Auth plugin or change settings, the docs update themselves.
+2. **Manual `customSpec` in `app/api/openapi/route.ts`** — For non-auth routes (`/api/doctors`, `/api/appointments`, etc.) added manually as they are built.
+
+**How to add a new custom API route to the docs:**
+1. Create the route file (e.g., `app/api/doctors/route.ts`)
+2. Add its OpenAPI path definition to `customSpec.paths` in `app/api/openapi/route.ts`
+3. The endpoint appears in Scalar automatically
+
+**Server selector:** Scalar has a dropdown to switch between servers listed in the spec. Currently only `localhost:3000` is configured. To add production, add another entry to the `servers` array in `app/api/openapi/route.ts`.
+
+---
+
 ## Files Modified
 
 | File | Changes |
 |------|---------|
-| `components/modals/auth-modal.tsx` | Autocomplete attributes, email ID fix, TS type assertion |
+| `components/modals/auth-modal.tsx` | Autocomplete attributes, email ID fix, TS type assertion, real forgot password flow |
 | `components/layout/navbar.tsx` | Outside-click dropdown close, removed dead hamburger code |
 | `components/layout/footer.tsx` | Dynamic copyright year |
 | `components/cards/doctor-card.tsx` | Removed console.log, removed duplicate card-hover class |
@@ -267,3 +343,8 @@ The mobile navigation is handled by the fixed bottom bar, making this code compl
 | `components/sections/vision-section.tsx` | Added document.hidden check to RAF |
 | `lib/animations/scrollReveal.ts` | Removed duplicate ScrollTrigger registration |
 | `lib/animations/statsCounter.ts` | Removed duplicate ScrollTrigger registration |
+| `lib/auth.ts` | Added Resend email provider + sendResetPassword callback + `openAPI()` plugin |
+| `lib/auth-client.ts` | Exported requestPasswordReset |
+| `app/api/openapi/route.ts` | New — serves merged OpenAPI spec (auto-generated auth + manual custom routes) |
+| `app/api/docs/route.ts` | New — Scalar interactive API docs UI |
+| `APIs.md` | Updated documentation tooling section to reflect installed Scalar setup |
