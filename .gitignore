@@ -40,6 +40,12 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# claude code
+.claude/
+
+# playwright mcp
+.playwright-mcp/
+
 # auth pages
 app/signin/
 app/signup/
