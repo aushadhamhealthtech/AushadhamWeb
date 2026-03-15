@@ -70,6 +70,14 @@ export default function AnimationProvider({ children }: { children: React.ReactN
                 if (!section) return;
                 const items = section.querySelectorAll(".reveal-item");
                 if (!items.length) return;
+
+                // If the section is already in view (e.g. page loaded scrolled down),
+                // skip the animation so cards aren't stuck at opacity: 0
+                const rect = section.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.8) {
+                    return; // already visible, no animation needed
+                }
+
                 gsap.from(items, {
                     scrollTrigger: { trigger: section, start: "top 80%", once: true },
                     opacity: 0,
