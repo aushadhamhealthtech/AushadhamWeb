@@ -1,6 +1,5 @@
-"use client";
-
-import { Star, Video, Hospital, CalendarCheck } from "lucide-react";
+import { Video, Hospital, CalendarCheck } from "lucide-react";
+import StarRating from "@/components/ui/star-rating";
 import { Doctor } from "@/lib/data/doctors";
 
 type DoctorCardProps = Omit<Doctor, "id">;
@@ -15,31 +14,16 @@ export default function DoctorCard({
     avatarColor = "#228573",
     avatarInitials,
 }: DoctorCardProps) {
-    const fullStars = Math.floor(rating);
-    const hasHalf = rating - fullStars >= 0.5;
-
     return (
         <div
-            role="button"
-            tabIndex={0}
-            aria-label={`View profile of ${name}`}
-            className="bg-white rounded-3xl overflow-hidden shadow-md border border-[#e8f5f2] transition-all duration-300 ease-out hover:scale-[1.03] hover:-translate-y-1.5 hover:shadow-xl flex flex-col w-full max-w-[396px] cursor-pointer">
+            className="bg-white rounded-3xl overflow-hidden shadow-md border border-[#e8f5f2] transition-all duration-300 ease-out hover:scale-[1.03] hover:-translate-y-1.5 hover:shadow-xl flex flex-col w-full max-w-[396px]">
             {/* Top card with avatar */}
             <div className="relative bg-gradient-to-br from-[#e8f5f2] to-[#c8ebe3] p-6 pb-16 min-h-[152px]">
                 {/* Rating */}
                 <div className="flex items-center gap-1.5 absolute top-5 right-5">
                     <span className="text-xl font-extrabold text-[#228573]">{rating}</span>
-                    <div className="flex items-center gap-0.5">
-                        {Array.from({ length: 5 }).map((_, i) => {
-                            const cls = i < fullStars
-                                ? "fill-amber-400 text-amber-400"
-                                : i === fullStars && hasHalf
-                                ? "fill-amber-200 text-amber-400"
-                                : "fill-gray-200 text-gray-200";
-                            return <Star key={i} size={13} className={cls} />;
-                        })}
-                    </div>
-                    {reviewCount && (
+                    <StarRating rating={rating} size={13} />
+                    {reviewCount != null && (
                         <span className="text-[11px] text-[#065b4b]/50 font-medium">({reviewCount})</span>
                     )}
                 </div>

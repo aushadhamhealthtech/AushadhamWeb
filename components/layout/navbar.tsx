@@ -4,50 +4,7 @@ import { useRouter } from "next/navigation";
 import { Search, LogOut } from "lucide-react";
 import { useSession, signOut } from "@/lib/auth-client";
 import { useAuthModal } from "@/lib/context/auth-modal";
-
-
-// Aushadham logo — matches provided image: capsule + dots above, AUSHADHAM text below
-function AushadhamLogo() {
-    return (
-        <div className="flex flex-col items-center gap-0.5 shrink-0">
-            <svg
-                width="68"
-                height="46"
-                viewBox="0 0 68 46"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                {/* 4 floating dots above the capsule — clustered above the left-center area */}
-                <circle cx="22" cy="8"  r="2.8" fill="#228573" />
-                <circle cx="30" cy="3"  r="3.8" fill="#228573" />
-                <circle cx="39" cy="5"  r="2.4" fill="#228573" />
-                <circle cx="46" cy="11" r="1.8" fill="#228573" opacity="0.75" />
-
-                {/* Capsule left half — teal */}
-                <path
-                    d="M34 18 H16 C9.373 18 4 23.373 4 30 C4 36.627 9.373 42 16 42 H34 Z"
-                    fill="#228573"
-                />
-                {/* Capsule right half — light gray/white */}
-                <path
-                    d="M34 18 H52 C58.627 18 64 23.373 64 30 C64 36.627 58.627 42 52 42 H34 Z"
-                    fill="#e8e8e8"
-                    stroke="#c8c8c8"
-                    strokeWidth="1"
-                />
-                {/* Center dividing line */}
-                <line x1="34" y1="17" x2="34" y2="43" stroke="#ffffff" strokeWidth="2" />
-            </svg>
-
-            <span
-                className="font-extrabold tracking-widest uppercase"
-                style={{ color: "#1f6f5a", fontSize: "13px", letterSpacing: "0.18em" }}
-            >
-                AUSHADHAM
-            </span>
-        </div>
-    );
-}
+import AushadhamLogo from "@/components/ui/logo";
 
 
 const navLinks = [
@@ -115,7 +72,8 @@ export default function Navbar() {
             if (window.scrollY < 120) setActive("hero");
             // Hide bottom bar when footer starts coming into view (400px before page bottom)
             const distFromBottom = document.documentElement.scrollHeight - window.scrollY - window.innerHeight;
-            setAtBottom(distFromBottom < 400);
+            const nowAtBottom = distFromBottom < 400;
+            setAtBottom(prev => prev === nowAtBottom ? prev : nowAtBottom);
         };
         window.addEventListener("scroll", handleScroll, { passive: true });
 
@@ -136,7 +94,7 @@ export default function Navbar() {
                     className="flex items-center gap-2.5 shrink-0"
                     aria-label="Aushadham Home"
                 >
-                    <AushadhamLogo />
+                    <AushadhamLogo variant="teal" size="md" />
                 </button>
 
                 {/* Desktop Nav */}
@@ -219,7 +177,9 @@ export default function Navbar() {
         </nav>
 
         {/* ── MOBILE BOTTOM NAV BAR ── */}
-        <div
+        <nav
+            role="navigation"
+            aria-label="Mobile navigation"
             className={`lg:hidden fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 transition-all duration-700 ease-in-out ${
                 atBottom ? "opacity-0 pointer-events-none translate-y-2" : "opacity-100 translate-y-0"
             }`}
@@ -247,7 +207,7 @@ export default function Navbar() {
             >
                 <Search size={20} />
             </button>
-        </div>
+        </nav>
         </>
     );
 }

@@ -12,37 +12,10 @@ import {
 import { useAuthModal } from "@/lib/context/auth-modal";
 import { shakeField } from "@/lib/animations/auth";
 import { signIn, signUp, requestPasswordReset } from "@/lib/auth-client";
+import AushadhamLogo from "@/components/ui/logo";
 
 type View = "signin" | "signup" | "doctor-onboarding" | "forgot-password";
 
-/* ─────────────────────────────────────────────
-   Logo
-───────────────────────────────────────────── */
-function Logo({ variant = "teal" }: { variant?: "teal" | "white" }) {
-    const fill = variant === "white" ? "white" : "#228573";
-    const rightFill = variant === "white" ? "rgba(255,255,255,0.28)" : "#e8e8e8";
-    const rightStroke = variant === "white" ? "rgba(255,255,255,0.45)" : "#c8c8c8";
-    const divider = variant === "white" ? "rgba(255,255,255,0.55)" : "#ffffff";
-    const textColor = variant === "white" ? "white" : "#1f6f5a";
-    return (
-        <div className="flex flex-col items-center gap-0.5 shrink-0">
-            <svg width="60" height="40" viewBox="0 0 68 46" fill="none">
-                <circle cx="22" cy="8" r="2.8" fill={fill} />
-                <circle cx="30" cy="3" r="3.8" fill={fill} />
-                <circle cx="39" cy="5" r="2.4" fill={fill} />
-                <circle cx="46" cy="11" r="1.8" fill={fill} opacity="0.75" />
-                <path d="M34 18 H16 C9.373 18 4 23.373 4 30 C4 36.627 9.373 42 16 42 H34 Z" fill={fill} />
-                <path d="M34 18 H52 C58.627 18 64 23.373 64 30 C64 36.627 58.627 42 52 42 H34 Z"
-                    fill={rightFill} stroke={rightStroke} strokeWidth="1" />
-                <line x1="34" y1="17" x2="34" y2="43" stroke={divider} strokeWidth="2" />
-            </svg>
-            <span className="font-extrabold tracking-widest uppercase"
-                style={{ color: textColor, fontSize: "11px", letterSpacing: "0.18em" }}>
-                AUSHADHAM
-            </span>
-        </div>
-    );
-}
 
 /* ─────────────────────────────────────────────
    Left-panel illustration (compact)
@@ -164,7 +137,7 @@ function LeftPanel({ view }: { view: View }) {
             className="hidden lg:flex w-[260px] shrink-0 flex-col items-center justify-between px-6 py-8"
             style={{ background: "linear-gradient(160deg, #065b4b 0%, #1a7a65 52%, #228573 100%)" }}
         >
-            <Logo variant="white" />
+            <AushadhamLogo variant="white" size="sm" />
             <div className="flex flex-col items-center gap-5 flex-1 justify-center">
                 <div className="auth-panel-text text-center">
                     <h2 className="text-[19px] font-extrabold text-white leading-tight mb-1.5">{title}</h2>
@@ -218,10 +191,7 @@ function AuthInput({
                     required={required}
                     autoComplete={type === "email" ? "email" : type === "password" ? (id.includes("signup") ? "new-password" : "current-password") : type === "tel" ? "tel" : id}
                     value={value} onChange={onChange}
-                    className="w-full pl-11 pr-12 py-3 rounded-full border text-sm outline-none transition-all duration-200"
-                    style={{ borderColor: "#e5e7eb", color: "#065b4b", backgroundColor: "#fafffe" }}
-                    onFocus={e => { e.currentTarget.style.borderColor = "#228573"; e.currentTarget.style.boxShadow = "0 0 0 3px rgba(34,133,115,0.12)"; }}
-                    onBlur={e => { e.currentTarget.style.borderColor = "#e5e7eb"; e.currentTarget.style.boxShadow = "none"; }}
+                    className="w-full pl-11 pr-12 py-3 rounded-full border border-[#e5e7eb] text-sm text-[#065b4b] bg-[#fafffe] outline-none transition-all duration-200 focus:border-[#228573] focus:shadow-[0_0_0_3px_rgba(34,133,115,0.12)]"
                 />
                 {rightSlot && (
                     <span className="absolute right-4 top-1/2 -translate-y-1/2">{rightSlot}</span>
@@ -242,14 +212,14 @@ function SignInView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
     const [remember, setRemember] = useState(true);
     const [error, setError] = useState("");
 
-    async function handleSubmit(e: React.FormEvent) {
+    async function handleSubmit(e: React.SyntheticEvent) {
         e.preventDefault();
         setError("");
         setLoading(true);
 
-        const { error } = await signIn.email({ email, password, rememberMe: remember });
-        if (error) {
-            setError(error.message || "Sign in failed");
+        const { error: signInError } = await signIn.email({ email, password, rememberMe: remember });
+        if (signInError) {
+            setError(signInError.message || "Sign in failed");
         } else {
             onSuccess();
         }
@@ -259,7 +229,7 @@ function SignInView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
     return (
         <div>
             <div className="lg:hidden auth-logo flex justify-center mb-4">
-                <Logo variant="teal" />
+                <AushadhamLogo variant="teal" size="sm" />
             </div>
 
             <h2 className="auth-field text-[20px] font-extrabold mb-1" style={{ color: "#065b4b" }}>
@@ -368,7 +338,7 @@ function SignUpView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
         setRole(newRole);
     }
 
-    async function handleSubmit(e: React.FormEvent) {
+    async function handleSubmit(e: React.SyntheticEvent) {
         e.preventDefault();
         setError("");
         if (!agreed) {
@@ -379,15 +349,15 @@ function SignUpView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
         if (!pwMatch || confirmPw === "") return;
         setLoading(true);
 
-        const { error } = await signUp.email({
+        const { error: signUpError } = await signUp.email({
             email,
             password: pw,
             name: `${firstName} ${lastName}`.trim(),
             phone: phone || undefined,
             role,
         } as Parameters<typeof signUp.email>[0]);
-        if (error) {
-            setError(error.message || "Sign up failed");
+        if (signUpError) {
+            setError(signUpError.message || "Sign up failed");
             setLoading(false);
         } else if (role === "doctor") {
             setLoading(false);
@@ -401,7 +371,7 @@ function SignUpView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
     return (
         <div>
             <div className="lg:hidden auth-logo flex justify-center mb-3">
-                <Logo variant="teal" />
+                <AushadhamLogo variant="teal" size="sm" />
             </div>
 
             <h2 className="auth-field text-[20px] font-extrabold mb-1" style={{ color: "#065b4b" }}>
@@ -462,35 +432,10 @@ function SignUpView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-3.5" noValidate>
                 <div className="grid grid-cols-2 gap-3">
-                    <div className="auth-field flex flex-col gap-1.5">
-                        <label htmlFor="firstName" className="text-sm font-semibold" style={{ color: "#065b4b" }}>
-                            First Name<span style={{ color: "#228573" }}>*</span>
-                        </label>
-                        <div className="relative">
-                            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: "#228573" }}>
-                                <User size={14} />
-                            </span>
-                            <input id="firstName" type="text" placeholder="First" required autoComplete="given-name"
-                                value={firstName} onChange={e => setFirstName(e.target.value)}
-                                className="w-full pl-10 pr-3 py-3 rounded-xl border text-sm outline-none transition-all duration-200"
-                                style={{ borderColor: "#e5e7eb", color: "#065b4b", backgroundColor: "#fafffe" }}
-                                onFocus={e => { e.currentTarget.style.borderColor = "#228573"; e.currentTarget.style.boxShadow = "0 0 0 3px rgba(34,133,115,0.12)"; }}
-                                onBlur={e => { e.currentTarget.style.borderColor = "#e5e7eb"; e.currentTarget.style.boxShadow = "none"; }}
-                            />
-                        </div>
-                    </div>
-                    <div className="auth-field flex flex-col gap-1.5">
-                        <label htmlFor="lastName" className="text-sm font-semibold" style={{ color: "#065b4b" }}>
-                            Last Name<span style={{ color: "#228573" }}>*</span>
-                        </label>
-                        <input id="lastName" type="text" placeholder="Last" required autoComplete="family-name"
-                            value={lastName} onChange={e => setLastName(e.target.value)}
-                            className="w-full px-3.5 py-3 rounded-xl border text-sm outline-none transition-all duration-200"
-                            style={{ borderColor: "#e5e7eb", color: "#065b4b", backgroundColor: "#fafffe" }}
-                            onFocus={e => { e.currentTarget.style.borderColor = "#228573"; e.currentTarget.style.boxShadow = "0 0 0 3px rgba(34,133,115,0.12)"; }}
-                            onBlur={e => { e.currentTarget.style.borderColor = "#e5e7eb"; e.currentTarget.style.boxShadow = "none"; }}
-                        />
-                    </div>
+                    <AuthInput id="firstName" label="First Name" placeholder="First" icon={User}
+                        value={firstName} onChange={e => setFirstName(e.target.value)} />
+                    <AuthInput id="lastName" label="Last Name" placeholder="Last" icon={User}
+                        value={lastName} onChange={e => setLastName(e.target.value)} />
                 </div>
 
                 <AuthInput id="email" label="Email" type="email" placeholder="you@example.com" icon={Mail}
@@ -604,7 +549,7 @@ function DoctorOnboardingView({ onSwitch }: { onSwitch: (v: View) => void }) {
     const [loading, setLoading] = useState(false);
     const { closeModal } = useAuthModal();
 
-    function handleSubmit(e: React.FormEvent) {
+    function handleSubmit(e: React.SyntheticEvent) {
         e.preventDefault();
         setLoading(true);
         setTimeout(() => { setLoading(false); closeModal(); }, 1500);
@@ -664,10 +609,7 @@ function DoctorOnboardingView({ onSwitch }: { onSwitch: (v: View) => void }) {
                     <textarea
                         id="bio" name="bio" rows={2}
                         placeholder="Brief introduction about your practice and expertise..."
-                        className="w-full px-4 py-2 rounded-2xl border text-sm outline-none transition-all duration-200 resize-none"
-                        style={{ borderColor: "#e5e7eb", color: "#065b4b", backgroundColor: "#fafffe" }}
-                        onFocus={e => { e.currentTarget.style.borderColor = "#228573"; e.currentTarget.style.boxShadow = "0 0 0 3px rgba(34,133,115,0.12)"; }}
-                        onBlur={e => { e.currentTarget.style.borderColor = "#e5e7eb"; e.currentTarget.style.boxShadow = "none"; }}
+                        className="w-full px-4 py-2 rounded-2xl border border-[#e5e7eb] text-sm outline-none transition-all duration-200 resize-none text-[#065b4b] bg-[#fafffe] focus:border-[#228573] focus:shadow-[0_0_0_3px_rgba(34,133,115,0.12)]"
                     />
                 </div>
 
@@ -703,15 +645,15 @@ function ForgotPasswordView({ onSwitch }: { onSwitch: (v: View) => void }) {
     const [error, setError] = useState("");
     const successRef = useRef<HTMLDivElement>(null);
 
-    async function handleSubmit(e: React.FormEvent) {
+    async function handleSubmit(e: React.SyntheticEvent) {
         e.preventDefault();
         if (!email) return;
         setError("");
         setLoading(true);
-        const { error } = await requestPasswordReset({ email, redirectTo: "/reset-password" });
+        const { error: resetError } = await requestPasswordReset({ email, redirectTo: "/reset-password" });
         setLoading(false);
-        if (error) {
-            setError(error.message || "Failed to send reset link");
+        if (resetError) {
+            setError(resetError.message || "Failed to send reset link");
         } else {
             setSent(true);
         }
@@ -863,10 +805,11 @@ export default function AuthModal() {
             { scale: 0.91, opacity: 0, y: 22 },
             { scale: 1, opacity: 1, y: 0, duration: 0.48, ease: "back.out(1.5)", delay: 0.05 }
         );
-        gsap.from(".auth-field",
+        const modal = modalRef.current;
+        gsap.from(modal.querySelectorAll(".auth-field"),
             { y: 13, opacity: 0, stagger: 0.065, duration: 0.42, delay: 0.32, overwrite: true }
         );
-        gsap.fromTo(".auth-cta",
+        gsap.fromTo(modal.querySelectorAll(".auth-cta"),
             { y: 11, opacity: 0 },
             { y: 0, opacity: 1, duration: 0.4, delay: 0.72, clearProps: "opacity,transform", overwrite: true }
         );
@@ -927,21 +870,21 @@ export default function AuthModal() {
                         { x: 0, opacity: 1, duration: 0.32, ease: "power3.out" },
                         "<"
                     )
-                    .fromTo(".auth-panel-text",
+                    .fromTo(modal.querySelectorAll(".auth-panel-text"),
                         { y: dir * 12, opacity: 0 },
                         { y: 0, opacity: 1, duration: 0.28, ease: "power2.out" },
                         "<"
                     )
-                    .fromTo(".auth-panel-illustration",
+                    .fromTo(modal.querySelectorAll(".auth-panel-illustration"),
                         { opacity: 0, scale: 0.84, y: 8 },
                         { opacity: 1, scale: 1, y: 0, duration: 0.44, ease: "back.out(1.5)" },
                         "<"
                     )
-                    .from(".auth-field",
+                    .from(modal.querySelectorAll(".auth-field"),
                         { y: 10, opacity: 0, stagger: 0.05, duration: 0.32, overwrite: true },
                         "-=0.22"
                     )
-                    .fromTo(".auth-cta",
+                    .fromTo(modal.querySelectorAll(".auth-cta"),
                         { y: 8, opacity: 0 },
                         { y: 0, opacity: 1, duration: 0.28, clearProps: "opacity,transform", overwrite: true },
                         "-=0.05"
@@ -949,8 +892,8 @@ export default function AuthModal() {
             },
         })
         .to(content, { x: EXIT_X, opacity: 0, duration: 0.2, ease: "power3.in" })
-        .to(".auth-panel-text", { y: dir * -10, opacity: 0, duration: 0.18, ease: "power2.in" }, "<")
-        .to(".auth-panel-illustration", { opacity: 0, scale: 0.84, y: 8, duration: 0.2, ease: "power2.in" }, "<");
+        .to(modal.querySelectorAll(".auth-panel-text"), { y: dir * -10, opacity: 0, duration: 0.18, ease: "power2.in" }, "<")
+        .to(modal.querySelectorAll(".auth-panel-illustration"), { opacity: 0, scale: 0.84, y: 8, duration: 0.2, ease: "power2.in" }, "<");
     }
 
     if (!mounted || !isOpen) return null;

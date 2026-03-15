@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import gsap from "gsap";
 import SectionHeading from "@/components/ui/section-heading";
 
 // Rich SVG illustrations for each vision card
@@ -155,19 +154,26 @@ export default function VisionSection() {
         if (!c || !t) return;
 
         let raf: number;
+        let visible = true;
         const speed = 0.8; // px per frame
 
         const tick = () => {
             const s = state.current;
-            if (!s.paused && !s.dragging && !document.hidden) {
+            if (visible && !s.paused && !s.dragging && !document.hidden) {
                 c.scrollLeft += speed;
-                // Seamless loop: when one full set has passed, jump back
                 const half = t.scrollWidth / 2;
                 if (c.scrollLeft >= half) c.scrollLeft -= half;
             }
             raf = requestAnimationFrame(tick);
         };
         raf = requestAnimationFrame(tick);
+
+        // Pause RAF work when section is off-screen
+        const observer = new IntersectionObserver(
+            ([entry]) => { visible = entry.isIntersecting; },
+            { threshold: 0 }
+        );
+        observer.observe(c);
 
         // Document-level move/up so drag keeps working outside the container
         const onMove = (e: MouseEvent) => {
@@ -210,6 +216,7 @@ export default function VisionSection() {
 
         return () => {
             cancelAnimationFrame(raf);
+            observer.disconnect();
             c.removeEventListener("mousedown", onDown);
             c.removeEventListener("mouseenter", onEnter);
             c.removeEventListener("mouseleave", onLeave);
@@ -241,9 +248,7 @@ export default function VisionSection() {
                     {marqueeCards.map((card, i) => (
                         <div
                             key={i}
-                            onMouseEnter={(e) => gsap.to(e.currentTarget, { scale: 1.08, duration: 0.3, ease: "power2.out" })}
-                            onMouseLeave={(e) => gsap.to(e.currentTarget, { scale: 1, duration: 0.3, ease: "power2.out" })}
-                        className={`rounded-3xl border shadow-sm flex flex-col w-[270px] md:w-[380px] flex-shrink-0 ${
+                        className={`rounded-3xl border shadow-sm flex flex-col w-[270px] md:w-[380px] flex-shrink-0 transition-transform duration-300 ease-out hover:scale-[1.08] ${
                                 card.featured
                                     ? "shadow-lg ring-2 ring-[#3aa692] border-[#3aa692]"
                                     : "border-[#e8f5f2]"

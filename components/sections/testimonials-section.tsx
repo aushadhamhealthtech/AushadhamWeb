@@ -1,5 +1,6 @@
 import SectionHeading from "@/components/ui/section-heading";
-import { Star, Quote } from "lucide-react";
+import StarRating from "@/components/ui/star-rating";
+import { Quote } from "lucide-react";
 
 const testimonials = [
     {
@@ -36,15 +37,6 @@ const testimonials = [
     },
 ];
 
-function StarRating({ count }: { count: number }) {
-    return (
-        <div className="flex items-center gap-1">
-            {Array.from({ length: count }).map((_, i) => (
-                <Star key={i} size={14} className="fill-amber-400 text-amber-400" />
-            ))}
-        </div>
-    );
-}
 
 export default function TestimonialsSection() {
     return (
@@ -68,7 +60,7 @@ export default function TestimonialsSection() {
                             <Quote size={24} className="text-[#3aa692] opacity-60" />
 
                             {/* Stars */}
-                            <StarRating count={t.rating} />
+                            <StarRating rating={t.rating} />
 
                             {/* Text */}
                             <p className="text-[#065b4b]/70 text-sm leading-relaxed flex-1">{t.text}</p>

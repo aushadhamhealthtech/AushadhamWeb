@@ -348,3 +348,78 @@ Interactive API documentation is now live at `/api/docs` (both local and Vercel)
 | `app/api/openapi/route.ts` | New — serves merged OpenAPI spec (auto-generated auth + manual custom routes) |
 | `app/api/docs/route.ts` | New — Scalar interactive API docs UI |
 | `APIs.md` | Updated documentation tooling section to reflect installed Scalar setup |
+
+---
+
+## Frontend Code Review & Refactor (2026-03-15)
+
+**Reviewed by:** Claude (Opus 4.6) — Code Review Agent + Manual Fixes
+
+### Security Fixes
+
+| # | Issue | File | Fix |
+|---|-------|------|-----|
+| 1 | Unauthenticated test-email endpoint with insecure `Math.random()` OTP | `app/api/test-email/route.ts` | Deleted entire route |
+| 2 | XSS in password reset email — `user.name` interpolated into HTML unescaped | `lib/auth.ts` | Added `escapeHtml()` with full entity escaping (including single quotes) |
+| 3 | `DATABASE_URL` non-null assertion bypassed TypeScript safety | `lib/db.ts` | Added runtime validation with clear error message |
+| 4 | `void` on `resend.emails.send()` silently swallowed email failures | `lib/auth.ts` | Changed to `await` so errors propagate |
+| 5 | URL in email template used `escapeHtml()` which breaks `&` in query params | `lib/auth.ts` | Changed to `encodeURI()` for the `href` attribute |
+
+### Component Reuse (DRY Fixes)
+
+| # | Issue | Fix |
+|---|-------|-----|
+| 6 | Logo SVG duplicated in 3 files (navbar, footer, auth-modal) | Extracted shared `components/ui/logo.tsx` with `variant` and `size` props |
+| 7 | Star rating logic duplicated in testimonials-section and doctor-card | Extracted shared `components/ui/star-rating.tsx` with half-star support |
+| 8 | First/last name inputs in sign-up duplicated AuthInput logic with imperative focus/blur | Replaced with `AuthInput` component |
+| 9 | Textarea in doctor onboarding used imperative focus/blur style mutation | Replaced with Tailwind `focus:` classes |
+
+### Performance Fixes
+
+| # | Issue | File | Fix |
+|---|-------|------|-----|
+| 10 | VisionSection RAF loop runs at 60fps even when off-screen | `vision-section.tsx` | Added `IntersectionObserver` to pause when not visible |
+| 11 | Inline GSAP tween created on every hover event | `vision-section.tsx` | Replaced with CSS `transition-transform hover:scale-[1.08]` |
+| 12 | `DoctorCard` marked `"use client"` but has no client-side interactivity | `doctor-card.tsx` | Removed `"use client"` — now a server component |
+| 13 | Navbar `setAtBottom` called on every scroll event even when value unchanged | `navbar.tsx` | Added functional updater to skip no-op state updates |
+| 14 | `AuthInput` used imperative `style` mutations on focus/blur | `auth-modal.tsx` | Replaced with Tailwind `focus:border-[#228573] focus:shadow-[...]` |
+
+### Code Quality
+
+| # | Issue | Fix |
+|---|-------|-----|
+| 15 | Variable shadowing — `error` from `useState` shadowed by API response destructuring | Renamed to `signInError`, `signUpError`, `resetError` |
+| 16 | Unused animation exports (`animateAuthEntrance`, `animateAuthBlobs`, `animateRoleSwitch`) | Removed from `lib/animations/auth.ts`, kept only `shakeField` |
+| 17 | GSAP animations used global CSS class selectors (`.auth-field`, `.auth-cta`) | Scoped to `modalRef.current.querySelectorAll()` |
+| 18 | `React.FormEvent` deprecated in React 19 | Replaced with `React.SyntheticEvent` |
+| 19 | `reviewCount` falsy check rendered literal `0` to DOM | Changed to `reviewCount != null` |
+
+### Accessibility
+
+| # | Issue | Fix |
+|---|-------|-----|
+| 20 | DoctorCard had `role="button"` and `tabIndex={0}` but no click handler | Removed misleading interactive attributes and `cursor-pointer` |
+| 21 | Mobile nav bar was a `<div>` with no semantic role | Changed to `<nav role="navigation" aria-label="Mobile navigation">` |
+
+### TODO (Future Work)
+
+- [ ] **Doctor onboarding API** — `DoctorOnboardingView` form collects data but `handleSubmit` is a placeholder (`setTimeout` + close). Wire up state for each field and submit to an API endpoint.
+- [ ] **Footer social links** — All social media links use `href="#"` with `target="_blank"`. Replace with real URLs when available.
+
+### Files Modified
+
+| File | Changes |
+|------|---------|
+| `app/api/test-email/route.ts` | Deleted (security risk) |
+| `lib/auth.ts` | Added `escapeHtml()`, `await` on email send, `encodeURI()` for URL |
+| `lib/db.ts` | Runtime validation for `DATABASE_URL` |
+| `components/ui/logo.tsx` | New — shared logo component |
+| `components/ui/star-rating.tsx` | New — shared star rating component |
+| `components/modals/auth-modal.tsx` | Shared logo, AuthInput for names, Tailwind focus, variable shadowing, scoped GSAP, `SyntheticEvent` |
+| `components/layout/navbar.tsx` | Shared logo, scroll handler optimization, mobile nav semantics |
+| `components/layout/footer.tsx` | Shared logo |
+| `components/sections/testimonials-section.tsx` | Shared StarRating |
+| `components/cards/doctor-card.tsx` | Server component, shared StarRating, removed a11y anti-patterns, `reviewCount` fix |
+| `components/sections/vision-section.tsx` | IntersectionObserver for RAF, CSS hover instead of GSAP |
+| `lib/animations/auth.ts` | Removed unused exports |
+| `README.md` | Removed test-email reference, added TODOs |

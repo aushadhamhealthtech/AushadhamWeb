@@ -29,7 +29,6 @@ app/
     auth/[...all]/      # Better Auth catch-all route
     docs/               # Scalar API documentation UI
     openapi/            # OpenAPI JSON spec endpoint
-    test-email/         # Test email route (Resend)
 lib/
   auth.ts               # Better Auth config (Resend email, Drizzle adapter)
   auth-client.ts        # Client-side auth helpers
@@ -101,7 +100,6 @@ npm start
 | ALL | `/api/auth/*` | Better Auth routes (sign-in, sign-up, session, etc.) |
 | GET | `/api/docs` | Scalar API documentation UI |
 | GET | `/api/openapi` | OpenAPI JSON spec |
-| POST | `/api/test-email` | Send test OTP email via Resend |
 
 ## Deployment (Vercel)
 
@@ -128,3 +126,5 @@ The project auto-deploys from `main` via Vercel.
 - [ ] Domain-verified email sending (currently using `onboarding@resend.dev`)
 - [ ] Reset password page UI
 - [ ] OAuth social login (Google, GitHub)
+- [ ] Doctor onboarding API — wire up form submission in `DoctorOnboardingView` to persist professional profile data (registration number, specialization, experience, clinic, bio)
+- [ ] Footer social links — replace placeholder `href="#"` with real social media URLs (Facebook, Instagram, Twitter, LinkedIn)
