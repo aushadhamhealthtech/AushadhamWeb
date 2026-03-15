@@ -71,21 +71,40 @@ export default function AnimationProvider({ children }: { children: React.ReactN
                 const items = section.querySelectorAll(".reveal-item");
                 if (!items.length) return;
 
-                // If the section is already in view (e.g. page loaded scrolled down),
-                // skip the animation so cards aren't stuck at opacity: 0
+                // If the section is already in view (e.g. page loaded scrolled down
+                // or navigated via hash), skip the animation so cards aren't stuck at opacity: 0
                 const rect = section.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.8) {
+                if (rect.top < window.innerHeight) {
                     return; // already visible, no animation needed
                 }
 
-                gsap.from(items, {
-                    scrollTrigger: { trigger: section, start: "top 80%", once: true },
-                    opacity: 0,
-                    y: 40,
-                    duration: 0.6,
-                    stagger: 0.15,
-                    ease: "power2.out",
-                });
+                gsap.fromTo(
+                    items,
+                    { opacity: 0, y: 40 },
+                    {
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 80%",
+                            once: true,
+                        },
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.6,
+                        stagger: 0.15,
+                        ease: "power2.out",
+                    }
+                );
+
+                // Safety net: if ScrollTrigger never fires (e.g. hash navigation timing),
+                // force cards visible after 1.5s
+                setTimeout(() => {
+                    items.forEach((el) => {
+                        const style = getComputedStyle(el);
+                        if (style.opacity === "0") {
+                            gsap.to(el, { opacity: 1, y: 0, duration: 0.4 });
+                        }
+                    });
+                }, 1500);
             });
 
             // Simple fade-in for all other sections (mission, vision, CTA, footer)
