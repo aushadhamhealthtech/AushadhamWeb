@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   AlertTriangle,
   Bell,
@@ -19,51 +20,14 @@ import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-type NotificationSection = "updates" | "appointments" | "emergency";
-type UpdatesFilter = "subscribed" | "regular";
-type MedicalFilter = "all" | "scheduled" | "rescheduled" | "cancelled";
-type NotificationTone = "upload" | "scheduled" | "rescheduled" | "cancelled" | "emergency";
-
-interface NotificationItem {
-  id: number;
-  section: NotificationSection;
-  filter: UpdatesFilter | MedicalFilter;
-  title: string;
-  subtitle: string;
-  time: string;
-  tone: NotificationTone;
-}
-
-const notifications: NotificationItem[] = [
-  { id: 1, section: "updates", filter: "subscribed", title: "You have a new laboratory medical report.", subtitle: "Uploaded by patient: Anika Shekhawat", time: "1 hr ago", tone: "upload" },
-  { id: 2, section: "updates", filter: "subscribed", title: "You have a new medical reports.", subtitle: "Uploaded by patient: Anika Shekhawat", time: "1 hr ago", tone: "upload" },
-  { id: 3, section: "updates", filter: "subscribed", title: "You have a new medical reports.", subtitle: "Uploaded by patient: Anika Shekhawat", time: "1 hr ago", tone: "upload" },
-  { id: 4, section: "updates", filter: "subscribed", title: "You have a new medical reports.", subtitle: "Uploaded by patient: Anika Shekhawat", time: "1 hr ago", tone: "upload" },
-  { id: 5, section: "updates", filter: "regular", title: "You have a new medical reports.", subtitle: "Uploaded by patient: Anika Shekhawat", time: "2 hr ago", tone: "upload" },
-  { id: 6, section: "updates", filter: "regular", title: "You have a new medical reports.", subtitle: "Uploaded by patient: Anika Shekhawat", time: "3 hr ago", tone: "upload" },
-
-  { id: 7, section: "appointments", filter: "scheduled", title: "You have a new appointment for 1st Sept, 3pm.", subtitle: "Scheduled by patient: Radhika Shetty", time: "30 min ago", tone: "scheduled" },
-  { id: 8, section: "appointments", filter: "scheduled", title: "You have a new appointment for 1st Sept, 3pm.", subtitle: "Scheduled by patient: Radhika Shetty", time: "30 min ago", tone: "scheduled" },
-  { id: 9, section: "appointments", filter: "cancelled", title: "Your appointment for 11th June, 4 pm was cancelled.", subtitle: "Cancelled by patient: Ramya Reddy", time: "18 min ago", tone: "cancelled" },
-  { id: 10, section: "appointments", filter: "rescheduled", title: "You have a reschedule appointment for 31st July, 5 pm.", subtitle: "Rescheduled by patient: Aman Rathod", time: "39 min ago", tone: "rescheduled" },
-  { id: 11, section: "appointments", filter: "cancelled", title: "Your appointment for 18th July, 1 pm was cancelled.", subtitle: "Cancelled by patient: Ramya Reddy", time: "30 min ago", tone: "cancelled" },
-  { id: 12, section: "appointments", filter: "rescheduled", title: "You have a reschedule appointment for 10th Oct, 11:30 am.", subtitle: "Rescheduled by patient: Aman Rathod", time: "2 days ago", tone: "rescheduled" },
-
-  { id: 13, section: "emergency", filter: "scheduled", title: "Experiencing severe chest pain and shortness of breath. Blood pressure is high.", subtitle: "Patient: Ramya Reddy | Age: 54", time: "Just now", tone: "emergency" },
-  { id: 14, section: "emergency", filter: "scheduled", title: "Severe allergic reaction, swelling in throat, trouble breathing.", subtitle: "Patient: Pramod Iyyer | Age: 65", time: "17 min ago", tone: "emergency" },
-  { id: 15, section: "emergency", filter: "rescheduled", title: "Experiencing severe chest pain and shortness of breath. Blood pressure is high.", subtitle: "Patient: Ramya Reddy | Age: 54", time: "24 min ago", tone: "emergency" },
-  { id: 16, section: "emergency", filter: "cancelled", title: "Severe allergic reaction, swelling in throat, trouble breathing.", subtitle: "Patient: Pramod Iyyer | Age: 65", time: "45 min ago", tone: "emergency" },
-];
-
-const updatesFilters: UpdatesFilter[] = ["subscribed", "regular"];
-const medicalFilters: MedicalFilter[] = ["all", "scheduled", "rescheduled", "cancelled"];
-
-function getFiltered(section: NotificationSection, filter: UpdatesFilter | MedicalFilter) {
-  if (filter === "all") {
-    return notifications.filter((item) => item.section === section);
-  }
-  return notifications.filter((item) => item.section === section && item.filter === filter);
-}
+import {
+  getFilteredNotifications,
+  medicalFilters,
+  updatesFilters,
+  type NotificationItem,
+  type NotificationSection,
+  type NotificationTone,
+} from "@/lib/notifications-data";
 
 function NotificationTypeIcon({ tone }: { tone: NotificationTone }) {
   if (tone === "emergency") {
@@ -140,8 +104,14 @@ function NotificationList({ items }: { items: NotificationItem[] }) {
 }
 
 export default function NotificationsPage() {
+  const searchParams = useSearchParams();
   const [activeDateLabel] = useState("Jun 24, 2022 · Today");
   const [inviteOpen, setInviteOpen] = useState(false);
+  const requestedTab = searchParams.get("tab");
+  const defaultSectionTab: NotificationSection =
+    requestedTab === "updates" || requestedTab === "appointments" || requestedTab === "emergency"
+      ? requestedTab
+      : "updates";
 
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col bg-gray-50">
@@ -186,7 +156,7 @@ export default function NotificationsPage() {
 
           <Separator />
 
-          <Tabs defaultValue="updates" className="h-[calc(100%-81px)] min-w-0">
+          <Tabs defaultValue={defaultSectionTab} className="h-[calc(100%-81px)] min-w-0">
             <div className="px-5 py-4">
               <TabsList className="flex h-14 w-full min-w-0 items-stretch gap-0 overflow-hidden rounded-xl bg-gray-100 p-1">
                 <TabsTrigger value="updates" className="tab-trigger-primary min-w-0 flex-1 rounded-lg px-3 text-sm font-semibold capitalize data-[state=active]:bg-emerald-100 data-[state=active]:text-teal-700 data-[state=inactive]:text-gray-700 data-[state=inactive]:cursor-pointer">updates</TabsTrigger>
@@ -211,7 +181,7 @@ export default function NotificationsPage() {
                 {updatesFilters.map((filter) => (
                   <TabsContent key={filter} value={filter} className="mt-0 h-[calc(100%-58px)] min-w-0">
                     <ScrollArea className="h-full">
-                      <NotificationList items={getFiltered("updates", filter)} />
+                      <NotificationList items={getFilteredNotifications("updates", filter)} />
                     </ScrollArea>
                   </TabsContent>
                 ))}
@@ -232,7 +202,7 @@ export default function NotificationsPage() {
                 {medicalFilters.map((filter) => (
                   <TabsContent key={filter} value={filter} className="mt-0 h-[calc(100%-58px)] min-w-0">
                     <ScrollArea className="h-full">
-                      <NotificationList items={getFiltered("appointments", filter)} />
+                      <NotificationList items={getFilteredNotifications("appointments", filter)} />
                     </ScrollArea>
                   </TabsContent>
                 ))}
@@ -253,7 +223,7 @@ export default function NotificationsPage() {
                 {medicalFilters.map((filter) => (
                   <TabsContent key={filter} value={filter} className="mt-0 h-[calc(100%-58px)] min-w-0">
                     <ScrollArea className="h-full">
-                      <NotificationList items={getFiltered("emergency", filter)} />
+                      <NotificationList items={getFilteredNotifications("emergency", filter)} />
                     </ScrollArea>
                   </TabsContent>
                 ))}

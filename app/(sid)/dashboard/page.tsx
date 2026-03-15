@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Share2, TrendingUp, TrendingDown, ArrowUpRight } from "lucide-react";
 import PatientsChart from "@/components/dashboard/PatientsChart";
 import AppointmentsPanel from "@/components/dashboard/AppointmentsPanel";
@@ -142,7 +142,12 @@ function StatCard({ stat }: { stat: (typeof stats)[0] }) {
 }
 
 export default function DashboardPage() {
+  const [mounted, setMounted] = useState(false);
   const [inviteOpen, setInviteOpen] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <div className="flex flex-1 flex-col overflow-hidden bg-gray-50">
@@ -155,7 +160,7 @@ export default function DashboardPage() {
           <h1 className="text-2xl font-bold text-teal-700">Hi! Dr. Ritika Sahu</h1>
         </div>
         <div className="flex items-center gap-3">
-          <DateSelector />
+          {mounted ? <DateSelector /> : <div className="h-10 w-40" />}
           <Button 
             onClick={() => setInviteOpen(true)}
             className="bg-teal-600 hover:bg-teal-700 text-white rounded-full gap-2 px-5 py-2.5 shadow-sm"
@@ -174,16 +179,20 @@ export default function DashboardPage() {
         <main className="flex-1 overflow-y-auto px-6 py-5 space-y-5">
           {/* Period selector */}
           <div className="flex items-center gap-2">
-            <Select defaultValue="weekly">
-              <SelectTrigger className="w-28 h-8 text-sm font-semibold text-gray-700 border-none shadow-none focus:ring-0 px-0">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="daily">Daily</SelectItem>
-                <SelectItem value="weekly">Weekly</SelectItem>
-                <SelectItem value="monthly">Monthly</SelectItem>
-              </SelectContent>
-            </Select>
+            {mounted ? (
+              <Select defaultValue="weekly">
+                <SelectTrigger className="w-28 h-8 text-sm font-semibold text-gray-700 border-none shadow-none focus:ring-0 px-0">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="daily">Daily</SelectItem>
+                  <SelectItem value="weekly">Weekly</SelectItem>
+                  <SelectItem value="monthly">Monthly</SelectItem>
+                </SelectContent>
+              </Select>
+            ) : (
+              <div className="h-8 w-28" />
+            )}
           </div>
 
           {/* Stats grid */}

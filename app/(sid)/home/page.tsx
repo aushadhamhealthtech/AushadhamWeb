@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,18 +13,15 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { DateSelector } from "@/components/DateSelector";
 import { InviteDialog } from "@/components/InviteDialog";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
+  AlertTriangle,
   ChevronRight,
+  Phone,
   Share2,
   FileText,
   Activity,
   TrendingUp,
 } from "lucide-react";
+import { getFilteredNotifications } from "@/lib/notifications-data";
 
 const appointments = [
   { time: "09:00 AM", name: "Kalyani Rao", reason: "Report Discussion", status: "In-clinic", active: true, initials: "KR", color: "bg-orange-200" },
@@ -32,16 +30,11 @@ const appointments = [
   { time: "11:30 AM", name: "Radhika Iyer", reason: "Follow-up Checkup", status: "Online", active: false, initials: "RI", color: "bg-green-200" },
 ];
 
-const updates = [
-  { title: "You have a new medical reports.", subtitle: "Uploaded by patient: Anika Shekhawat", time: "1 hr ago", unread: true },
-  { title: "You have a new medical reports.", subtitle: "Uploaded by patient: Anika Shekhawat", time: "2 hr ago", unread: true },
-  { title: "You have a new medical reports.", subtitle: "Uploaded by patient: Anika Shekhawat", time: "3 hr ago", unread: false },
-  { title: "You have a new medical reports.", subtitle: "Uploaded by patient: Anika Shekhawat", time: "5 hr ago", unread: false },
-  { title: "You have a new medical reports.", subtitle: "Uploaded by patient: Anika Shekhawat", time: "Yesterday", unread: false },
-];
-
 export default function HomePage() {
   const [inviteOpen, setInviteOpen] = useState(false);
+  const emergencyMessages = getFilteredNotifications("emergency", "all").slice(0, 2);
+  const subscribedUpdates = getFilteredNotifications("updates", "subscribed");
+  const regularUpdates = getFilteredNotifications("updates", "regular");
 
   return (
     <div className="flex flex-1 flex-col overflow-hidden bg-gray-50">
@@ -70,12 +63,48 @@ export default function HomePage() {
       <div className="flex flex-1 overflow-hidden">
         {/* Main Content - Appointments Table */}
         <main className="flex-1 overflow-y-auto px-6 py-5">
+          <Card className="mb-5 rounded-2xl border border-gray-100 shadow-sm">
+            <CardHeader className="pb-2 pt-5 px-5">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-full bg-red-50 flex items-center justify-center">
+                    <AlertTriangle className="h-5 w-5 text-red-500" />
+                  </div>
+                  <h2 className="text-lg font-bold text-red-500">Emergency Messages</h2>
+                </div>
+                <Button asChild variant="ghost" className="text-sm text-teal-600 font-medium h-7 px-2">
+                  <Link href="/notifications?tab=emergency">View All</Link>
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent className="px-5 pb-4 pt-1">
+              <div className="space-y-2">
+                {emergencyMessages.map((message) => (
+                  <div key={message.id} className="flex items-start gap-3 rounded-xl border border-gray-100 px-3 py-3">
+                    <div className="h-8 w-8 rounded-full bg-red-50 flex items-center justify-center shrink-0 mt-1">
+                      <AlertTriangle className="h-4 w-4 text-red-400" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold leading-snug text-red-500">{message.title}</p>
+                      <p className="text-xs text-gray-500 mt-1">{message.subtitle}</p>
+                      <p className="text-xs text-gray-400 mt-1">{message.time}</p>
+                    </div>
+                    <Button size="icon" variant="ghost" className="h-8 w-8 rounded-full text-red-400 hover:text-red-500 shrink-0">
+                      <Phone className="h-4 w-4" />
+                    </Button>
+                    <ChevronRight className="w-4 h-4 text-gray-300 shrink-0 mt-2" />
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
           <Card className="rounded-2xl shadow-sm border border-gray-100">
             <CardHeader className="pb-3 pt-5 px-5">
               <div className="flex items-center justify-between">
                 <h2 className="text-lg font-bold text-teal-700">My Today&apos;s Appointments</h2>
-                <Button variant="ghost" className="text-sm text-teal-600 font-medium h-7 px-2">
-                  View All
+                <Button asChild variant="ghost" className="text-sm text-teal-600 font-medium h-7 px-2">
+                  <Link href="/appointments">View All</Link>
                 </Button>
               </div>
               <div className="flex items-center justify-between mt-3">
@@ -202,32 +231,61 @@ export default function HomePage() {
                   </TabsTrigger>
                 </TabsList>
                 <TabsContent value="subscribed">
-                  <div className="space-y-1">
-                    {updates.map((update, idx) => (
-                      <div key={idx}>
-                        <div className="flex items-start gap-3 py-3 px-1 hover:bg-gray-50 rounded-lg cursor-pointer">
-                            <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${update.unread ? "bg-amber-50 border border-amber-100" : "bg-gray-50 border border-gray-100"}`}>
-                              <FileText className={`w-4 h-4 ${update.unread ? "text-amber-500" : "text-gray-400"}`} />
+                  <ScrollArea className="h-72">
+                    <div className="space-y-1 pb-9">
+                      {subscribedUpdates.map((update, idx) => (
+                        <div key={update.id}>
+                          <div className="flex items-start gap-3 py-3 px-1 hover:bg-gray-50 rounded-lg cursor-pointer">
+                            <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 bg-amber-50 border border-amber-100">
+                              <FileText className="w-4 h-4 text-amber-500" />
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-1.5">
-                                <p className={`text-sm ${update.unread ? "font-semibold text-gray-800" : "font-medium text-gray-600"}`}>
-                                  {update.title}
-                                </p>
-                                {update.unread && <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />}
+                                <p className="text-sm font-semibold text-gray-800">{update.title}</p>
+                                <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
                               </div>
                               <p className="text-xs text-gray-400 mt-0.5 truncate">{update.subtitle}</p>
                               <p className="text-xs text-gray-400">{update.time}</p>
                             </div>
                             <ChevronRight className="w-4 h-4 text-gray-300 shrink-0 mt-2" />
                           </div>
-                          {idx < updates.length - 1 && <Separator />}
+                          {idx < subscribedUpdates.length - 1 && <Separator />}
                         </div>
                       ))}
                     </div>
+                  </ScrollArea>
+                  <div className="mt-1 flex justify-end">
+                    <Button asChild variant="ghost" size="sm" className="h-7 px-2 text-xs text-teal-600">
+                      <Link href="/notifications?tab=updates">View all</Link>
+                    </Button>
+                  </div>
                 </TabsContent>
                 <TabsContent value="regular">
-                  <p className="text-sm text-gray-400 text-center py-8">No regular updates</p>
+                  <ScrollArea className="h-72">
+                    <div className="space-y-1 pb-9">
+                      {regularUpdates.map((update, idx) => (
+                        <div key={update.id}>
+                          <div className="flex items-start gap-3 py-3 px-1 hover:bg-gray-50 rounded-lg cursor-pointer">
+                            <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 bg-gray-50 border border-gray-100">
+                              <FileText className="w-4 h-4 text-gray-400" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-gray-600">{update.title}</p>
+                              <p className="text-xs text-gray-400 mt-0.5 truncate">{update.subtitle}</p>
+                              <p className="text-xs text-gray-400">{update.time}</p>
+                            </div>
+                            <ChevronRight className="w-4 h-4 text-gray-300 shrink-0 mt-2" />
+                          </div>
+                          {idx < regularUpdates.length - 1 && <Separator />}
+                        </div>
+                      ))}
+                    </div>
+                  </ScrollArea>
+                  <div className="mt-1 flex justify-end">
+                    <Button asChild variant="ghost" size="sm" className="h-7 px-2 text-xs text-teal-600">
+                      <Link href="/notifications?tab=updates">View all</Link>
+                    </Button>
+                  </div>
                 </TabsContent>
               </Tabs>
             </CardContent>
