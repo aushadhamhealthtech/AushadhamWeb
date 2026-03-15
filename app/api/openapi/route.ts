@@ -26,11 +26,11 @@ export async function GET() {
     },
     servers: [
       {
-        url: "http://localhost:3000",
+        url: "http://localhost:3000/api/auth",
         description: "Local development",
       },
       {
-        url: "https://prod-varunmatta.vercel.app",
+        url: "https://aushadham-web.vercel.app/api/auth",
         description: "Production",
       },
     ],
