@@ -151,7 +151,7 @@ export default function Sidebar({ onOpenSettings }: { onOpenSettings?: () => voi
           <AushodamLogo className={cn("shrink-0 transition-all duration-300", expanded ? "w-10" : "w-9 mx-auto")} />
           <div className={cn(
             "flex flex-col leading-tight ml-2 transition-all duration-300 overflow-hidden whitespace-nowrap",
-            expanded ? "opacity-100 max-w-[160px]" : "opacity-0 max-w-0"
+            expanded ? "opacity-100 max-w-40" : "opacity-0 max-w-0"
           )}>
             <span className="text-teal-700 font-bold text-base tracking-widest">AUSHADHAM</span>
             <span className="text-teal-600 text-[10px] tracking-wide">Hospital or clinic Name</span>
@@ -211,7 +211,7 @@ export default function Sidebar({ onOpenSettings }: { onOpenSettings?: () => voi
                 >
                   <item.icon
                     className={cn(
-                      "w-[22px] h-[22px] shrink-0 transition-transform duration-200 group-hover:scale-110",
+                      "w-5.5 h-5.5 shrink-0 transition-transform duration-200 group-hover:scale-110",
                       isActive ? "text-white" : "text-gray-400 group-hover:text-teal-600"
                     )}
                   />
@@ -243,18 +243,22 @@ export default function Sidebar({ onOpenSettings }: { onOpenSettings?: () => voi
           {/* Avatar row — always rendered, text fades */}
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className="flex items-center gap-3 px-2 py-2 mb-1 overflow-hidden">
+              <Link
+                href="/profile"
+                onClick={handleNavClick}
+                className="flex items-center gap-3 px-2 py-2 mb-1 overflow-hidden rounded-xl hover:bg-teal-50"
+              >
                 <Avatar className="w-9 h-9 shrink-0">
                   <AvatarFallback className="bg-amber-400 text-white font-semibold text-sm">RS</AvatarFallback>
                 </Avatar>
                 <div className={cn(
                   "overflow-hidden transition-all duration-300 whitespace-nowrap",
-                  expanded ? "opacity-100 max-w-[140px]" : "opacity-0 max-w-0"
+                  expanded ? "opacity-100 max-w-35" : "opacity-0 max-w-0"
                 )}>
                   <p className="text-sm font-medium text-gray-800 truncate">Dr. Ritika Shah</p>
                   <Badge className="text-[10px] bg-amber-400 hover:bg-amber-400 text-white px-1.5 py-0.5 rounded font-medium">Admin</Badge>
                 </div>
-              </div>
+              </Link>
             </TooltipTrigger>
             {!expanded && <TooltipContent side="right">Dr. Ritika Shah</TooltipContent>}
           </Tooltip>
@@ -270,7 +274,7 @@ export default function Sidebar({ onOpenSettings }: { onOpenSettings?: () => voi
                   expanded ? "justify-start px-3" : "justify-center px-4"
                 )}
               >
-                <Settings className="w-[22px] h-[22px] shrink-0 text-gray-400 group-hover:text-teal-600 transition-transform duration-200 group-hover:scale-110" />
+                <Settings className="w-5.5 h-5.5 shrink-0 text-gray-400 group-hover:text-teal-600 transition-transform duration-200 group-hover:scale-110" />
                 <span className={cn(
                   "whitespace-nowrap overflow-hidden transition-all duration-300",
                   expanded ? "opacity-100 max-w-full" : "opacity-0 max-w-0"
@@ -290,7 +294,7 @@ export default function Sidebar({ onOpenSettings }: { onOpenSettings?: () => voi
                   expanded ? "justify-start px-3" : "justify-center px-4"
                 )}
               >
-                <LogOut className="w-[22px] h-[22px] shrink-0 transition-transform duration-200 group-hover:scale-110" />
+                <LogOut className="w-5.5 h-5.5 shrink-0 transition-transform duration-200 group-hover:scale-110" />
                 <span className={cn(
                   "whitespace-nowrap overflow-hidden transition-all duration-300",
                   expanded ? "opacity-100 max-w-full" : "opacity-0 max-w-0"

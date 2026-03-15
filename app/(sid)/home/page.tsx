@@ -18,10 +18,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  ChevronDown,
   ChevronRight,
   Share2,
-  Video,
   FileText,
   Activity,
   TrendingUp,
@@ -43,7 +41,6 @@ const updates = [
 ];
 
 export default function HomePage() {
-  const [selectedStatus, setSelectedStatus] = useState("Scheduled");
   const [inviteOpen, setInviteOpen] = useState(false);
 
   return (
@@ -95,26 +92,12 @@ export default function HomePage() {
 
             <CardContent className="px-5 pb-5">
               {/* Table Header */}
-              <div className="grid grid-cols-[100px_1fr_1fr_120px_140px] gap-3 px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wide border-b border-gray-100">
+              <div className="grid grid-cols-[100px_1fr_1fr_120px] gap-3 px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wide border-b border-gray-100">
                 <span>TIME</span>
                 <span>PATIENT NAME</span>
                 <span>REASON</span>
                 <div className="flex items-center gap-1">
                   <span>STATUS</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <span>{selectedStatus}</span>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" className="w-4 h-4 p-0">
-                        <ChevronDown className="w-3 h-3" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      <DropdownMenuItem onClick={() => setSelectedStatus("Scheduled")}>Scheduled</DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setSelectedStatus("All")}>All</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
                 </div>
               </div>
 
@@ -124,7 +107,7 @@ export default function HomePage() {
                   {appointments.map((apt, idx) => (
                     <div
                       key={idx}
-                      className={`grid grid-cols-[100px_1fr_1fr_120px_140px] gap-3 px-3 py-3.5 items-center rounded-xl ${
+                      className={`grid grid-cols-[100px_1fr_1fr_120px] gap-3 px-3 py-3.5 items-center rounded-xl ${
                         apt.active ? "bg-teal-600/5 border-l-2 border-l-teal-600" : "hover:bg-gray-50"
                       }`}
                     >
@@ -146,18 +129,6 @@ export default function HomePage() {
                       >
                         {apt.status}
                       </Badge>
-                      <Button
-                        size="sm"
-                        className={`rounded-xl text-xs h-8 px-4 gap-1.5 ${
-                          apt.active
-                            ? "bg-emerald-600 hover:bg-emerald-700 text-white"
-                            : "bg-gray-100 text-gray-400 hover:bg-gray-100 cursor-not-allowed"
-                        }`}
-                        disabled={!apt.active}
-                      >
-                        {apt.active && <Video className="w-3.5 h-3.5" />}
-                        Join Now
-                      </Button>
                     </div>
                   ))}
 
