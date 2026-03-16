@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Share2, TrendingUp, TrendingDown, ArrowUpRight } from "lucide-react";
 import PatientsChart from "@/components/dashboard/PatientsChart";
 import AppointmentsPanel from "@/components/dashboard/AppointmentsPanel";
@@ -247,11 +248,13 @@ export default function DashboardPage() {
                     </Avatar>
                   ))}
                 </div>
-                <Button variant="link" className="text-orange-500 text-sm p-0 h-auto gap-1 font-medium">
-                  All messages
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                <Button asChild variant="link" className="text-orange-500 text-sm p-0 h-auto gap-1 font-medium">
+                  <Link href="/messages">
+                    All messages
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
                 </Button>
               </CardContent>
             </Card>
@@ -274,11 +277,13 @@ export default function DashboardPage() {
                     </Avatar>
                   ))}
                 </div>
-                <Button variant="link" className="text-orange-500 text-sm p-0 h-auto gap-1 font-medium">
-                  All messages
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                <Button asChild variant="link" className="text-orange-500 text-sm p-0 h-auto gap-1 font-medium">
+                  <Link href="/patients">
+                    All reports
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
                 </Button>
               </CardContent>
             </Card>

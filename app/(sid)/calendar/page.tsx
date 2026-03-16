@@ -10,12 +10,17 @@ import {
   Wifi,
   WifiOff,
   Pencil,
+  CirclePlus,
+  CircleHelp,
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -459,7 +464,7 @@ function MonthlyView({
               key={day}
               onClick={() => onSelectDay(day)}
               className={cn(
-                "min-h-[130px] rounded-xl p-2 cursor-pointer border transition-all",
+                "min-h-32.5 rounded-xl p-2 cursor-pointer border transition-all",
                 active
                   ? "border-teal-400 bg-teal-50 shadow-sm"
                   : isToday
@@ -508,6 +513,14 @@ export default function CalendarPage() {
   const [currentDate, setCurrentDate] = useState(today);
   const [selectedDay, setSelectedDay] = useState<number | null>(today.getDate());
   const [activeFilters, setActiveFilters] = useState<Set<PatientFilter>>(new Set());
+  const [availabilityOpen, setAvailabilityOpen] = useState(false);
+  const [availabilityDays, setAvailabilityDays] = useState<string[]>(["TUE", "WED", "THU", "FRI", "SAT"]);
+
+  const toggleAvailabilityDay = (day: string) => {
+    setAvailabilityDays((prev) =>
+      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
+    );
+  };
 
   // Derived navigation state
   const viewYear = currentDate.getFullYear();
@@ -579,6 +592,7 @@ export default function CalendarPage() {
         <Button
           variant="ghost"
           size="sm"
+          onClick={() => setAvailabilityOpen(true)}
           className="text-gray-400 hover:text-teal-600 gap-1 text-xs font-medium shrink-0"
         >
           Edit Availability <ChevronRight className="w-3.5 h-3.5" />
@@ -697,6 +711,129 @@ export default function CalendarPage() {
           />
         )}
       </Card>
+
+      <Dialog open={availabilityOpen} onOpenChange={setAvailabilityOpen}>
+        <DialogContent
+          showCloseButton={false}
+          className="max-w-[88vw] rounded-2xl border border-gray-200 bg-white p-0 sm:max-w-2xl"
+        >
+          <DialogTitle className="sr-only">Edit availability</DialogTitle>
+
+          <div className="relative px-6 py-6 sm:px-7 sm:py-7">
+            <Button
+              type="button"
+              size="icon"
+              variant="ghost"
+              onClick={() => setAvailabilityOpen(false)}
+              className="absolute right-4 top-4 h-8 w-8 rounded-full text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+
+            <h3 className="text-3xl font-bold text-gray-900">Select your availability</h3>
+            <p className="mt-2 text-base text-gray-700">Set your time slots so that your patients see your availability</p>
+
+            <div className="mt-6 rounded-xl border border-gray-300 p-4">
+              <h4 className="text-2xl font-semibold text-gray-900">Select Days</h4>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {(["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"] as const).map((day) => {
+                  const active = availabilityDays.includes(day);
+                  return (
+                    <Button
+                      key={day}
+                      type="button"
+                      variant="outline"
+                      onClick={() => toggleAvailabilityDay(day)}
+                      className={cn(
+                        "h-10 min-w-16 rounded-none border-gray-300 px-3 text-sm font-semibold",
+                        active ? "bg-teal-700 text-white hover:bg-teal-700" : "bg-white text-gray-700 hover:bg-gray-50"
+                      )}
+                    >
+                      {day}
+                    </Button>
+                  );
+                })}
+              </div>
+
+              <div className="mt-5">
+                <div className="mb-2 flex items-center gap-2">
+                  <p className="text-2xl font-semibold text-gray-900">Select time range</p>
+                  <CircleHelp className="h-4 w-4 text-teal-600" />
+                </div>
+                <div className="flex flex-wrap items-center gap-4">
+                  <Select defaultValue="06:00 AM">
+                    <SelectTrigger className="h-10 w-40 rounded-none border-gray-300 text-sm">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="06:00 AM">06:00 AM</SelectItem>
+                      <SelectItem value="07:00 AM">07:00 AM</SelectItem>
+                      <SelectItem value="08:00 AM">08:00 AM</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Select defaultValue="11:00 AM">
+                    <SelectTrigger className="h-10 w-40 rounded-none border-gray-300 text-sm">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="11:00 AM">11:00 AM</SelectItem>
+                      <SelectItem value="12:00 PM">12:00 PM</SelectItem>
+                      <SelectItem value="01:00 PM">01:00 PM</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Button type="button" size="icon" className="h-11 w-11 rounded-full bg-teal-200 text-gray-900 hover:bg-teal-200">
+                    <CirclePlus className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+
+              <div className="mt-5">
+                <div className="mb-2 flex items-center gap-2">
+                  <p className="text-2xl font-semibold text-gray-900">Select Duration</p>
+                  <CircleHelp className="h-4 w-4 text-teal-600" />
+                </div>
+                <Select defaultValue="5 Mins">
+                  <SelectTrigger className="h-10 w-44 rounded-none border-gray-300 text-sm">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="5 Mins">5 Mins</SelectItem>
+                    <SelectItem value="10 Mins">10 Mins</SelectItem>
+                    <SelectItem value="15 Mins">15 Mins</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="mt-5">
+                <div className="mb-2 flex items-center gap-2">
+                  <p className="text-2xl font-semibold text-gray-900">Select Time Gap</p>
+                  <CircleHelp className="h-4 w-4 text-teal-600" />
+                </div>
+                <Select defaultValue="5 Mins">
+                  <SelectTrigger className="h-10 w-44 rounded-none border-gray-300 text-sm">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="5 Mins">5 Mins</SelectItem>
+                    <SelectItem value="10 Mins">10 Mins</SelectItem>
+                    <SelectItem value="15 Mins">15 Mins</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-end">
+              <Button
+                type="button"
+                onClick={() => setAvailabilityOpen(false)}
+                className="h-10 min-w-32 rounded-full bg-teal-600 px-6 text-xs font-semibold tracking-wide text-white hover:bg-teal-700"
+              >
+                SUBMIT
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
