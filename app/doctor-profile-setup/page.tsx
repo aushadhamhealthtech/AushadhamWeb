@@ -69,11 +69,11 @@ function HorizontalStepper({ step }: { step: number }) {
     return (
         <div className="w-full relative pt-1">
             <div
-                className="absolute left-[6%] right-[6%] h-0.5 top-[18px]"
+                className="absolute left-[6%] right-[6%] h-0.5 top-4.5"
                 style={{ backgroundColor: C.border }}
             />
             <div
-                className="absolute left-[6%] h-0.5 top-[18px] transition-all duration-500"
+                className="absolute left-[6%] h-0.5 top-4.5 transition-all duration-500"
                 style={{
                     backgroundColor: C.mid,
                     width: `calc(88% * ${(step - 1) / (PROFILE_STEPS.length - 1)})`,
@@ -81,7 +81,7 @@ function HorizontalStepper({ step }: { step: number }) {
             />
 
             <div className="grid grid-cols-4 relative">
-                {PROFILE_STEPS.map((s, i) => {
+                {PROFILE_STEPS.map((s) => {
                     const isActive = s.num === step;
                     const isDone   = s.num < step;
                     return (
@@ -498,7 +498,7 @@ function StepTimeSlots() {
                                 <button
                                     type="button"
                                     onClick={() => toggleDay(d)}
-                                    className="absolute -top-1.5 -right-1.5 w-[18px] h-[18px] rounded-full text-[10px] font-bold"
+                                    className="absolute -top-1.5 -right-1.5 w-4.5 h-4.5 rounded-full text-[10px] font-bold"
                                     style={{
                                         backgroundColor: active ? "#16a34a" : "#9ca3af",
                                         color: "white",
@@ -528,12 +528,12 @@ function StepTimeSlots() {
                     <div className="flex flex-col gap-2">
                         {current.ranges.map((r, idx) => (
                             <div key={`${r.start}-${r.end}-${idx}`} className="flex flex-wrap gap-2 items-center">
-                                <div className="min-w-[170px] flex-1">
+                                <div className="min-w-42.5 flex-1">
                                     <PillSelect id={`${selectedDay}-start-${idx}`} label="" options={["06:00 AM","07:00 AM","08:00 AM","09:00 AM","10:00 AM","11:00 AM","12:00 PM"]}
                                         placeholder="Start" required={false} value={r.start}
                                         onChange={(start) => updateRange(idx, "start", start)} />
                                 </div>
-                                <div className="min-w-[170px] flex-1">
+                                <div className="min-w-42.5 flex-1">
                                     <PillSelect id={`${selectedDay}-end-${idx}`} label="" options={["09:00 AM","10:00 AM","11:00 AM","12:00 PM","01:00 PM","02:00 PM","03:00 PM","04:00 PM","05:00 PM","06:00 PM"]}
                                         placeholder="End" required={false} value={r.end}
                                         onChange={(end) => updateRange(idx, "end", end)} />
@@ -623,9 +623,9 @@ function StepProfileDetails() {
     const [photoName, setPhotoName] = useState<string | null>(null);
 
     return (
-        <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between min-h-[280px]">
+        <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between min-h-70">
             <div className="flex flex-col gap-3">
-                <div className="w-[170px] h-[158px] rounded-3xl border flex items-center justify-center"
+                <div className="w-42.5 h-39.5 rounded-3xl border flex items-center justify-center"
                     style={{ borderColor: C.border, backgroundColor: "#f2f5f4", color: "#a8aeab" }}>
                     <UserPlus size={86} strokeWidth={1.5} />
                 </div>
@@ -646,7 +646,7 @@ function StepProfileDetails() {
                     />
                 </label>
 
-                <p className="text-xs max-w-[230px]" style={{ color: C.muted }}>
+                <p className="text-xs max-w-57.5" style={{ color: C.muted }}>
                     Make sure your image is clear and clearly recognized.
                 </p>
                 {photoName && (
@@ -654,7 +654,7 @@ function StepProfileDetails() {
                 )}
             </div>
 
-            <div className="rounded-3xl px-5 py-5 max-w-[360px]"
+            <div className="rounded-3xl px-5 py-5 max-w-90"
                 style={{
                     background: `linear-gradient(145deg, ${C.mint} 0%, rgba(232,245,242,0.5) 100%)`,
                     border:     `1px solid rgba(34,133,115,0.18)`,
@@ -705,9 +705,9 @@ function LeftPanel({ step }: { step: number }) {
         >
             {/* Ambient orbs */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-r-none">
-                <div className="absolute top-[-60px] left-[-40px] w-[220px] h-[220px] rounded-full"
+                <div className="absolute -top-15 -left-10 w-55 h-55 rounded-full"
                     style={{ background: "radial-gradient(circle, rgba(58,166,146,0.15), transparent 70%)" }} />
-                <div className="absolute bottom-[-40px] right-[-20px] w-[180px] h-[180px] rounded-full"
+                <div className="absolute -bottom-10 -right-5 w-45 h-45 rounded-full"
                     style={{ background: "radial-gradient(circle, rgba(34,133,115,0.12), transparent 70%)" }} />
             </div>
 
@@ -715,7 +715,7 @@ function LeftPanel({ step }: { step: number }) {
 
             {/* Illustration */}
             <div ref={floatRef} className="w-full flex justify-center">
-                <svg viewBox="0 0 220 240" fill="none" className="w-full max-w-[190px]">
+                <svg viewBox="0 0 220 240" fill="none" className="w-full max-w-47.5">
                     <circle cx="110" cy="120" r="100" fill="white" opacity="0.04" />
                     <circle cx="110" cy="120" r="70"  fill="white" opacity="0.04" />
                     {/* Pulse line */}
@@ -855,9 +855,9 @@ export default function DoctorProfileSetupPage() {
 
             {/* Ambient blobs */}
             <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
-                <div className="absolute top-[-60px] right-0 w-[380px] h-[380px] rounded-full"
+                <div className="absolute -top-15 right-0 w-95 h-95 rounded-full"
                     style={{ background: `radial-gradient(circle, rgba(58,166,146,0.07), transparent 70%)` }} />
-                <div className="absolute bottom-0 left-[35%] w-[280px] h-[280px] rounded-full"
+                <div className="absolute bottom-0 left-[35%] w-70 h-70 rounded-full"
                     style={{ background: `radial-gradient(circle, rgba(34,133,115,0.05), transparent 70%)` }} />
             </div>
 

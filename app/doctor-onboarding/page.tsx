@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, type Dispatch, type SetStateAction } from "react";
+import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import { useRouter } from "next/navigation";
 import { ChevronDown, Upload, Check, Shield, Star, Users, ArrowRight, ArrowLeft, UserCog, Clock } from "lucide-react";
@@ -380,7 +380,7 @@ function StepThankYou() {
                     style={{ color: C.primary }}>
                     Application submitted!<br />You&apos;re almost there.
                 </h2>
-                <p className="text-[15px] leading-relaxed max-w-[520px] mx-auto" style={{ color: C.body }}>
+                <p className="text-[15px] leading-relaxed max-w-130 mx-auto" style={{ color: C.body }}>
                     Our team is reviewing your credentials. Once verified, you can complete
                     your practice profile and go live on Aushadham.
                 </p>
@@ -388,7 +388,7 @@ function StepThankYou() {
 
             <div
                 ref={cardRef}
-                className="onboard-card w-full max-w-[500px] rounded-3xl px-8 py-8 flex flex-col items-center gap-5"
+                className="onboard-card w-full max-w-125 rounded-3xl px-8 py-8 flex flex-col items-center gap-5"
                 style={{
                     backgroundColor: isVerified ? C.mint : "#f8fafc",
                     border: isVerified
@@ -528,7 +528,7 @@ function LeftPanel({ step }: { step: number }) {
 
             {/* Decorative illustration */}
             <div ref={floatRef} className="w-full flex justify-center">
-                <svg viewBox="0 0 220 200" fill="none" className="w-full max-w-[195px]">
+                <svg viewBox="0 0 220 200" fill="none" className="w-full max-w-48.75">
                     <path d="M14 140 L50 140 L65 110 L82 170 L98 128 L114 140 L206 140"
                         stroke="white" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" opacity="0.5" />
                     <path d="M76 52 C76 52 62 80 62 104 C62 126 76 136 96 136 C116 136 130 120 130 98 C130 74 116 56 116 56"
@@ -575,7 +575,7 @@ function LeftPanel({ step }: { step: number }) {
 /* ── Right decorative rail ── */
 function RightDecorRail({ step }: { step: number }) {
     return (
-        <aside className="hidden xl:flex flex-col gap-4 w-[270px] shrink-0">
+        <aside className="hidden xl:flex flex-col gap-4 w-67.5 shrink-0">
             <div
                 className="rounded-3xl p-5"
                 style={{
@@ -599,7 +599,7 @@ function RightDecorRail({ step }: { step: number }) {
                 <ul className="flex flex-col gap-2.5">
                     {["Use your official registration details", "Upload clear, readable documents", "Use a reachable phone & email"].map((item) => (
                         <li key={item} className="flex items-start gap-2 text-xs" style={{ color: C.body }}>
-                            <span className="mt-[2px] w-4 h-4 rounded-full flex items-center justify-center" style={{ backgroundColor: "rgba(34,133,115,0.12)" }}>
+                            <span className="mt-0.5 w-4 h-4 rounded-full flex items-center justify-center" style={{ backgroundColor: "rgba(34,133,115,0.12)" }}>
                                 <Check size={10} color={C.mid} />
                             </span>
                             {item}
@@ -745,7 +745,7 @@ export default function DoctorOnboardingPage() {
             {showEntryWipe && (
                 <div
                     ref={entryWipeRef}
-                    className="pointer-events-none absolute inset-0 z-[90]"
+                    className="pointer-events-none absolute inset-0 z-90"
                     style={{ background: "linear-gradient(112deg, #065b4b 0%, #228573 58%, #3aa692 100%)" }}
                 />
             )}
@@ -768,7 +768,7 @@ export default function DoctorOnboardingPage() {
                     <div className="pointer-events-none absolute -top-12 -right-16 w-52 h-52 rounded-full" style={{ background: "radial-gradient(circle, rgba(58,166,146,0.16) 0%, rgba(58,166,146,0) 72%)" }} />
                     <div className="pointer-events-none absolute bottom-0 -left-20 w-64 h-64 rounded-full" style={{ background: "radial-gradient(circle, rgba(101,141,241,0.14) 0%, rgba(101,141,241,0) 74%)" }} />
 
-                    <div className="w-full max-w-[980px] relative z-10 flex gap-8 items-start">
+                    <div className="w-full max-w-245 relative z-10 flex gap-8 items-start">
                         <div className="flex-1 min-w-0">
 
                             {/* Heading */}
@@ -809,7 +809,7 @@ export default function DoctorOnboardingPage() {
                             )}
 
                             {/* Animated step content */}
-                            <div ref={contentRef} className="onboard-content min-h-[460px]">
+                            <div ref={contentRef} className="onboard-content min-h-115">
                                 {step === 1 && (
                                     <StepPersonal
                                         form={personalForm}

@@ -32,7 +32,6 @@ export default function AnimationProvider({ children }: { children: React.ReactN
                             iconEl.querySelectorAll("svg path, svg circle, svg line, svg polyline, svg rect, svg ellipse")
                         ) as SVGGeometryElement[];
                         if (!paths.length) return;
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         gsap.fromTo(
                             paths,
                             {

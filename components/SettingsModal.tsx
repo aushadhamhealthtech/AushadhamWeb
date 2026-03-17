@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import {
-  User, CreditCard, Package, Bell, Shield, ChevronRight,
+  User, CreditCard, Package, Bell, Shield,
   Camera, Mail, Phone, MapPin, Save, Check,
 } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";

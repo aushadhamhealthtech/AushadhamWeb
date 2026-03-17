@@ -9,7 +9,6 @@ import {
   ChevronUp,
   ArrowLeft,
   Pencil,
-  CalendarPlus,
   User,
   Cake,
   Droplets,
@@ -36,7 +35,6 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { DateSelector } from "@/components/DateSelector";
 import { InviteDialog } from "@/components/InviteDialog";
@@ -932,7 +930,7 @@ function MedicationsTab({ patient }: { patient: any }) {
 /* ═══════════════════════════════════════════════════════════════
    MAIN PAGE
    ═══════════════════════════════════════════════════════════════ */
-function PatientDetailContent({ patient, patientId }: { patient: any; patientId: number }) {
+function PatientDetailContent({ patient }: { patient: any }) {
   const router = useRouter();
   const [inviteOpen, setInviteOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("patient-details");
@@ -1040,5 +1038,5 @@ export default function PatientDetailPage() {
   const patientId = parseInt(params.id as string, 10);
   const patient = patientsDatabase[patientId] || patientsDatabase[1];
 
-  return <PatientDetailContent patient={patient} patientId={patientId} />;
+  return <PatientDetailContent patient={patient} />;
 }
