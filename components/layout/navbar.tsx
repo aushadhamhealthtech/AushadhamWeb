@@ -84,7 +84,7 @@ export default function Navbar() {
     return (
         <>
         <nav aria-label="Main navigation" className="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
-            <div className="max-w-[1440px] mx-auto px-6 lg:px-[99px] h-[76px] flex items-center justify-between">
+            <div className="max-w-360 mx-auto px-6 lg:px-24.75 h-19 flex items-center justify-between">
 
                 {/* Logo — scroll to top on click */}
                 <button
