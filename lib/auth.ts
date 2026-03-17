@@ -37,7 +37,7 @@ export const auth = betterAuth({
               Hi ${escapeHtml(user.name || "there")},<br/><br/>
               We received a request to reset your Aushadham account password. Click the button below to set a new one.
             </p>
-            <a href="${encodeURI(url)}" style="display:inline-block;margin:24px 0;padding:14px 32px;background:#228573;color:white;text-decoration:none;border-radius:999px;font-weight:600;font-size:14px;">
+            <a href="${url}" style="display:inline-block;margin:24px 0;padding:14px 32px;background:#228573;color:white;text-decoration:none;border-radius:999px;font-weight:600;font-size:14px;">
               Reset Password
             </a>
             <p style="color:#888;font-size:12px;">If you didn't request this, you can safely ignore this email.</p>
