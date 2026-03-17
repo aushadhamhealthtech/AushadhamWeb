@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Eye, EyeOff, Lock, CheckCircle2, AlertTriangle, ArrowLeft } from "lucide-react";
 import { resetPassword } from "@/lib/auth-client";
@@ -10,6 +10,19 @@ import Link from "next/link";
 type PageState = "loading" | "form" | "success" | "error";
 
 export default function ResetPasswordPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center"
+                style={{ background: "linear-gradient(160deg, #f0faf7 0%, #e8f5f2 50%, #ffffff 100%)" }}>
+                <div className="w-8 h-8 rounded-full border-3 border-[#e8f5f2] border-t-[#228573] animate-spin" />
+            </div>
+        }>
+            <ResetPasswordForm />
+        </Suspense>
+    );
+}
+
+function ResetPasswordForm() {
     const searchParams = useSearchParams();
     const router = useRouter();
 
