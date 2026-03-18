@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {
   AlertTriangle,
@@ -104,6 +104,14 @@ function NotificationList({ items }: { items: NotificationItem[] }) {
 }
 
 export default function NotificationsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gray-50" />}>
+      <NotificationsPageContent />
+    </Suspense>
+  );
+}
+
+function NotificationsPageContent() {
   const searchParams = useSearchParams();
   const [activeDateLabel] = useState("Jun 24, 2022 · Today");
   const [inviteOpen, setInviteOpen] = useState(false);

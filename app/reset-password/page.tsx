@@ -81,7 +81,7 @@ function ResetPasswordForm() {
         <div className="min-h-screen flex items-center justify-center px-4 py-12"
             style={{ background: "linear-gradient(160deg, #f0faf7 0%, #e8f5f2 50%, #ffffff 100%)" }}>
 
-            <div className="w-full max-w-[440px] flex flex-col items-center gap-8">
+            <div className="w-full max-w-110 flex flex-col items-center gap-8">
                 {/* Logo */}
                 <Link href="/" aria-label="Go to homepage">
                     <AushadhamLogo variant="teal" size="md" />

@@ -22,7 +22,7 @@ type View = "signin" | "signup" | "doctor-onboarding" | "forgot-password";
 ───────────────────────────────────────────── */
 function PanelIllustration({ view }: { view: View }) {
     return (
-        <svg viewBox="0 0 240 260" fill="none" className="w-full h-auto max-w-[210px]">
+        <svg viewBox="0 0 240 260" fill="none" className="w-full h-auto max-w-52.5">
             <circle cx="120" cy="130" r="108" fill="white" opacity="0.05" />
             <circle cx="120" cy="130" r="78"  fill="white" opacity="0.04" />
 
@@ -134,7 +134,7 @@ function LeftPanel({ view }: { view: View }) {
     return (
         <div
             ref={panelRef}
-            className="hidden lg:flex w-[260px] shrink-0 flex-col items-center justify-between px-6 py-8"
+            className="hidden lg:flex w-65 shrink-0 flex-col items-center justify-between px-6 py-8"
             style={{ background: "linear-gradient(160deg, #065b4b 0%, #1a7a65 52%, #228573 100%)" }}
         >
             <AushadhamLogo variant="white" size="sm" />
@@ -899,7 +899,7 @@ export default function AuthModal() {
     if (!mounted || !isOpen) return null;
 
     return createPortal(
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-5"
+        <div className="fixed inset-0 z-9999 flex items-center justify-center p-3 sm:p-5"
             aria-modal="true" role="dialog" aria-label="Aushadham authentication">
 
             <div
@@ -911,7 +911,7 @@ export default function AuthModal() {
 
             <div
                 ref={modalRef}
-                className="relative z-10 w-full max-w-[860px] max-h-[92vh] flex rounded-3xl overflow-hidden"
+                className="relative z-10 w-full max-w-215 max-h-[92vh] flex rounded-3xl overflow-hidden"
                 style={{ boxShadow: "0 32px 80px rgba(0,0,0,0.28), 0 8px 32px rgba(0,0,0,0.16)" }}
                 onClick={e => e.stopPropagation()}
             >
@@ -928,7 +928,7 @@ export default function AuthModal() {
 
                 <div className="flex-1 bg-white overflow-y-auto" style={{ scrollbarWidth: "none" }}>
                     <div className="min-h-full flex items-start lg:items-center justify-center px-7 py-7 md:px-10">
-                        <div ref={contentRef} className="w-full max-w-[400px]">
+                        <div ref={contentRef} className="w-full max-w-100">
                             {currentView === "signin"             && <SignInView            onSwitch={switchView} onSuccess={handleAuthSuccess} />}
                             {currentView === "signup"             && <SignUpView             onSwitch={switchView} onSuccess={handleAuthSuccess} />}
                             {currentView === "doctor-onboarding"  && <DoctorOnboardingView  onSwitch={switchView} />}

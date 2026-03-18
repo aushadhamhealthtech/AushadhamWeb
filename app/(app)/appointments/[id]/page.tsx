@@ -233,7 +233,7 @@ function PatientSidebar({ patient }: { patient: any }) {
         <h3 className="text-base font-bold text-gray-800 mt-3">{patient.name}</h3>
         <div className="flex items-center gap-2 mt-2">
           <span className="text-sm text-gray-600">Diagnosed :</span>
-          {patient.diagnosed.map((d, i) => (
+          {patient.diagnosed.map((d: string, i: number) => (
             <span key={d}>
               <span className="text-sm font-semibold text-red-500">{d}</span>
               {i < patient.diagnosed.length - 1 && (

@@ -147,9 +147,12 @@ export default function HeroSection() {
         }
 
         // Stats count-up triggered on scroll
-        const statList: StatDef[] = heroStats
-            .map((stat, i) => ({ el: statRefs.current[i], num: stat.num, suffix: stat.suffix, decimals: stat.decimals }))
-            .filter((s): s is StatDef => s.el !== null);
+        const statList: StatDef[] = heroStats.flatMap((stat, i) => {
+            const el = statRefs.current[i];
+            return el
+                ? [{ el, num: stat.num, suffix: stat.suffix, decimals: stat.decimals }]
+                : [];
+        });
         animateCounters(statList);
     }, { scope: containerRef });
 
