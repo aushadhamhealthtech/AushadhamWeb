@@ -34,11 +34,11 @@ function DoctorFigure({ mirror = false }: { mirror?: boolean }) {
 }
 
 const features = [
-  { icon: ClipboardList, label: "Patient Management",   color: "#f59e0b", bg: "#fef3c7" },
-  { icon: Pill,          label: "Digital Prescriptions", color: "#ef4444", bg: "#fee2e2" },
-  { icon: CalendarDays,  label: "Smart Scheduling",      color: "#3b82f6", bg: "#dbeafe" },
-  { icon: TrendingUp,    label: "Revenue Insights",      color: "#8b5cf6", bg: "#ede9fe" },
-  { icon: Users,         label: "Expert Network",        color: "#f59e0b", bg: "#fef9eb" },
+  { icon: ClipboardList, label: "Patient Management",   color: "#d97706", bg: "#fef3c7" },
+  { icon: Pill,          label: "Digital Prescriptions", color: "#dc2626", bg: "#fee2e2" },
+  { icon: CalendarDays,  label: "Smart Scheduling",      color: "#2563eb", bg: "#dbeafe" },
+  { icon: TrendingUp,    label: "Revenue Insights",      color: "#7c3aed", bg: "#ede9fe" },
+  { icon: Users,         label: "Expert Network",        color: "#d97706", bg: "#fef9eb" },
 ];
 
 export default function DoctorsCTASection() {
@@ -70,14 +70,14 @@ export default function DoctorsCTASection() {
             {/* Feature icons grid */}
             <div className="w-full max-w-3xl bg-white rounded-3xl p-6 shadow-sm border border-[#e8f5f2] flex flex-wrap items-center justify-center gap-6 md:gap-10 my-2">
               {features.map((item) => (
-                <div key={item.label} className="feature-icon flex flex-col items-center gap-2 min-w-[90px]">
+                <div key={item.label} className="feature-icon flex flex-col items-center gap-2.5 min-w-[90px] group cursor-pointer">
                   <div
-                    className="icon-bg w-14 h-14 rounded-2xl flex items-center justify-center shadow-sm"
+                    className="icon-bg w-16 h-16 rounded-2xl flex items-center justify-center shadow-sm transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-1 group-hover:shadow-md"
                     style={{ backgroundColor: item.bg }}
                   >
-                    <item.icon size={28} style={{ color: item.color }} strokeWidth={1.5} />
+                    <item.icon size={30} style={{ color: item.color }} strokeWidth={1.8} className="transition-transform duration-300 group-hover:scale-110" />
                   </div>
-                  <span className="text-xs font-semibold" style={{ color: "#065b4b" }}>{item.label}</span>
+                  <span className="text-xs font-bold transition-colors duration-300 group-hover:text-[#228573]" style={{ color: "#065b4b" }}>{item.label}</span>
                 </div>
               ))}
             </div>
