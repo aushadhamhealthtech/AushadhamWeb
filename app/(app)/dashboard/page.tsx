@@ -278,7 +278,7 @@ export default function DashboardPage() {
                   ))}
                 </div>
                 <Button asChild variant="link" className="text-orange-500 text-sm p-0 h-auto gap-1 font-medium">
-                  <Link href="/patients">
+                  <Link href="/appointments">
                     All reports
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
