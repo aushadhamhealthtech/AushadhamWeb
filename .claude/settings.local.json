@@ -15,7 +15,15 @@
       "mcp__context7__resolve-library-id",
       "mcp__context7__query-docs",
       "Bash(curl -s -X POST http://localhost:3000/api/test-email | python3 -m json.tool)",
-      "Bash(mkdir -p /Users/varunmatta/Drive/Projects/Aushadham/prod-varunmatta/app/api/docs && mkdir -p /Users/varunmatta/Drive/Projects/Aushadham/prod-varunmatta/app/api/openapi)"
+      "Bash(mkdir -p /Users/varunmatta/Drive/Projects/Aushadham/prod-varunmatta/app/api/docs && mkdir -p /Users/varunmatta/Drive/Projects/Aushadham/prod-varunmatta/app/api/openapi)",
+      "Bash(npx next:*)",
+      "Bash(npm run:*)",
+      "Bash(ls node_modules/better-auth/react*)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(d.get\\(''''version'''',''''''''\\)\\); [print\\(k\\) for k in list\\(d.get\\(''''exports'''',{}\\).keys\\(\\)\\)[:20]]\")",
+      "Bash(node -e \"const pkg=require\\(''./node_modules/better-auth/package.json''\\); console.log\\(JSON.stringify\\(pkg.exports[''./react''], null, 2\\)\\)\")",
+      "Bash(pkill -f 'next dev')",
+      "Bash(rm -rf .next)",
+      "Bash(curl:*)"
     ]
   },
   "enabledMcpjsonServers": [
