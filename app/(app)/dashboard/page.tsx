@@ -2,76 +2,89 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Share2, TrendingUp, TrendingDown, ArrowUpRight } from "lucide-react";
+import { Share2, TrendingUp, TrendingDown } from "lucide-react";
 import PatientsChart from "@/components/dashboard/PatientsChart";
-import AppointmentsPanel from "@/components/dashboard/AppointmentsPanel";
 import { DateSelector } from "@/components/DateSelector";
 import { InviteDialog } from "@/components/InviteDialog";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { FileText, ChevronRight, Activity } from "lucide-react";
+import { getFilteredNotifications } from "@/lib/notifications-data";
 
-const stats = [
-  {
-    title: "Total patients",
-    value: "1,250",
-    change: "+4.8%",
-    up: true,
+type Period = "daily" | "weekly" | "monthly";
+
+type PeriodSnapshot = {
+  label: string;
+  stats: {
+    patients: { value: string; change: string; up: boolean };
+    pending: { value: string; change: string; up: boolean };
+    regular: { value: string; change: string; up: boolean };
+    subscribed: { value: string; change: string; up: boolean };
+    booking: { percent: number; value: string; change: string };
+  };
+  metrics: {
+    inProcess: string;
+    change: string;
+    completed: string;
+    cancelled: string;
+  };
+};
+
+const periodSnapshots: Record<Period, PeriodSnapshot> = {
+  daily: {
+    label: "from yesterday",
+    stats: {
+      patients: { value: "180", change: "+2.4%", up: true },
+      pending: { value: "12", change: "-8.0%", up: false },
+      regular: { value: "30", change: "-4.3%", up: false },
+      subscribed: { value: "42", change: "+1.8%", up: true },
+      booking: { percent: 78, value: "42", change: "+1.8%" },
+    },
+    metrics: { inProcess: "18", change: "+6%", completed: "29", cancelled: "2" },
+  },
+  weekly: {
     label: "from last week",
-    iconBg: "bg-blue-100",
-    iconColor: "text-blue-500",
+    stats: {
+      patients: { value: "1,250", change: "+4.8%", up: true },
+      pending: { value: "60", change: "-25%", up: false },
+      regular: { value: "60", change: "-20%", up: false },
+      subscribed: { value: "100", change: "+3.6%", up: true },
+      booking: { percent: 100, value: "100", change: "+3.6%" },
+    },
+    metrics: { inProcess: "40", change: "+12%", completed: "68", cancelled: "5" },
   },
-  {
-    title: "In pending",
-    value: "60",
-    change: "-25%",
-    up: false,
-    label: "from last week",
-    iconBg: "bg-pink-100",
-    iconColor: "text-pink-500",
+  monthly: {
+    label: "from last month",
+    stats: {
+      patients: { value: "4,980", change: "+7.9%", up: true },
+      pending: { value: "210", change: "-18%", up: false },
+      regular: { value: "235", change: "-9.4%", up: false },
+      subscribed: { value: "420", change: "+6.1%", up: true },
+      booking: { percent: 92, value: "420", change: "+6.1%" },
+    },
+    metrics: { inProcess: "132", change: "+18%", completed: "298", cancelled: "17" },
   },
-  {
-    title: "Total Booking",
-    value: null,
-    donut: true,
-    percent: 100,
-    iconBg: "bg-teal-100",
-    iconColor: "text-teal-500",
-    change: "",
-    up: true,
-    label: "",
-  },
-  {
-    title: "Regular",
-    value: "60",
-    change: "-20%",
-    up: false,
-    label: "from last week",
-    iconBg: "bg-orange-100",
-    iconColor: "text-orange-500",
-  },
-  {
-    title: "Subscribed",
-    value: "100",
-    change: "+3.6%",
-    up: true,
-    label: "from last week",
-    iconBg: "bg-purple-100",
-    iconColor: "text-purple-500",
-  },
-  {
-    title: "",
-    value: "100",
-    change: "+3.6%",
-    up: true,
-    label: "from last week",
-    iconBg: "bg-teal-100",
-    iconColor: "text-teal-500",
-    noTitle: true,
-  },
-];
+};
+
+type StatItem = {
+  title: string;
+  value: string | null;
+  change: string;
+  up: boolean;
+  label: string;
+  iconBg: string;
+  iconColor: string;
+  donut?: boolean;
+  percent?: number;
+  summaryValue?: string;
+  summaryChange?: string;
+  summaryLabel?: string;
+};
 
 function DonutChart({ percent }: { percent: number }) {
   const r = 36;
@@ -95,11 +108,11 @@ function DonutChart({ percent }: { percent: number }) {
   );
 }
 
-function StatCard({ stat }: { stat: (typeof stats)[0] }) {
+function StatCard({ stat }: { stat: StatItem }) {
   return (
-    <Card className="rounded-2xl p-4 flex flex-col gap-3 min-w-0 shadow-sm border-gray-100">
+    <Card className="rounded-2xl p-4 h-full flex flex-col gap-3 min-w-0 shadow-sm border-gray-100">
       {stat.donut ? (
-        <div className="flex flex-col items-start gap-2">
+        <div className="flex h-full flex-col items-start justify-between">
           <div className="flex items-center gap-2">
             <div className={`w-9 h-9 rounded-full ${stat.iconBg} flex items-center justify-center`}>
               <svg className={`w-5 h-5 ${stat.iconColor}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -108,8 +121,16 @@ function StatCard({ stat }: { stat: (typeof stats)[0] }) {
             </div>
             <span className="text-sm font-medium text-gray-600">{stat.title}</span>
           </div>
-          <div className="relative flex items-center justify-center w-full">
+          <div className="relative flex flex-1 items-center justify-center w-full">
             <DonutChart percent={stat.percent!} />
+          </div>
+          <div>
+            <p className="text-2xl font-bold text-gray-800">{stat.summaryValue}</p>
+            <div className="flex items-center gap-1 mt-1">
+              <TrendingUp className="w-3 h-3 text-teal-500" />
+              <span className="text-xs font-medium text-teal-600">{stat.summaryChange}</span>
+              <span className="text-xs text-gray-400">{stat.summaryLabel}</span>
+            </div>
           </div>
         </div>
       ) : (
@@ -122,7 +143,7 @@ function StatCard({ stat }: { stat: (typeof stats)[0] }) {
             </div>
             {!stat.noTitle && <span className="text-sm font-medium text-gray-600">{stat.title}</span>}
           </div>
-          <div>
+          <div className="mt-auto">
             <p className="text-2xl font-bold text-gray-800">{stat.value}</p>
             <div className="flex items-center gap-1 mt-1">
               {stat.up ? (
@@ -145,6 +166,64 @@ function StatCard({ stat }: { stat: (typeof stats)[0] }) {
 export default function DashboardPage() {
   const [mounted, setMounted] = useState(false);
   const [inviteOpen, setInviteOpen] = useState(false);
+  const [metricsExpanded, setMetricsExpanded] = useState(false);
+  const [period, setPeriod] = useState<Period>("daily");
+  const subscribedUpdates = getFilteredNotifications("updates", "subscribed");
+  const regularUpdates = getFilteredNotifications("updates", "regular");
+  const snapshot = periodSnapshots[period];
+
+  const stats: StatItem[] = [
+    {
+      title: "Total patients",
+      value: snapshot.stats.patients.value,
+      change: snapshot.stats.patients.change,
+      up: snapshot.stats.patients.up,
+      label: snapshot.label,
+      iconBg: "bg-blue-100",
+      iconColor: "text-blue-500",
+    },
+    {
+      title: "In pending",
+      value: snapshot.stats.pending.value,
+      change: snapshot.stats.pending.change,
+      up: snapshot.stats.pending.up,
+      label: snapshot.label,
+      iconBg: "bg-pink-100",
+      iconColor: "text-pink-500",
+    },
+    {
+      title: "Total Booking",
+      value: null,
+      donut: true,
+      percent: snapshot.stats.booking.percent,
+      summaryValue: snapshot.stats.booking.value,
+      summaryChange: snapshot.stats.booking.change,
+      summaryLabel: snapshot.label,
+      iconBg: "bg-teal-100",
+      iconColor: "text-teal-500",
+      change: "",
+      up: true,
+      label: "",
+    },
+    {
+      title: "Regular",
+      value: snapshot.stats.regular.value,
+      change: snapshot.stats.regular.change,
+      up: snapshot.stats.regular.up,
+      label: snapshot.label,
+      iconBg: "bg-orange-100",
+      iconColor: "text-orange-500",
+    },
+    {
+      title: "Subscribed",
+      value: snapshot.stats.subscribed.value,
+      change: snapshot.stats.subscribed.change,
+      up: snapshot.stats.subscribed.up,
+      label: snapshot.label,
+      iconBg: "bg-purple-100",
+      iconColor: "text-purple-500",
+    },
+  ];
 
   useEffect(() => {
     setMounted(true);
@@ -174,14 +253,14 @@ export default function DashboardPage() {
 
       <InviteDialog open={inviteOpen} onOpenChange={setInviteOpen} />
 
-      {/* Main content + appointments panel */}
+      {/* Main content + right sidebar */}
       <div className="flex flex-1 overflow-hidden">
         {/* Scrollable main area */}
         <main className="flex-1 overflow-y-auto px-6 py-5 space-y-5">
           {/* Period selector */}
           <div className="flex items-center gap-2">
             {mounted ? (
-              <Select defaultValue="weekly">
+              <Select value={period} onValueChange={(value) => setPeriod(value as Period)}>
                 <SelectTrigger className="w-28 h-8 text-sm font-semibold text-gray-700 border-none shadow-none focus:ring-0 px-0">
                   <SelectValue />
                 </SelectTrigger>
@@ -197,101 +276,147 @@ export default function DashboardPage() {
           </div>
 
           {/* Stats grid */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 auto-rows-[13rem] gap-4">
             {stats.map((stat, i) => (
-              <StatCard key={i} stat={stat} />
+              <div key={i} className={stat.donut ? "row-span-2" : ""}>
+                <StatCard stat={stat} />
+              </div>
             ))}
           </div>
 
           {/* Chart + Revenue row */}
           <div className="flex gap-4">
             <PatientsChart />
-
-            {/* Revenue card */}
-            <Card className="rounded-2xl w-48 shrink-0 flex flex-col justify-between shadow-sm border-gray-100">
-              <CardHeader className="pb-0 pt-5 px-5">
-                <CardTitle className="text-sm font-semibold text-gray-800">Revenues</CardTitle>
-              </CardHeader>
-              <CardContent className="px-5 pb-5">
-                <div className="flex items-center gap-1 mt-2">
-                  <span className="text-4xl font-bold text-gray-800">15%</span>
-                  <ArrowUpRight className="w-6 h-6 text-teal-500" />
-                </div>
-                <p className="text-xs text-gray-500 mt-1">Increase compared to last week</p>
-                <Button variant="link" className="text-orange-500 text-xs p-0 h-auto mt-2 gap-1 font-medium">
-                  Revenues report
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </Button>
-              </CardContent>
-            </Card>
           </div>
 
-          {/* Chats + Lab Reports */}
-          <div className="grid grid-cols-2 gap-4">
-            {/* Chats */}
-            <Card className="rounded-2xl shadow-sm border-gray-100">
-              <CardContent className="p-5">
-                <div className="flex items-center gap-2 mb-1">
-                  <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                  </svg>
-                  <h3 className="font-semibold text-gray-800">Chats</h3>
-                  <Badge className="ml-auto bg-orange-100 text-orange-600 hover:bg-orange-100 text-[10px]">2 unread</Badge>
-                </div>
-                <p className="text-xs text-gray-400 mb-3">2 unread messages</p>
-                <div className="flex -space-x-2 mb-4">
-                  {["RS", "AK", "VM", "NB"].map((init, i) => (
-                    <Avatar key={i} className="w-9 h-9 border-2 border-white">
-                      <AvatarFallback className="bg-linear-to-br from-teal-400 to-blue-500 text-white text-xs font-semibold">{init}</AvatarFallback>
-                    </Avatar>
-                  ))}
-                </div>
-                <Button asChild variant="link" className="text-orange-500 text-sm p-0 h-auto gap-1 font-medium">
-                  <Link href="/messages">
-                    All messages
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* Lab Reports */}
-            <Card className="rounded-2xl shadow-sm border-gray-100">
-              <CardContent className="p-5">
-                <div className="flex items-center gap-2 mb-1">
-                  <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  <h3 className="font-semibold text-gray-800">Lab Reports</h3>
-                  <Badge className="ml-auto bg-orange-100 text-orange-600 hover:bg-orange-100 text-[10px]">2 unread</Badge>
-                </div>
-                <p className="text-xs text-gray-400 mb-3">2 unread messages</p>
-                <div className="flex -space-x-2 mb-4">
-                  {["RK", "SP", "LI", "AR"].map((init, i) => (
-                    <Avatar key={i} className="w-9 h-9 border-2 border-white">
-                      <AvatarFallback className="bg-linear-to-br from-purple-400 to-pink-500 text-white text-xs font-semibold">{init}</AvatarFallback>
-                    </Avatar>
-                  ))}
-                </div>
-                <Button asChild variant="link" className="text-orange-500 text-sm p-0 h-auto gap-1 font-medium">
-                  <Link href="/appointments">
-                    All reports
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
         </main>
 
-        {/* Right appointments panel */}
-        <AppointmentsPanel />
+        {/* Right Sidebar - Metrics & Updates (same as Home page) */}
+        <aside className="w-80 shrink-0 border-l border-gray-100 bg-white overflow-y-auto p-5 space-y-5">
+          {/* Metrics Card */}
+          <Card className="rounded-2xl shadow-sm border border-gray-100">
+            <CardContent className="p-5">
+              <div className="flex justify-end mb-4">
+                <Select value={period} onValueChange={(value) => setPeriod(value as Period)}>
+                  <SelectTrigger className="h-8 w-28 rounded-xl text-sm font-medium border-gray-200">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="daily">Daily</SelectItem>
+                    <SelectItem value="weekly">Weekly</SelectItem>
+                    <SelectItem value="monthly">Monthly</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div
+                className={`overflow-hidden transition-all duration-300 ${metricsExpanded ? "max-h-100" : "max-h-26"}`}
+              >
+                <div className="flex flex-col items-center gap-2 py-2">
+                  <div className="w-14 h-14 rounded-2xl bg-emerald-50 flex items-center justify-center border border-emerald-100">
+                    <Activity className="w-7 h-7 text-emerald-600" />
+                  </div>
+                  <p className="text-sm text-gray-500 font-medium mt-1">In-process</p>
+                  <p className="text-3xl font-bold text-gray-800">{snapshot.metrics.inProcess}</p>
+                  <div className="flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold bg-emerald-50 text-emerald-600">
+                    <TrendingUp className="w-3.5 h-3.5" />
+                    {snapshot.metrics.change} vs {period === "daily" ? "yesterday" : period === "weekly" ? "last week" : "last month"}
+                  </div>
+                </div>
+                <Separator className="my-3" />
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="text-center">
+                    <p className="text-xs text-gray-400 font-medium mb-0.5">Completed</p>
+                    <p className="text-lg font-bold text-emerald-600">{snapshot.metrics.completed}</p>
+                  </div>
+                  <div className="text-center border-l border-gray-100">
+                    <p className="text-xs text-gray-400 font-medium mb-0.5">Cancelled</p>
+                    <p className="text-lg font-bold text-red-400">{snapshot.metrics.cancelled}</p>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-2 flex justify-end">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 px-2 text-xs text-teal-600"
+                  onClick={() => setMetricsExpanded((v) => !v)}
+                >
+                  {metricsExpanded ? "Show less" : "Show more"}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Updates Panel */}
+          <Card className="rounded-2xl shadow-sm border border-gray-100">
+            <CardHeader className="pb-0 pt-5 px-5 flex flex-row items-center justify-between">
+              <h3 className="text-base font-bold text-gray-800">Updates</h3>
+              <Button asChild variant="ghost" size="sm" className="h-7 px-2 text-xs text-teal-600">
+                <Link href="/notifications?tab=updates">View all</Link>
+              </Button>
+            </CardHeader>
+            <CardContent className="px-5 pb-5 pt-3">
+              <Tabs defaultValue="subscribed">
+                <TabsList className="w-full rounded-xl bg-gray-50 p-1 border border-gray-100 mb-3">
+                  <TabsTrigger value="subscribed" className="flex-1 rounded-lg text-sm data-[state=active]:bg-white data-[state=active]:text-emerald-700 data-[state=active]:shadow-sm">
+                    Subscribed
+                  </TabsTrigger>
+                  <TabsTrigger value="regular" className="flex-1 rounded-lg text-sm data-[state=active]:bg-white data-[state=active]:text-emerald-700 data-[state=active]:shadow-sm">
+                    Regular
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="subscribed">
+                  <ScrollArea className="h-112">
+                    <div className="space-y-1 pb-9">
+                      {subscribedUpdates.map((update, idx) => (
+                        <div key={update.id}>
+                          <div className="flex items-start gap-3 py-3 px-1 hover:bg-gray-50 rounded-lg cursor-pointer">
+                            <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 bg-amber-50 border border-amber-100">
+                              <FileText className="w-4 h-4 text-amber-500" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-1.5">
+                                <p className="text-sm font-semibold text-gray-800">{update.title}</p>
+                                <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+                              </div>
+                              <p className="text-xs text-gray-400 mt-0.5 truncate">{update.subtitle}</p>
+                              <p className="text-xs text-gray-400">{update.time}</p>
+                            </div>
+                            <ChevronRight className="w-4 h-4 text-gray-300 shrink-0 mt-2" />
+                          </div>
+                          {idx < subscribedUpdates.length - 1 && <Separator />}
+                        </div>
+                      ))}
+                    </div>
+                  </ScrollArea>
+                </TabsContent>
+                <TabsContent value="regular">
+                  <ScrollArea className="h-112">
+                    <div className="space-y-1 pb-9">
+                      {regularUpdates.map((update, idx) => (
+                        <div key={update.id}>
+                          <div className="flex items-start gap-3 py-3 px-1 hover:bg-gray-50 rounded-lg cursor-pointer">
+                            <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 bg-gray-50 border border-gray-100">
+                              <FileText className="w-4 h-4 text-gray-400" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-gray-600">{update.title}</p>
+                              <p className="text-xs text-gray-400 mt-0.5 truncate">{update.subtitle}</p>
+                              <p className="text-xs text-gray-400">{update.time}</p>
+                            </div>
+                            <ChevronRight className="w-4 h-4 text-gray-300 shrink-0 mt-2" />
+                          </div>
+                          {idx < regularUpdates.length - 1 && <Separator />}
+                        </div>
+                      ))}
+                    </div>
+                  </ScrollArea>
+                </TabsContent>
+              </Tabs>
+            </CardContent>
+          </Card>
+        </aside>
       </div>
     </div>
   );

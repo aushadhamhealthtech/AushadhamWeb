@@ -32,6 +32,7 @@ const appointments = [
 
 export default function HomePage() {
   const [inviteOpen, setInviteOpen] = useState(false);
+  const [metricsExpanded, setMetricsExpanded] = useState(false);
   const emergencyMessages = getFilteredNotifications("emergency", "all").slice(0, 2);
   const subscribedUpdates = getFilteredNotifications("updates", "subscribed");
   const regularUpdates = getFilteredNotifications("updates", "regular");
@@ -188,13 +189,15 @@ export default function HomePage() {
                   </SelectContent>
                 </Select>
               </div>
-              <ScrollArea className="h-45">
+              <div
+                className={`overflow-hidden transition-all duration-300 ${metricsExpanded ? "max-h-100" : "max-h-26"}`}
+              >
                 <div className="flex flex-col items-center gap-2 py-2">
                   <div className="w-14 h-14 rounded-2xl bg-emerald-50 flex items-center justify-center border border-emerald-100">
                     <Activity className="w-7 h-7 text-emerald-600" />
                   </div>
                   <p className="text-sm text-gray-500 font-medium mt-1">In-process</p>
-                  <p className="text-5xl font-bold text-gray-800">40</p>
+                  <p className="text-3xl font-bold text-gray-800">40</p>
                   <div className="flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold bg-emerald-50 text-emerald-600">
                     <TrendingUp className="w-3.5 h-3.5" />
                     +12% vs last week
@@ -211,14 +214,28 @@ export default function HomePage() {
                     <p className="text-lg font-bold text-red-400">5</p>
                   </div>
                 </div>
-              </ScrollArea>
+              </div>
+              <div className="mt-2 flex justify-end">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 px-2 text-xs text-teal-600"
+                  onClick={() => setMetricsExpanded((v) => !v)}
+                >
+                  {metricsExpanded ? "Show less" : "Show more"}
+                </Button>
+              </div>
             </CardContent>
           </Card>
 
           {/* Updates Panel */}
           <Card className="rounded-2xl shadow-sm border border-gray-100">
-            <CardHeader className="pb-0 pt-5 px-5">
+            <CardHeader className="pb-0 pt-5 px-5 flex flex-row items-center justify-between">
               <h3 className="text-base font-bold text-gray-800">Updates</h3>
+              <Button asChild variant="ghost" size="sm" className="h-7 px-2 text-xs text-teal-600">
+                <Link href="/notifications?tab=updates">View all</Link>
+              </Button>
             </CardHeader>
             <CardContent className="px-5 pb-5 pt-3">
               <Tabs defaultValue="subscribed">
@@ -231,7 +248,7 @@ export default function HomePage() {
                   </TabsTrigger>
                 </TabsList>
                 <TabsContent value="subscribed">
-                  <ScrollArea className="h-72">
+                  <ScrollArea className="h-112">
                     <div className="space-y-1 pb-9">
                       {subscribedUpdates.map((update, idx) => (
                         <div key={update.id}>
@@ -254,14 +271,9 @@ export default function HomePage() {
                       ))}
                     </div>
                   </ScrollArea>
-                  <div className="mt-1 flex justify-end">
-                    <Button asChild variant="ghost" size="sm" className="h-7 px-2 text-xs text-teal-600">
-                      <Link href="/notifications?tab=updates">View all</Link>
-                    </Button>
-                  </div>
                 </TabsContent>
                 <TabsContent value="regular">
-                  <ScrollArea className="h-72">
+                  <ScrollArea className="h-112">
                     <div className="space-y-1 pb-9">
                       {regularUpdates.map((update, idx) => (
                         <div key={update.id}>
@@ -281,11 +293,6 @@ export default function HomePage() {
                       ))}
                     </div>
                   </ScrollArea>
-                  <div className="mt-1 flex justify-end">
-                    <Button asChild variant="ghost" size="sm" className="h-7 px-2 text-xs text-teal-600">
-                      <Link href="/notifications?tab=updates">View all</Link>
-                    </Button>
-                  </div>
                 </TabsContent>
               </Tabs>
             </CardContent>
