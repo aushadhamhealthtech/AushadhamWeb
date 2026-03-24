@@ -16,51 +16,66 @@ export default function AnimationProvider({ children }: { children: React.ReactN
             if (doctorsSection) {
                 const featureIconEls = Array.from(doctorsSection.querySelectorAll<HTMLElement>(".feature-icon"));
                 if (featureIconEls.length) {
-                    // 1. Colored background pops in with a bouncy scale
-                    const iconBgs = featureIconEls.map((el) => el.querySelector(".icon-bg")).filter(Boolean);
-                    gsap.from(iconBgs, {
-                        scrollTrigger: { trigger: doctorsSection, start: "top 70%", once: true },
-                        scale: 0,
-                        duration: 0.45,
-                        stagger: 0.13,
-                        ease: "back.out(1.7)",
-                    });
+                    // If already in view, skip animations so icons aren't stuck at scale: 0
+                    const dRect = doctorsSection.getBoundingClientRect();
+                    if (dRect.top < window.innerHeight) {
+                        // Already visible — no animation needed
+                    } else {
+                        // 1. Colored background pops in with a bouncy scale
+                        const iconBgs = featureIconEls.map((el) => el.querySelector(".icon-bg")).filter(Boolean);
+                        gsap.from(iconBgs, {
+                            scrollTrigger: { trigger: doctorsSection, start: "top 70%", once: true },
+                            scale: 0,
+                            duration: 0.45,
+                            stagger: 0.13,
+                            ease: "back.out(1.7)",
+                        });
 
-                    // 2. SVG paths are drawn via strokeDashoffset (creates a "being sketched" effect)
-                    featureIconEls.forEach((iconEl, i) => {
-                        const paths = Array.from(
-                            iconEl.querySelectorAll("svg path, svg circle, svg line, svg polyline, svg rect, svg ellipse")
-                        ) as SVGGeometryElement[];
-                        if (!paths.length) return;
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        gsap.fromTo(
-                            paths,
-                            {
-                                strokeDasharray: (_: number, el: SVGGeometryElement) => el.getTotalLength?.() ?? 60,
-                                strokeDashoffset: (_: number, el: SVGGeometryElement) => el.getTotalLength?.() ?? 60,
-                            } as any,
-                            {
-                                scrollTrigger: { trigger: doctorsSection, start: "top 70%", once: true },
-                                strokeDashoffset: 0,
-                                duration: 0.7,
-                                delay: i * 0.13 + 0.22,
-                                stagger: 0.06,
-                                ease: "power2.inOut",
-                            }
-                        );
-                    });
+                        // 2. SVG paths are drawn via strokeDashoffset (creates a "being sketched" effect)
+                        featureIconEls.forEach((iconEl, i) => {
+                            const paths = Array.from(
+                                iconEl.querySelectorAll("svg path, svg circle, svg line, svg polyline, svg rect, svg ellipse")
+                            ) as SVGGeometryElement[];
+                            if (!paths.length) return;
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            gsap.fromTo(
+                                paths,
+                                {
+                                    strokeDasharray: (_: number, el: SVGGeometryElement) => el.getTotalLength?.() ?? 60,
+                                    strokeDashoffset: (_: number, el: SVGGeometryElement) => el.getTotalLength?.() ?? 60,
+                                } as any,
+                                {
+                                    scrollTrigger: { trigger: doctorsSection, start: "top 70%", once: true },
+                                    strokeDashoffset: 0,
+                                    duration: 0.7,
+                                    delay: i * 0.13 + 0.22,
+                                    stagger: 0.06,
+                                    ease: "power2.inOut",
+                                }
+                            );
+                        });
 
-                    // 3. Labels appear after icons finish drawing
-                    const labels = featureIconEls.map((el) => el.querySelector("span")).filter(Boolean);
-                    gsap.from(labels, {
-                        scrollTrigger: { trigger: doctorsSection, start: "top 70%", once: true },
-                        opacity: 0,
-                        y: 8,
-                        duration: 0.4,
-                        delay: 0.9,
-                        stagger: 0.1,
-                        ease: "power2.out",
-                    });
+                        // 3. Labels appear after icons finish drawing
+                        const labels = featureIconEls.map((el) => el.querySelector("span")).filter(Boolean);
+                        gsap.from(labels, {
+                            scrollTrigger: { trigger: doctorsSection, start: "top 70%", once: true },
+                            opacity: 0,
+                            y: 8,
+                            duration: 0.4,
+                            delay: 0.9,
+                            stagger: 0.1,
+                            ease: "power2.out",
+                        });
+
+                        // Safety net: force icons visible after 2s if ScrollTrigger didn't fire
+                        setTimeout(() => {
+                            iconBgs.forEach((el) => {
+                                if (el && getComputedStyle(el).transform.includes("0")) {
+                                    gsap.to(el, { scale: 1, duration: 0.3 });
+                                }
+                            });
+                        }, 2000);
+                    }
                 }
             }
 
@@ -80,7 +95,7 @@ export default function AnimationProvider({ children }: { children: React.ReactN
 
                 gsap.fromTo(
                     items,
-                    { opacity: 0, y: 40 },
+                    { opacity: 0, y: 25 },
                     {
                         scrollTrigger: {
                             trigger: section,
@@ -89,8 +104,8 @@ export default function AnimationProvider({ children }: { children: React.ReactN
                         },
                         opacity: 1,
                         y: 0,
-                        duration: 0.6,
-                        stagger: 0.15,
+                        duration: 0.35,
+                        stagger: 0.1,
                         ease: "power2.out",
                     }
                 );
@@ -111,7 +126,7 @@ export default function AnimationProvider({ children }: { children: React.ReactN
             const simpleSections = gsap.utils.toArray<HTMLElement>(
                 "section:not(#hero):not(#how-it-works):not(#testimonials):not(#experts), footer"
             );
-            simpleSections.forEach((el) => revealSection(el));
+            simpleSections.forEach((el) => revealSection(el, { y: 20, duration: 0.4 }));
         });
 
         // Vercel-style hover: scale up + lift — added outside context so cleanup is manual
