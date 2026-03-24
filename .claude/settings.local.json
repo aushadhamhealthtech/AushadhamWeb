@@ -23,7 +23,8 @@
       "Bash(node -e \"const pkg=require\\(''./node_modules/better-auth/package.json''\\); console.log\\(JSON.stringify\\(pkg.exports[''./react''], null, 2\\)\\)\")",
       "Bash(pkill -f 'next dev')",
       "Bash(rm -rf .next)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(npx shadcn@latest add card button badge checkbox separator --yes)"
     ]
   },
   "enabledMcpjsonServers": [

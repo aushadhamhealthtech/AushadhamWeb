@@ -2,11 +2,23 @@
 
 import Sidebar from "@/components/layout/sidebar";
 import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardAction,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Separator } from "@/components/ui/separator";
+import {
   Plus,
-  ChevronRight,
-  FileText,
   X,
+  FileText,
+  Lock,
 } from "lucide-react";
+import Image from "next/image";
 
 /* ─── Color Palette ─── */
 const C = {
@@ -68,113 +80,342 @@ export default function PatientDashboardPage() {
         {/* ─── Top Bar ─── */}
         <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-white px-6 py-4">
           <div className="flex items-center gap-3">
-            {/* Avatar */}
-            <div className="h-12 w-12 overflow-hidden rounded-full bg-amber-100">
-              <div className="flex h-full w-full items-center justify-center text-lg font-bold text-amber-700">
-                P
-              </div>
+            <div className="h-12 w-12 overflow-hidden rounded-full">
+              <Image
+                src="/patient-priyanka.jpg"
+                alt="Priyanka"
+                width={48}
+                height={48}
+                className="h-full w-full object-cover"
+              />
             </div>
             <div>
-              <h1 className="text-xl font-bold" style={{ color: C.primary }}>
+              <h1 className="text-2xl font-extrabold" style={{ color: C.mid }}>
                 Hello Priyanka
               </h1>
-              <p className="text-sm" style={{ color: C.muted }}>
-                Patient Id: 8700549874
+              <p className="text-sm font-semibold" style={{ color: C.muted }}>
+                Patient Id:  8700549874
               </p>
             </div>
           </div>
 
-          <button
-            className="flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:opacity-90"
+          <Button
+            className="rounded-full px-5 py-2.5 text-sm font-semibold"
             style={{ backgroundColor: C.mid }}
           >
             <Plus size={16} strokeWidth={2.5} />
             New Appointment
-          </button>
+          </Button>
         </header>
 
         {/* ─── Dashboard Grid ─── */}
         <main className="p-6">
+          {/* ── Top section: 2-column grid ── */}
           <div className="grid grid-cols-1 gap-6 xl:grid-cols-[420px_1fr]">
             {/* ══════ LEFT COLUMN ══════ */}
             <div className="flex flex-col gap-6">
               {/* Upcoming Appointments */}
-              <section
-                className="rounded-2xl p-5"
-                style={{ backgroundColor: C.cardBg, border: `1px solid ${C.border}` }}
+              <Card
+                className="gap-4 rounded-2xl border py-5 shadow-none"
+                style={{ backgroundColor: C.cardBg, borderColor: C.border }}
               >
-                <div className="mb-4 flex items-center justify-between">
-                  <h2 className="text-lg font-bold" style={{ color: C.primary }}>
+                <CardHeader className="flex-row items-center justify-between px-5 py-0">
+                  <CardTitle
+                    className="text-2xl font-extrabold"
+                    style={{ color: C.primary }}
+                  >
                     Upcoming Appointments
-                  </h2>
-                  <button className="text-sm font-semibold" style={{ color: C.mid }}>
-                    View All
-                  </button>
-                </div>
+                  </CardTitle>
+                  <CardAction>
+                    <Button
+                      variant="link"
+                      className="p-0 text-sm font-semibold no-underline hover:no-underline"
+                      style={{ color: C.mid }}
+                    >
+                      View All
+                    </Button>
+                  </CardAction>
+                </CardHeader>
 
-                {/* Appointment Card */}
-                <div className="rounded-xl bg-white p-4 shadow-sm">
-                  <p className="text-sm font-bold text-gray-800">Wednesday, 20 March 2024</p>
-                  <button className="mt-1 flex items-center gap-1 text-xs font-medium text-red-500">
-                    <X size={12} /> Cancel appointment
-                  </button>
+                <CardContent className="px-5">
+                  {/* Appointment Card */}
+                  <Card className="gap-0 rounded-2xl border-0 bg-white px-5 py-5 shadow-sm">
+                    <p className="text-lg font-bold text-gray-800">
+                      Wednesday, 20 March 2024
+                    </p>
+                    <button className="mt-1 flex items-center gap-1 text-sm font-medium text-red-500">
+                      <X size={14} /> Cancel appointment
+                    </button>
 
-                  <div className="mt-4 flex gap-4">
-                    {/* Doctor photo placeholder */}
-                    <div className="flex flex-col items-center gap-1">
-                      <div className="h-20 w-20 overflow-hidden rounded-xl bg-amber-100">
-                        <div className="flex h-full w-full items-center justify-center text-2xl font-bold text-amber-700">
-                          DS
+                    <div className="mt-5 flex gap-0">
+                      {/* Doctor card (left side with bg) */}
+                      <div
+                        className="flex w-[170px] shrink-0 flex-col items-center rounded-2xl px-4 pb-4 pt-6"
+                        style={{ backgroundColor: "#f5f5f0" }}
+                      >
+                        {/* Circular doctor photo with amber background */}
+                        <div className="relative mb-3 h-[110px] w-[110px]">
+                          <div
+                            className="absolute inset-0 rounded-full"
+                            style={{ backgroundColor: "#f5c842" }}
+                          />
+                          <div className="absolute inset-0 overflow-hidden rounded-full">
+                            <Image
+                              src="/doctor-sunil.jpg"
+                              alt="Dr. Sunil Shinde"
+                              width={110}
+                              height={110}
+                              className="h-full w-full object-cover"
+                            />
+                          </div>
+                        </div>
+                        <p className="text-sm font-bold text-gray-800">
+                          Dr. Sunil Shinde
+                        </p>
+                        <p className="text-xs text-gray-500">Orthopedic</p>
+                      </div>
+
+                      {/* Right side: details + buttons */}
+                      <div className="flex flex-1 flex-col justify-between pl-5">
+                        <div className="space-y-1.5">
+                          <p className="text-base text-gray-500">
+                            Time{" "}
+                            <span className="font-bold text-gray-800">
+                              4.15 - 4.30 pm
+                            </span>
+                          </p>
+                          <p className="text-base text-gray-500">
+                            Type{" "}
+                            <span className="font-bold text-gray-800">
+                              In-person
+                            </span>
+                          </p>
+
+                          <Separator className="my-2" />
+
+                          <p
+                            className="text-base font-bold"
+                            style={{ color: C.mid }}
+                          >
+                            Reason for Appointment
+                          </p>
+                          <p className="text-base text-gray-700">Neck pain</p>
+                        </div>
+
+                        {/* Action buttons */}
+                        <div className="mt-4 flex flex-col gap-2">
+                          <Button
+                            variant="outline"
+                            className="h-11 w-full rounded-full border-0 text-base font-semibold"
+                            style={{
+                              backgroundColor: C.mint,
+                              color: C.primary,
+                            }}
+                          >
+                            Pay now
+                          </Button>
+                          <Button
+                            className="h-11 w-full rounded-full text-base font-semibold text-white"
+                            style={{ backgroundColor: C.mid }}
+                          >
+                            Reschedule
+                          </Button>
                         </div>
                       </div>
-                      <p className="text-xs font-semibold text-gray-800">Dr. Sunil Shinde</p>
-                      <p className="text-[11px] text-gray-500">Orthopedic</p>
                     </div>
+                  </Card>
 
-                    <div className="flex-1 space-y-2 text-sm">
-                      <p>
-                        Time <span className="font-bold text-gray-800">4.15 - 4.30 pm</span>
-                      </p>
-                      <p>
-                        Type <span className="font-bold text-gray-800">In-person</span>
-                      </p>
-                      <hr className="border-gray-200" />
-                      <p className="font-semibold" style={{ color: C.mid }}>
-                        Reason for Appointment
-                      </p>
-                      <p className="text-gray-700">Neck pain</p>
-                    </div>
+                  <div className="flex justify-center">
+                    <CarouselDots count={3} active={0} />
                   </div>
+                </CardContent>
+              </Card>
+            </div>
 
-                  {/* Action buttons */}
-                  <div className="mt-4 flex flex-col items-center gap-2">
-                    <button
-                      className="w-48 rounded-full py-2 text-sm font-semibold text-white"
-                      style={{ backgroundColor: C.mid }}
-                    >
-                      Pay now
-                    </button>
-                    <button
-                      className="w-48 rounded-full py-2 text-sm font-semibold text-white"
-                      style={{ backgroundColor: C.light }}
-                    >
-                      Reschedule
-                    </button>
+            {/* ══════ RIGHT COLUMN ══════ */}
+            <div className="flex flex-col gap-6">
+              {/* Basic Info */}
+              <Card
+                className="border shadow-none"
+                style={{ backgroundColor: C.cardBg, borderColor: C.border }}
+              >
+                <CardHeader className="flex-row items-center justify-between pb-0">
+                  <div className="flex items-center gap-3">
+                    <SectionIcon>
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <rect x="2" y="5" width="20" height="14" rx="2" />
+                        <path d="M2 10h20" />
+                      </svg>
+                    </SectionIcon>
+                    <CardTitle className="text-2xl font-bold text-gray-800">
+                      Basic info
+                    </CardTitle>
                   </div>
-                </div>
+                  <CardAction>
+                    <Button
+                      variant="link"
+                      className="p-0 text-sm font-semibold no-underline hover:no-underline"
+                      style={{ color: C.mid }}
+                    >
+                      Edit
+                    </Button>
+                  </CardAction>
+                </CardHeader>
 
-                <CarouselDots count={3} active={0} />
-              </section>
+                <CardContent>
+                  <div className="flex flex-wrap gap-3">
+                    {[
+                      { label: "Age", value: "35" },
+                      { label: "Weight", value: "70 kg" },
+                      { label: "Gender", value: "Female" },
+                      { label: "City", value: "Bengaluru" },
+                      { label: "Phone number", value: "+91 7555974388" },
+                    ].map((item) => (
+                      <Badge
+                        key={item.label}
+                        variant="outline"
+                        className="rounded-full bg-white px-4 py-2 text-sm font-normal"
+                        style={{ borderColor: C.border }}
+                      >
+                        <span className="text-gray-500">{item.label}</span>
+                        <span className="ml-1 font-semibold text-gray-800">
+                          {item.value}
+                        </span>
+                      </Badge>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
 
-              {/* Latest Reports */}
-              <section>
-                <div className="mb-4 flex items-center justify-between">
-                  <h2 className="text-xl font-bold text-gray-800">Latest Reports</h2>
-                  <button className="text-sm font-semibold" style={{ color: C.mid }}>
+              {/* Health Profile */}
+              <Card
+                className="border shadow-none"
+                style={{ backgroundColor: C.cardBg, borderColor: C.border }}
+              >
+                <CardHeader className="flex-row items-center justify-between pb-0">
+                  <div className="flex items-center gap-3">
+                    <SectionIcon>
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M9 12h6M12 9v6" />
+                        <rect x="3" y="3" width="18" height="18" rx="3" />
+                      </svg>
+                    </SectionIcon>
+                    <CardTitle className="text-2xl font-bold text-gray-800">
+                      Health profile
+                    </CardTitle>
+                  </div>
+                  <CardAction>
+                    <Button
+                      variant="link"
+                      className="p-0 text-sm font-semibold no-underline hover:no-underline"
+                      style={{ color: C.mid }}
+                    >
+                      View full profile
+                    </Button>
+                  </CardAction>
+                </CardHeader>
+
+                <CardContent>
+                  <div
+                    className="grid grid-cols-4 overflow-hidden rounded-xl border"
+                    style={{ borderColor: C.border }}
+                  >
+                    {/* Header row */}
+                    {[
+                      { label: "Past Health issues", highlighted: false },
+                      { label: "Present Health issues", highlighted: true },
+                      { label: "Current Diagnosis", highlighted: false },
+                      { label: "Consulting Doctors", highlighted: true },
+                    ].map((col) => (
+                      <div
+                        key={col.label}
+                        className="border-b px-4 py-3 text-xs font-medium text-gray-600"
+                        style={{
+                          backgroundColor: col.highlighted
+                            ? C.yellowTint
+                            : "white",
+                          borderColor: C.border,
+                        }}
+                      >
+                        {col.label}
+                      </div>
+                    ))}
+                    {/* Data row */}
+                    {[
+                      {
+                        value: "Diabetes,\nBlood Pressure,\nHypertension",
+                        highlighted: false,
+                      },
+                      {
+                        value: "Blood Pressure,\nHypertension",
+                        highlighted: true,
+                      },
+                      { value: "Malaria", highlighted: false },
+                      {
+                        value: "Dr. Suresh\nRadhakrishanan",
+                        highlighted: true,
+                      },
+                    ].map((col, i) => (
+                      <div
+                        key={i}
+                        className="whitespace-pre-line px-4 py-3 text-sm font-semibold text-gray-800"
+                        style={{
+                          backgroundColor: col.highlighted
+                            ? C.yellowTint
+                            : "white",
+                          borderColor: C.border,
+                        }}
+                      >
+                        {col.value}
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          {/* ── Bottom section: 3-column grid ── */}
+          <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
+            {/* Latest Reports */}
+            <Card
+              className="border shadow-none"
+              style={{ backgroundColor: C.cardBg, borderColor: C.border }}
+            >
+              <CardHeader className="flex-row items-center justify-between pb-0">
+                <CardTitle className="text-2xl font-bold text-gray-800">
+                  Latest Reports
+                </CardTitle>
+                <CardAction>
+                  <Button
+                    variant="link"
+                    className="p-0 text-sm font-semibold no-underline hover:no-underline"
+                    style={{ color: C.mid }}
+                  >
                     View All
-                  </button>
-                </div>
+                  </Button>
+                </CardAction>
+              </CardHeader>
 
+              <CardContent>
                 <div className="grid grid-cols-3 gap-3">
                   {[
                     { name: "Basic metabolic panel (BMP)", date: "1 hr ago" },
@@ -192,191 +433,135 @@ export default function PatientDashboardPage() {
                       >
                         <FileText size={24} style={{ color: C.orange }} />
                       </div>
-                      <p className="text-center text-xs font-medium text-gray-700 leading-tight">
+                      <p className="text-center text-xs font-medium leading-tight text-gray-700">
                         {report.name}
                       </p>
                       <p className="text-[11px] text-gray-400">{report.date}</p>
                     </div>
                   ))}
                 </div>
-              </section>
-            </div>
+              </CardContent>
+            </Card>
 
-            {/* ══════ RIGHT COLUMN ══════ */}
-            <div className="flex flex-col gap-6">
-              {/* Basic Info */}
-              <section
-                className="rounded-2xl p-5"
-                style={{ backgroundColor: C.cardBg, border: `1px solid ${C.border}` }}
-              >
-                <div className="mb-4 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <SectionIcon>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                        <rect x="2" y="5" width="20" height="14" rx="2" />
-                        <path d="M2 10h20" />
-                      </svg>
-                    </SectionIcon>
-                    <h2 className="text-lg font-bold text-gray-800">Basic info</h2>
-                  </div>
-                  <button className="text-sm font-semibold" style={{ color: C.mid }}>
-                    Edit
-                  </button>
-                </div>
-
-                <div className="flex flex-wrap gap-3">
-                  {[
-                    { label: "Age", value: "35" },
-                    { label: "Weight", value: "70 kg" },
-                    { label: "Gender", value: "Female" },
-                    { label: "City", value: "Bengaluru" },
-                    { label: "Phone number", value: "+91 7555974388" },
-                  ].map((item) => (
-                    <div
-                      key={item.label}
-                      className="flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm"
-                      style={{ border: `1px solid ${C.border}` }}
+            {/* Next Medication */}
+            <Card
+              className="border shadow-none"
+              style={{ backgroundColor: C.cardBg, borderColor: C.border }}
+            >
+              <CardHeader className="flex-row items-center justify-between pb-0">
+                <div className="flex items-center gap-3">
+                  <SectionIcon>
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
-                      <span className="text-gray-500">{item.label}</span>
-                      <span className="font-semibold text-gray-800">{item.value}</span>
-                    </div>
-                  ))}
+                      <rect x="3" y="3" width="18" height="18" rx="3" />
+                      <path d="M8 12h8M12 8v8" />
+                    </svg>
+                  </SectionIcon>
+                  <CardTitle className="text-2xl font-bold text-gray-800">
+                    Next Medication
+                  </CardTitle>
                 </div>
-              </section>
+                <CardAction>
+                  <Button
+                    variant="link"
+                    className="p-0 text-sm font-semibold no-underline hover:no-underline"
+                    style={{ color: C.mid }}
+                  >
+                    View all
+                  </Button>
+                </CardAction>
+              </CardHeader>
 
-              {/* Health Profile */}
-              <section
-                className="rounded-2xl p-5"
-                style={{ backgroundColor: C.cardBg, border: `1px solid ${C.border}` }}
-              >
-                <div className="mb-4 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <SectionIcon>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M9 12h6M12 9v6" />
-                        <rect x="3" y="3" width="18" height="18" rx="3" />
-                      </svg>
-                    </SectionIcon>
-                    <h2 className="text-lg font-bold text-gray-800">Health profile</h2>
-                  </div>
-                  <button className="text-sm font-semibold" style={{ color: C.mid }}>
-                    View full profile
-                  </button>
-                </div>
+              <CardContent>
+                <p className="mb-3 text-sm font-bold text-gray-800">
+                  Afternoon (1pm -3 pm)
+                </p>
 
-                <div className="grid grid-cols-4 overflow-hidden rounded-xl border" style={{ borderColor: C.border }}>
-                  {/* Header row */}
-                  {[
-                    { label: "Past Health issues", highlighted: false },
-                    { label: "Present Health issues", highlighted: true },
-                    { label: "Current Diagnosis", highlighted: false },
-                    { label: "Consulting Doctors", highlighted: true },
-                  ].map((col) => (
-                    <div
-                      key={col.label}
-                      className="border-b px-4 py-3 text-xs font-medium text-gray-600"
-                      style={{
-                        backgroundColor: col.highlighted ? C.yellowTint : "white",
-                        borderColor: C.border,
-                      }}
-                    >
-                      {col.label}
-                    </div>
-                  ))}
-                  {/* Data row */}
-                  {[
-                    { value: "Diabetes,\nBlood Pressure,\nHypertension", highlighted: false },
-                    { value: "Blood Pressure,\nHypertension", highlighted: true },
-                    { value: "Malaria", highlighted: false },
-                    { value: "Dr. Suresh\nRadhakrishanan", highlighted: true },
-                  ].map((col, i) => (
-                    <div
-                      key={i}
-                      className="whitespace-pre-line px-4 py-3 text-sm font-semibold text-gray-800"
-                      style={{
-                        backgroundColor: col.highlighted ? C.yellowTint : "white",
-                        borderColor: C.border,
-                      }}
-                    >
-                      {col.value}
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              {/* Bottom row: Medication + Meal */}
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                {/* Next Medication */}
-                <section
-                  className="rounded-2xl p-5"
-                  style={{ backgroundColor: C.cardBg, border: `1px solid ${C.border}` }}
+                <div
+                  className="divide-y"
+                  style={{ borderColor: C.border }}
                 >
-                  <div className="mb-4 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <SectionIcon>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                          <rect x="3" y="3" width="18" height="18" rx="3" />
-                          <path d="M8 12h8M12 8v8" />
-                        </svg>
-                      </SectionIcon>
-                      <h2 className="text-lg font-bold text-gray-800">Next Medication</h2>
-                    </div>
-                    <button className="text-sm font-semibold" style={{ color: C.mid }}>
-                      View all
-                    </button>
-                  </div>
-
-                  <p className="mb-3 text-sm font-bold text-gray-800">
-                    Afternoon (1pm -3 pm)
-                  </p>
-
-                  <div className="space-y-0 divide-y" style={{ borderColor: C.border }}>
-                    {[
-                      { name: "Steam inhalation", dosage: "" },
-                      { name: "Navision Drops", dosage: "3 Drops in each nostrils" },
-                      { name: "Ear Drops", dosage: "3 Drops in each ear" },
-                      { name: "Paracetomol 200 mg", dosage: "After lunch" },
-                    ].map((med) => (
-                      <div
-                        key={med.name}
-                        className="flex items-center justify-between py-2.5"
-                      >
-                        <div className="text-sm">
-                          <span className="font-medium text-gray-800">{med.name}</span>
-                          {med.dosage && (
-                            <span className="ml-2 text-xs text-gray-400">{med.dosage}</span>
-                          )}
-                        </div>
-                        <input
-                          type="checkbox"
-                          className="h-4 w-4 rounded border-gray-300 accent-[#228573]"
-                        />
+                  {[
+                    { name: "Steam inhalation", dosage: "" },
+                    {
+                      name: "Navision Drops",
+                      dosage: "3 Drops in each nostrils",
+                    },
+                    { name: "Ear Drops", dosage: "3 Drops in each ear" },
+                    { name: "Paracetomol 200 mg", dosage: "After lunch" },
+                  ].map((med) => (
+                    <div
+                      key={med.name}
+                      className="flex items-center justify-between py-2.5"
+                    >
+                      <div className="text-sm">
+                        <span className="font-medium text-gray-800">
+                          {med.name}
+                        </span>
+                        {med.dosage && (
+                          <span className="ml-2 text-xs text-gray-400">
+                            {med.dosage}
+                          </span>
+                        )}
                       </div>
-                    ))}
-                  </div>
-                </section>
-
-                {/* Next Meal */}
-                <section
-                  className="rounded-2xl p-5"
-                  style={{ backgroundColor: C.cardBg, border: `1px solid ${C.border}` }}
-                >
-                  <div className="mb-4 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <SectionIcon>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                          <circle cx="12" cy="12" r="9" />
-                          <path d="M12 7v5l3 3" />
-                        </svg>
-                      </SectionIcon>
-                      <h2 className="text-lg font-bold text-gray-800">Next Meal</h2>
+                      <Checkbox className="h-5 w-5 rounded border-gray-300" />
                     </div>
-                    <button className="text-sm font-semibold" style={{ color: C.mid }}>
-                      View all
-                    </button>
-                  </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
 
-                  <p className="mb-3 text-sm font-bold text-gray-800">Afternoon</p>
+            {/* Next Meal — blurred with lock */}
+            <Card
+              className="relative overflow-hidden border shadow-none"
+              style={{ backgroundColor: C.cardBg, borderColor: C.border }}
+            >
+              <CardHeader className="flex-row items-center justify-between pb-0">
+                <div className="flex items-center gap-3">
+                  <SectionIcon>
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="9" />
+                      <path d="M12 7v5l3 3" />
+                    </svg>
+                  </SectionIcon>
+                  <CardTitle className="text-2xl font-bold text-gray-800">
+                    Next Meal
+                  </CardTitle>
+                </div>
+                <CardAction>
+                  <Button
+                    variant="link"
+                    className="p-0 text-sm font-semibold no-underline hover:no-underline"
+                    style={{ color: C.mid }}
+                  >
+                    View all
+                  </Button>
+                </CardAction>
+              </CardHeader>
+
+              <CardContent className="relative">
+                {/* Blurred content */}
+                <div className="select-none blur-[6px]" aria-hidden="true">
+                  <p className="mb-3 text-sm font-bold text-gray-800">
+                    Afternoon
+                  </p>
 
                   <div className="space-y-3">
                     {[
@@ -398,20 +583,37 @@ export default function PatientDashboardPage() {
                           className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
                           style={{ backgroundColor: C.mint }}
                         >
-                          <span className="text-xs" style={{ color: C.mid }}>
+                          <span
+                            className="text-xs"
+                            style={{ color: C.mid }}
+                          >
                             {i === 0 ? "🍚" : "🍵"}
                           </span>
                         </div>
                         <div className="flex-1">
-                          <p className="text-sm text-gray-700 leading-snug">{item.meal}</p>
+                          <p className="text-sm leading-snug text-gray-700">
+                            {item.meal}
+                          </p>
                         </div>
-                        <span className="shrink-0 text-xs text-gray-400">{item.time}</span>
+                        <span className="shrink-0 text-xs text-gray-400">
+                          {item.time}
+                        </span>
                       </div>
                     ))}
                   </div>
-                </section>
-              </div>
-            </div>
+                </div>
+
+                {/* Lock overlay */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div
+                    className="flex h-12 w-12 items-center justify-center rounded-full shadow-lg"
+                    style={{ backgroundColor: C.orange }}
+                  >
+                    <Lock size={22} className="text-white" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </main>
       </div>
