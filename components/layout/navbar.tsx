@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Search, LogOut } from "lucide-react";
+import { Search, LogOut, Home, CalendarCheck, User, Stethoscope } from "lucide-react";
 import { useSession, signOut } from "@/lib/auth-client";
 import AushadhamLogo from "@/components/ui/logo";
 
@@ -68,15 +68,23 @@ export default function Navbar() {
         // Also watch scroll position to set "hero" when at the very top
         const handleScroll = () => {
             if (window.scrollY < 120) setActive("hero");
-            // Hide bottom bar when footer starts coming into view (400px before page bottom)
-            const distFromBottom = document.documentElement.scrollHeight - window.scrollY - window.innerHeight;
-            const nowAtBottom = distFromBottom < 400;
-            setAtBottom(prev => prev === nowAtBottom ? prev : nowAtBottom);
         };
         window.addEventListener("scroll", handleScroll, { passive: true });
 
+        // Hide mobile bottom nav when footer comes into view
+        const footer = document.getElementById("site-footer");
+        let footerObserver: IntersectionObserver | null = null;
+        if (footer) {
+            footerObserver = new IntersectionObserver(
+                ([entry]) => setAtBottom(entry.isIntersecting),
+                { rootMargin: "0px 0px 0px 0px", threshold: 0 }
+            );
+            footerObserver.observe(footer);
+        }
+
         return () => {
             observer.disconnect();
+            footerObserver?.disconnect();
             window.removeEventListener("scroll", handleScroll);
         };
     }, []);
@@ -95,27 +103,39 @@ export default function Navbar() {
                     <AushadhamLogo variant="teal" size="md" />
                 </button>
 
-                {/* Desktop Nav */}
-                <div className="hidden lg:flex items-center gap-8">
-                    {navLinks.map((link) => {
-                        const isActive = active === link.sectionId;
+                {/* Desktop Nav — icons + text with animation */}
+                <div className="hidden lg:flex items-center gap-1">
+                    {([
+                        { icon: Home,          label: "Home",         href: "/" },
+                        { icon: Stethoscope,   label: "Find Doctors", href: "/doctors" },
+                        { icon: CalendarCheck, label: "Hospitals",    href: "/hospitals" },
+                        { icon: User,          label: "About Us",     href: "/about" },
+                    ] as const).map(({ icon: Icon, label, href }) => {
+                        const isActive = href === "/" && active === "hero";
                         return (
                             <button
-                                key={link.label}
-                                onClick={() => scrollToSection(link.sectionId)}
-                                className={`text-[15px] font-semibold tracking-tight transition-all duration-200 pb-1 ${isActive
-                                    ? "border-b-2 text-[#065b4b]"
-                                    : "text-[rgba(6,91,75,0.55)] hover:text-[#228573]"
-                                    }`}
-                                style={isActive ? { borderColor: "#228573", color: "#065b4b" } : {}}
+                                key={label}
+                                onClick={() => {
+                                    if (href === "/") {
+                                        scrollToSection("hero");
+                                    } else {
+                                        router.push(href);
+                                    }
+                                }}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold transition-all duration-300 hover:scale-105 active:scale-95 ${
+                                    isActive
+                                        ? "text-[#065b4b] bg-[#e8f5f2] shadow-[0_0_0_2px_rgba(34,133,115,0.2)]"
+                                        : "text-[#1a4a3e] hover:text-[#065b4b] hover:bg-[#f0faf7]"
+                                }`}
                             >
-                                {link.label}
+                                <Icon size={18} strokeWidth={isActive ? 2.5 : 2} />
+                                {label}
                             </button>
                         );
                     })}
                     <button
                         aria-label="Search"
-                        className="transition-colors text-[rgba(6,91,75,0.55)] hover:text-[#228573]"
+                        className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-[#e8f5f2] active:scale-95 text-[#1a4a3e] hover:text-[#065b4b]"
                     >
                         <Search size={20} />
                     </button>
@@ -178,33 +198,42 @@ export default function Navbar() {
         <nav
             role="navigation"
             aria-label="Mobile navigation"
-            className={`lg:hidden fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 transition-all duration-700 ease-in-out ${
-                atBottom ? "opacity-0 pointer-events-none translate-y-2" : "opacity-100 translate-y-0"
+            className={`lg:hidden fixed bottom-0 left-0 right-0 z-50 transition-all duration-200 ease-out ${
+                atBottom ? "opacity-0 pointer-events-none translate-y-full" : "opacity-100 translate-y-0"
             }`}
             style={{ backgroundColor: "#1f5f4a" }}
         >
-            {/* All nav links */}
-            <div className="flex items-center gap-4">
-                {navLinks.map((link) => (
-                    <button
-                        key={link.label}
-                        onClick={() => scrollToSection(link.sectionId)}
-                        className={`text-[11px] font-semibold transition-colors whitespace-nowrap ${
-                            active === link.sectionId ? "text-[#7dd8c9]" : "text-white/70 hover:text-white"
-                        }`}
-                    >
-                        {link.label}
-                    </button>
-                ))}
+            <div className="flex items-center justify-around px-2 py-2.5">
+                {([
+                    { icon: Home,          label: "Home",         href: "/" },
+                    { icon: Stethoscope,   label: "Find Doctors", href: "/doctors" },
+                    { icon: CalendarCheck, label: "Hospitals",    href: "/hospitals" },
+                    { icon: Search,        label: "Search",       href: "/search" },
+                    { icon: User,          label: "About Us",     href: "/about" },
+                ] as const).map(({ icon: Icon, label, href }) => {
+                    const isActive = href === "/" && active === "hero";
+                    return (
+                        <button
+                            key={label}
+                            aria-label={label}
+                            onClick={() => {
+                                if (href === "/") {
+                                    scrollToSection("hero");
+                                } else {
+                                    router.push(href);
+                                }
+                            }}
+                            className={`w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300 active:scale-90 ${
+                                isActive
+                                    ? "text-[#7dd8c9] bg-white/15 scale-110 shadow-[0_0_12px_rgba(125,216,201,0.35)]"
+                                    : "text-white/90 hover:text-white hover:bg-white/10 hover:scale-105"
+                            }`}
+                        >
+                            <Icon size={22} strokeWidth={isActive ? 2.5 : 1.8} />
+                        </button>
+                    );
+                })}
             </div>
-
-            {/* Search icon */}
-            <button
-                aria-label="Search"
-                className="text-white/80 hover:text-white transition-colors ml-3 shrink-0"
-            >
-                <Search size={20} />
-            </button>
         </nav>
         </>
     );

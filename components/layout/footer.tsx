@@ -35,8 +35,8 @@ const footerColumns = [
 
 export default function Footer() {
     return (
-        <footer style={{ backgroundColor: "#1f5f4a" }}>
-            <div className="max-w-360 mx-auto px-6 lg:px-30.25 py-16">
+        <footer id="site-footer" style={{ backgroundColor: "#1f5f4a" }}>
+            <div className="max-w-[1440px] mx-auto px-6 lg:px-[121px] py-16">
                 {/* Main grid */}
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10 pb-10" style={{ borderBottom: "1px solid rgba(255,255,255,0.15)" }}>
 
