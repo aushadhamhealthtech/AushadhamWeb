@@ -126,7 +126,7 @@ export default function AnimationProvider({ children }: { children: React.ReactN
             const simpleSections = gsap.utils.toArray<HTMLElement>(
                 "section:not(#hero):not(#how-it-works):not(#testimonials):not(#experts), footer"
             );
-            simpleSections.forEach((el) => revealSection(el, { y: 20, duration: 0.4 }));
+            simpleSections.forEach((el) => revealSection(el));
         });
 
         // Vercel-style hover: scale up + lift — added outside context so cleanup is manual

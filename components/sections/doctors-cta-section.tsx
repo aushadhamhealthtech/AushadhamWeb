@@ -48,11 +48,11 @@ export default function DoctorsCTASection() {
       <div className="absolute top-0 left-0 w-72 h-72 rounded-full opacity-5 -translate-x-1/2 -translate-y-1/2" style={{ backgroundColor: "#3aa692" }} />
       <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full opacity-5 translate-x-1/2 translate-y-1/2" style={{ backgroundColor: "#228573" }} />
 
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-[92px] relative z-10">
+      <div className="max-w-360 mx-auto px-6 lg:px-23 relative z-10">
         {/* Doctor illustrations flanking content */}
         <div className="flex items-end justify-between gap-8">
           {/* Left doctor illustration */}
-          <div className="hidden lg:block w-[130px] shrink-0 opacity-80">
+          <div className="hidden lg:block w-32.5 shrink-0 opacity-80">
             <DoctorFigure />
           </div>
 
@@ -70,7 +70,7 @@ export default function DoctorsCTASection() {
             {/* Feature icons grid */}
             <div className="w-full max-w-3xl bg-white rounded-3xl p-6 shadow-sm border border-[#e8f5f2] flex flex-wrap items-center justify-center gap-6 md:gap-10 my-2">
               {features.map((item) => (
-                <div key={item.label} className="feature-icon flex flex-col items-center gap-2.5 min-w-[90px] group cursor-pointer">
+                <div key={item.label} className="feature-icon flex flex-col items-center gap-2.5 min-w-22.5 group cursor-pointer">
                   <div
                     className="icon-bg w-16 h-16 rounded-2xl flex items-center justify-center shadow-sm transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-1 group-hover:shadow-md"
                     style={{ backgroundColor: item.bg }}
@@ -97,7 +97,7 @@ export default function DoctorsCTASection() {
           </div>
 
           {/* Right doctor illustration (mirrored) */}
-          <div className="hidden lg:block w-[130px] shrink-0 opacity-80">
+          <div className="hidden lg:block w-32.5 shrink-0 opacity-80">
             <DoctorFigure mirror />
           </div>
         </div>
