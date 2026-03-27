@@ -84,6 +84,7 @@ type StatItem = {
   summaryValue?: string;
   summaryChange?: string;
   summaryLabel?: string;
+  noTitle?: boolean;
 };
 
 function DonutChart({ percent }: { percent: number }) {
