@@ -1,44 +1,30 @@
 import gsap from "gsap";
 
-/**
- * Sequenced entrance timeline for hero section elements.
- * Must be called inside a useGSAP() callback so GSAP context scoping applies.
- * Fixes the "button disappears" bug with clearProps on the final element.
- */
 export function animateHeroEntrance() {
-    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-    tl.from(".hero-badge", { y: 15, opacity: 0, duration: 0.5 })
-        .from(".hero-title", { y: 40, opacity: 0, duration: 1 }, "<0.1")
-        .from(".hero-desc", { y: 30, opacity: 0, duration: 0.9 }, "<0.25")
-        .from(".hero-learn-more", { y: 15, opacity: 0, duration: 0.7 }, "<0.2")
-        .fromTo(
-            ".hero-btn",
-            { y: 20, opacity: 0 },
-            // clearProps removes inline opacity/transform after completion,
-            // preventing the button from staying hidden if the tween is interrupted.
-            { y: 0, opacity: 1, duration: 0.8, clearProps: "opacity,transform" },
-            "<0.15"
-        );
-    return tl;
+  const timeline = gsap.timeline({ defaults: { ease: "power2.out" } });
+
+  timeline
+    .from(".hero-badge", { opacity: 0, y: 16, duration: 0.45 })
+    .from(".hero-title", { opacity: 0, y: 24, duration: 0.55 }, "-=0.2")
+    .from(".hero-desc", { opacity: 0, y: 20, duration: 0.45 }, "-=0.25")
+    .from(".hero-btn", { opacity: 0, y: 16, duration: 0.4, clearProps: "transform,opacity" }, "-=0.2")
+    .from(".hero-learn-more", { opacity: 0, y: 10, duration: 0.35 }, "-=0.22");
 }
 
-/** Scale+fade entrance for the hero illustration. */
-export function animateIllustrationEntrance(el: HTMLElement) {
-    return gsap.fromTo(
-        el,
-        { scale: 0.92, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 0.9, delay: 0.4, ease: "power3.out", clearProps: "transform,opacity" }
-    );
+export function animateIllustrationEntrance(element: HTMLElement) {
+  gsap.fromTo(
+    element,
+    { opacity: 0, y: 24, scale: 0.98 },
+    { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "power2.out" }
+  );
 }
 
-/** Continuous floating loop — meant to start after entrance (delay: 1.35). */
-export function animateIllustrationFloat(el: HTMLElement) {
-    return gsap.to(el, {
-        y: -10,
-        duration: 3,
-        delay: 1.35,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-    });
+export function animateIllustrationFloat(element: HTMLElement) {
+  gsap.to(element, {
+    y: -8,
+    duration: 2.8,
+    repeat: -1,
+    yoyo: true,
+    ease: "sine.inOut",
+  });
 }

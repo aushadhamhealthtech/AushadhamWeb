@@ -45,7 +45,7 @@ export default function TestimonialsSection() {
             <div className="absolute top-10 left-10 w-40 h-40 rounded-full bg-[#3aa692] opacity-5" />
             <div className="absolute bottom-10 right-10 w-56 h-56 rounded-full bg-[#228573] opacity-5" />
 
-            <div className="max-w-[1440px] mx-auto px-6 lg:px-[92px] relative z-10">
+            <div className="max-w-360 mx-auto px-6 lg:px-23 relative z-10">
                 <div className="mb-14">
                     <SectionHeading title="Patient testimonials" />
                 </div>

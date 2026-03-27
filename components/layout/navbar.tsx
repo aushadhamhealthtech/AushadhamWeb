@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Search, LogOut, Home, CalendarCheck, User, Stethoscope } from "lucide-react";
 import { useSession, signOut } from "@/lib/auth-client";
-import { useAuthModal } from "@/lib/context/auth-modal";
 import AushadhamLogo from "@/components/ui/logo";
 
 
@@ -30,7 +29,6 @@ function scrollToSection(id: string) {
 
 export default function Navbar() {
     const router = useRouter();
-    const { openSignIn, openSignUp } = useAuthModal();
     const [active, setActive] = useState("hero");
     const [atBottom, setAtBottom] = useState(false);
     const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -94,7 +92,7 @@ export default function Navbar() {
     return (
         <>
         <nav aria-label="Main navigation" className="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
-            <div className="max-w-[1440px] mx-auto px-6 lg:px-[99px] h-[76px] flex items-center justify-between">
+            <div className="max-w-360 mx-auto px-6 lg:px-24.75 h-19 flex items-center justify-between">
 
                 {/* Logo — scroll to top on click */}
                 <button
@@ -176,13 +174,13 @@ export default function Navbar() {
                     ) : (
                         <>
                             <button
-                                onClick={openSignUp}
+                                onClick={() => router.push("/dashboard")}
                                 className="px-6 py-2.5 rounded-full border border-gray-800 text-gray-900 text-sm font-semibold hover:bg-gray-50 transition-all duration-200 inline-flex items-center justify-center"
                             >
                                 Sign up
                             </button>
                             <button
-                                onClick={openSignIn}
+                                onClick={() => router.push("/dashboard")}
                                 className="px-6 py-2.5 rounded-full text-white text-sm font-semibold transition-all duration-200 shadow-sm inline-flex items-center justify-center hover:opacity-90"
                                 style={{ backgroundColor: "#3aa692" }}
                             >

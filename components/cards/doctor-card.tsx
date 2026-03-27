@@ -16,9 +16,9 @@ export default function DoctorCard({
 }: DoctorCardProps) {
     return (
         <div
-            className="bg-white rounded-3xl overflow-hidden shadow-md border border-[#e8f5f2] transition-all duration-300 ease-out hover:scale-[1.03] hover:-translate-y-1.5 hover:shadow-xl flex flex-col w-full max-w-[396px]">
+            className="bg-white rounded-3xl overflow-hidden shadow-md border border-[#e8f5f2] transition-all duration-300 ease-out hover:scale-[1.03] hover:-translate-y-1.5 hover:shadow-xl flex flex-col w-full max-w-99">
             {/* Top card with avatar */}
-            <div className="relative bg-gradient-to-br from-[#e8f5f2] to-[#c8ebe3] p-6 pb-16 min-h-[152px]">
+            <div className="relative bg-linear-to-br from-[#e8f5f2] to-[#c8ebe3] p-6 pb-16 min-h-38">
                 {/* Rating */}
                 <div className="flex items-center gap-1.5 absolute top-5 right-5">
                     <span className="text-xl font-extrabold text-[#228573]">{rating}</span>

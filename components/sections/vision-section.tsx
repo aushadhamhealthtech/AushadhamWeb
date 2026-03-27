@@ -232,7 +232,7 @@ export default function VisionSection() {
     return (
         <section id="vision" className="py-20 bg-white">
             {/* Section heading */}
-            <div className="max-w-[1440px] mx-auto px-6 lg:px-[92px]">
+            <div className="max-w-360 mx-auto px-6 lg:px-23">
                 <div className="mb-14">
                     <SectionHeading title="Our Vision" />
                 </div>
@@ -244,11 +244,11 @@ export default function VisionSection() {
                 className="overflow-x-auto cursor-grab active:cursor-grabbing select-none"
                 style={{ scrollbarWidth: "none" }}
             >
-                <div ref={trackRef} className="flex gap-4 md:gap-6 w-max px-6 lg:px-[92px] py-6">
+                <div ref={trackRef} className="flex gap-4 md:gap-6 w-max px-6 lg:px-23 py-6">
                     {marqueeCards.map((card, i) => (
                         <div
                             key={i}
-                            className={`rounded-3xl border shadow-sm flex flex-col w-[270px] md:w-[380px] flex-shrink-0 transition-transform duration-300 ease-out hover:scale-[1.05] ${
+                            className={`rounded-3xl border shadow-sm flex flex-col w-67.5 md:w-95 shrink-0 transition-transform duration-300 ease-out hover:scale-[1.05] ${
                                 card.featured
                                     ? "shadow-lg border-[#c8ebe3]"
                                     : "border-[#e8f5f2]"

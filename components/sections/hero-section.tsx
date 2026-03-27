@@ -147,25 +147,28 @@ export default function HeroSection() {
         }
 
         // Stats count-up triggered on scroll
-        const statList: StatDef[] = heroStats
-            .map((stat, i) => ({ el: statRefs.current[i], num: stat.num, suffix: stat.suffix, decimals: stat.decimals }))
-            .filter((s): s is StatDef => s.el !== null);
+        const statList: StatDef[] = heroStats.flatMap((stat, i) => {
+            const el = statRefs.current[i];
+            return el
+                ? [{ el, num: stat.num, suffix: stat.suffix, decimals: stat.decimals }]
+                : [];
+        });
         animateCounters(statList);
     }, { scope: containerRef });
 
     return (
         <section ref={containerRef} id="hero" className="relative overflow-hidden" style={{ background: "linear-gradient(175deg, #e8f5f2 0%, #f0faf7 45%, #ffffff 80%)" }}>
             {/* Soft background blob — clip wrapper ends bubble at bottom of headline on mobile */}
-            <div className="absolute top-0 right-0 left-0 h-[320px] md:h-[600px] overflow-hidden pointer-events-none">
+            <div className="absolute top-0 right-0 left-0 h-80 md:h-150 overflow-hidden pointer-events-none">
                 <div
-                    className="absolute rounded-full opacity-15 top-[-80px] right-[-80px] w-[420px] h-[420px] md:top-[-120px] md:right-[-120px] md:w-[700px] md:h-[700px]"
+                    className="absolute rounded-full opacity-15 -top-20 -right-20 w-105 h-105 md:-top-30 md:-right-30 md:w-175 md:h-175"
                     style={{ backgroundColor: "#3aa692" }}
                 />
             </div>
 
             {/* ── BLOCK 1: Headline + Upload CTA ── */}
-            <div className="max-w-[1440px] mx-auto px-6 lg:px-[99px] pt-10 md:pt-20 pb-16 relative z-10">
-                <div className="flex flex-col gap-4 md:gap-7 max-w-[620px]">
+            <div className="max-w-360 mx-auto px-6 lg:px-24.75 pt-10 md:pt-20 pb-16 relative z-10">
+                <div className="flex flex-col gap-4 md:gap-7 max-w-155">
                     <div className="hero-badge inline-flex items-center gap-2 text-sm font-medium" style={{ color: "#228573" }}>
                         <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: "#3aa692" }} />
                         Healthcare made simple
@@ -196,7 +199,7 @@ export default function HeroSection() {
                         </button>
 
                         <Link
-                            href="/learn-more"
+                            href="/dashboard"
                             className="hero-learn-more text-sm font-semibold hover:underline w-fit"
                             style={{ color: "#228573" }}
                         >
@@ -207,7 +210,7 @@ export default function HeroSection() {
             </div>
 
             {/* ── BLOCK 2: Illustration (left) + Connect With Doctors (right) ── */}
-            <div className="max-w-[1440px] mx-auto px-6 lg:px-[99px] pb-24 relative z-10">
+            <div className="max-w-360 mx-auto px-6 lg:px-24.75 pb-24 relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
                     {/* Left: Illustration */}
@@ -237,7 +240,7 @@ export default function HeroSection() {
                         </p>
 
                         <Link
-                            href="/book-appointment"
+                            href="/appointments"
                             className="inline-flex items-center gap-3 px-8 py-4 text-white text-[17px] font-semibold rounded-full w-fit transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5"
                             style={{ backgroundColor: "#228573" }}
                         >
