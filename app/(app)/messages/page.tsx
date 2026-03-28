@@ -203,24 +203,24 @@ export default function MessagesPage() {
   return (
     <div className="flex-1 flex overflow-hidden bg-gray-50">
       {/* Conversation list */}
-      <div className="w-72 bg-white border-r border-gray-100 flex flex-col shrink-0 overflow-hidden">
-        <div className="px-4 py-4 border-b border-gray-100 shrink-0">
-          <h2 className="text-lg font-bold text-gray-800 mb-3">Messages</h2>
+      <div className="w-84 bg-white border-r border-gray-100 flex flex-col shrink-0 overflow-hidden">
+        <div className="px-5 py-5 border-b border-gray-100 shrink-0">
+          <h2 className="text-6 font-bold text-gray-800 mb-4">Messages</h2>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <Input
               placeholder="Search..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="pl-9 rounded-xl border-gray-200 text-sm"
+              className="pl-9 h-11 rounded-xl border-gray-200 text-sm"
             />
           </div>
         </div>
 
         {/* All / Unread filter */}
-        <div className="px-4 pt-3 pb-1 shrink-0">
+        <div className="px-5 pt-3 pb-2 shrink-0">
           <Tabs value={convoFilter} onValueChange={(v) => setConvoFilter(v as "all" | "unread")}>
-            <TabsList className="w-full grid grid-cols-2 h-8 rounded-lg bg-gray-100">
+            <TabsList className="w-full grid grid-cols-2 h-9 rounded-lg bg-gray-100">
               <TabsTrigger value="all" className="text-xs rounded-md data-[state=active]:bg-white data-[state=active]:text-teal-700 data-[state=active]:shadow-sm">All</TabsTrigger>
               <TabsTrigger value="unread" className="text-xs rounded-md data-[state=active]:bg-white data-[state=active]:text-teal-700 data-[state=active]:shadow-sm">
                 Unread {convos.filter(c => c.unread > 0).length > 0 && `(${convos.filter(c => c.unread > 0).length})`}
@@ -237,12 +237,12 @@ export default function MessagesPage() {
                 variant="ghost"
                 key={c.id}
                 onClick={() => openConvo(c.id)}
-                className={`w-full flex items-center gap-3 px-4 py-3 transition-colors text-left ${
+                className={`h-auto w-full flex items-center gap-3 px-5 py-3.5 transition-colors text-left rounded-none ${
                   activeId === c.id ? "bg-teal-50 border-r-2 border-teal-500" : "hover:bg-gray-50"
                 }`}
               >
                 <div className="relative">
-                  <Avatar className="w-10 h-10 shrink-0">
+                  <Avatar className="w-11 h-11 shrink-0">
                     <AvatarFallback className={`text-xs font-semibold ${c.color}`}>{c.initials}</AvatarFallback>
                   </Avatar>
                   {c.online && (
@@ -251,11 +251,11 @@ export default function MessagesPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
-                    <p className="text-sm font-semibold text-gray-800 truncate">{c.name}</p>
+                    <p className="text-4 font-semibold text-gray-800 truncate">{c.name}</p>
                     <span className="text-[10px] text-gray-400 shrink-0">{c.lastTime}</span>
                   </div>
                   <div className="flex items-center justify-between mt-0.5">
-                    <p className="text-xs text-gray-500 truncate">{c.lastMsg}</p>
+                    <p className="text-3.5 text-gray-500 truncate">{c.lastMsg}</p>
                     {c.unread > 0 && (
                       <Badge className="bg-teal-600 text-white text-[10px] px-1.5 py-0 ml-1 shrink-0">{c.unread}</Badge>
                     )}
@@ -270,15 +270,15 @@ export default function MessagesPage() {
       {/* Chat window */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Chat header */}
-        <div className="bg-white border-b border-gray-100 px-3 sm:px-5 py-3 flex items-center justify-between shrink-0 gap-2 overflow-x-auto">
+        <div className="bg-white border-b border-gray-100 px-6 py-3.5 flex items-center justify-between shrink-0 gap-2">
           <Button
             type="button"
             variant="ghost"
             onClick={() => setShowPatientDetails(!showPatientDetails)}
-            className="h-auto flex items-center gap-2 sm:gap-3 hover:bg-gray-50 px-2 py-1 rounded-lg transition-colors shrink-0"
+            className="h-auto flex items-center gap-3 hover:bg-gray-50 px-2 py-1.5 rounded-lg transition-colors shrink-0"
           >
             <div className="relative shrink-0">
-              <Avatar className="w-10 h-10">
+              <Avatar className="w-11 h-11">
                 <AvatarFallback className={`text-sm font-semibold ${active.color}`}>{active.initials}</AvatarFallback>
               </Avatar>
               {active.online && (
@@ -313,8 +313,8 @@ export default function MessagesPage() {
         </div>
 
         {/* Messages */}
-        <div className="flex-1 px-5 py-4 bg-gray-50 overflow-y-auto">
-          <div className="space-y-3 max-w-2xl mx-auto">
+        <div className="flex-1 px-6 py-6 bg-gray-50 overflow-y-auto">
+          <div className="space-y-5 max-w-5xl mx-auto">
             {active.messages.map((msg, idx) => {
               const isDoctor = msg.from === "doctor";
               const showAvatar = idx === 0 || active.messages[idx - 1].from !== msg.from;
@@ -326,8 +326,8 @@ export default function MessagesPage() {
                     </Avatar>
                   ) : !isDoctor ? <div className="w-7 shrink-0" /> : null}
 
-                  <div className={`max-w-[65%] ${isDoctor ? "items-end" : "items-start"} flex flex-col`}>
-                    <div className={`px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed ${
+                  <div className={`max-w-[72%] ${isDoctor ? "items-end" : "items-start"} flex flex-col`}>
+                    <div className={`px-4 py-3 rounded-2xl text-4 leading-7 ${
                       isDoctor
                         ? "bg-teal-600 text-white rounded-br-sm"
                         : "bg-white text-gray-800 rounded-bl-sm shadow-sm border border-gray-100"
@@ -353,7 +353,7 @@ export default function MessagesPage() {
         <Separator />
 
         {/* Input bar */}
-        <div className="bg-white px-5 py-3 flex items-end gap-3 shrink-0">
+        <div className="bg-white px-6 py-4 flex items-end gap-3 shrink-0">
           <Textarea
             placeholder={`Message ${active.name}...`}
             value={input}
@@ -365,12 +365,12 @@ export default function MessagesPage() {
               }
             }}
             rows={1}
-            className="flex-1 rounded-xl border-gray-200 resize-none min-h-10 max-h-32"
+            className="flex-1 rounded-xl border-gray-200 resize-none min-h-11 max-h-32 px-4 py-3"
           />
           <Button
             onClick={sendMessage}
             disabled={!input.trim()}
-            className="bg-teal-600 hover:bg-teal-700 text-white rounded-xl w-10 h-10 p-0 shrink-0"
+            className="bg-teal-600 hover:bg-teal-700 text-white rounded-xl w-11 h-11 p-0 shrink-0"
           >
             <Send className="w-4 h-4" />
           </Button>
@@ -379,7 +379,7 @@ export default function MessagesPage() {
 
       {/* Patient Details Panel */}
       {showPatientDetails && (
-        <div className="w-80 bg-white border-l border-gray-100 shrink-0 flex flex-col">
+        <div className="w-88 bg-white border-l border-gray-100 shrink-0 flex flex-col">
           {/* Patient Header */}
           <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
             <div className="flex items-center gap-3">

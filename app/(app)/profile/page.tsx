@@ -16,9 +16,6 @@ type DoctorProfileForm = {
   firstName: string;
   middleName: string;
   lastName: string;
-  firstNameAlt: string;
-  middleNameAlt: string;
-  lastNameAlt: string;
   mobileNumber: string;
   practice: string;
   specialization: string;
@@ -46,9 +43,6 @@ const defaultProfile: DoctorProfileForm = {
   firstName: "Ritika",
   middleName: "",
   lastName: "Shah",
-  firstNameAlt: "Ritika",
-  middleNameAlt: "",
-  lastNameAlt: "Shah",
   mobileNumber: "+91 98201 12345",
   practice: "General Medicine",
   specialization: "General Physician",
@@ -125,8 +119,8 @@ export default function DoctorProfilePage() {
 
   return (
     <div className="flex flex-1 flex-col overflow-hidden bg-gray-50">
-      <main className="flex-1 overflow-y-auto p-6">
-        <Card className="mx-auto max-w-6xl rounded-3xl border border-gray-100 shadow-sm">
+      <main className="flex-1 overflow-y-auto px-3 py-4 sm:px-4 sm:py-5 lg:px-5">
+        <Card className="w-full rounded-3xl border border-gray-100 shadow-sm">
           <CardHeader className="pb-0 pt-6">
             <div className="mb-8 flex items-start justify-between gap-4">
               <h2 className="text-4xl font-bold text-teal-700">Personal Details</h2>
@@ -164,7 +158,7 @@ export default function DoctorProfilePage() {
           </CardHeader>
 
           <CardContent className="space-y-12 p-6 md:p-8">
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
               <div>
                 <FieldLabel label="First Name" required />
                 <Input
@@ -193,33 +187,6 @@ export default function DoctorProfilePage() {
                 />
               </div>
               <div>
-                <FieldLabel label="First Name" required />
-                <Input
-                  value={profile.firstNameAlt}
-                  onChange={(e) => handleChange("firstNameAlt", e.target.value)}
-                  placeholder="Enter your first name"
-                  className="rounded-xl border-gray-200"
-                />
-              </div>
-              <div>
-                <FieldLabel label="Middle Name" required />
-                <Input
-                  value={profile.middleNameAlt}
-                  onChange={(e) => handleChange("middleNameAlt", e.target.value)}
-                  placeholder="Enter your middle name"
-                  className="rounded-xl border-gray-200"
-                />
-              </div>
-              <div>
-                <FieldLabel label="Last Name" required />
-                <Input
-                  value={profile.lastNameAlt}
-                  onChange={(e) => handleChange("lastNameAlt", e.target.value)}
-                  placeholder="Enter your last name"
-                  className="rounded-xl border-gray-200"
-                />
-              </div>
-              <div>
                 <FieldLabel label="Mobile Number" required />
                 <Input
                   value={profile.mobileNumber}
@@ -234,7 +201,7 @@ export default function DoctorProfilePage() {
 
             <div className="space-y-5">
               <h3 className="text-4xl font-bold text-teal-700">Practice Details</h3>
-              <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
                 <div>
                   <FieldLabel label="Practice" required />
                   <Input
@@ -313,7 +280,7 @@ export default function DoctorProfilePage() {
 
             <div className="space-y-5">
               <h3 className="text-4xl font-bold text-teal-700">Clinic or Hospital Details</h3>
-              <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
                 <div>
                   <FieldLabel label="Hospital/ Clinic Name" required />
                   <Input
@@ -388,9 +355,9 @@ export default function DoctorProfilePage() {
 
             <div className="space-y-5">
               <h3 className="text-4xl font-bold text-teal-700">Clinic or Hospital Details</h3>
-              <div className="md:col-span-2">
+              <div>
                 <FieldLabel label="Consultation Fees" required />
-                <div className="max-w-sm">
+                <div className="max-w-xl">
                   <div className="flex items-center overflow-hidden rounded-xl border border-gray-200 bg-white">
                     <span className="px-3 text-gray-700">₹</span>
                     <Input
@@ -447,7 +414,7 @@ export default function DoctorProfilePage() {
                     </SelectContent>
                   </Select>
                 </div>
-                <Button type="button" variant="outline" className="rounded-xl border-gray-200 text-gray-600">
+                <Button type="button" variant="outline" className="w-fit rounded-xl border-gray-200 text-gray-600">
                   <CirclePlus className="h-4 w-4" />
                   Add more
                 </Button>
@@ -463,7 +430,7 @@ export default function DoctorProfilePage() {
                     className="min-h-24 rounded-xl border-gray-200"
                   />
                 </div>
-                <Button type="button" variant="outline" className="rounded-xl border-gray-200 text-gray-600">
+                <Button type="button" variant="outline" className="w-fit rounded-xl border-gray-200 text-gray-600">
                   <CirclePlus className="h-4 w-4" />
                   Add more
                 </Button>
@@ -479,7 +446,7 @@ export default function DoctorProfilePage() {
                     className="min-h-24 rounded-xl border-gray-200"
                   />
                 </div>
-                <Button type="button" variant="outline" className="rounded-xl border-gray-200 text-gray-600">
+                <Button type="button" variant="outline" className="w-fit rounded-xl border-gray-200 text-gray-600">
                   <CirclePlus className="h-4 w-4" />
                   Add more
                 </Button>

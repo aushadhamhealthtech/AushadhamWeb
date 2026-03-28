@@ -110,7 +110,7 @@ export default function SettingsPage() {
 
           {/* ── ACCOUNT ── */}
           {active === "account" && (
-            <div className="max-w-2xl space-y-5">
+            <div className="w-full space-y-5">
               <Card className="rounded-2xl border-gray-100 shadow-sm">
                 <CardContent className="p-6">
                   <h2 className="font-semibold text-gray-800 mb-5">Profile Information</h2>
@@ -132,7 +132,7 @@ export default function SettingsPage() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
                     {[
                       { label: "Full Name",       key: "name",           icon: User    },
                       { label: "Specialization",  key: "specialization", icon: User    },
@@ -174,8 +174,8 @@ export default function SettingsPage() {
 
           {/* ── BILLING ── */}
           {active === "billing" && (
-            <div className="max-w-2xl space-y-4">
-              <Card className="rounded-2xl border-gray-100 shadow-sm">
+            <div className="w-full grid grid-cols-1 gap-4 xl:grid-cols-2">
+              <Card className="rounded-2xl border-gray-100 shadow-sm h-fit">
                 <CardContent className="p-6">
                   <h2 className="font-semibold text-gray-800 mb-4">Payment Method</h2>
                   <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl border border-gray-200">
@@ -194,7 +194,7 @@ export default function SettingsPage() {
                 </CardContent>
               </Card>
 
-              <Card className="rounded-2xl border-gray-100 shadow-sm">
+              <Card className="rounded-2xl border-gray-100 shadow-sm h-fit">
                 <CardContent className="p-6">
                   <h2 className="font-semibold text-gray-800 mb-4">Billing History</h2>
                   <div className="space-y-3">
@@ -222,9 +222,9 @@ export default function SettingsPage() {
 
           {/* ── SUBSCRIPTION ── */}
           {active === "subscription" && (
-            <div className="max-w-3xl">
+            <div className="w-full">
               <p className="text-sm text-gray-500 mb-5">Choose a plan that fits your clinic&apos;s needs.</p>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 2xl:grid-cols-3">
                 {plans.map((p) => (
                   <Card
                     key={p.name}
@@ -273,7 +273,7 @@ export default function SettingsPage() {
 
           {/* ── NOTIFICATIONS ── */}
           {active === "notifications" && (
-            <div className="max-w-xl">
+            <div className="w-full">
               <Card className="rounded-2xl border-gray-100 shadow-sm">
                 <CardContent className="p-6">
                   <h2 className="font-semibold text-gray-800 mb-4">Notification Preferences</h2>
@@ -319,8 +319,8 @@ export default function SettingsPage() {
 
           {/* ── SECURITY ── */}
           {active === "security" && (
-            <div className="max-w-xl space-y-4">
-              <Card className="rounded-2xl border-gray-100 shadow-sm">
+            <div className="w-full grid grid-cols-1 gap-4 2xl:grid-cols-2">
+              <Card className="rounded-2xl border-gray-100 shadow-sm h-fit">
                 <CardContent className="p-6">
                   <h2 className="font-semibold text-gray-800 mb-4">Change Password</h2>
                   <div className="space-y-3">
@@ -338,7 +338,7 @@ export default function SettingsPage() {
                 </CardContent>
               </Card>
 
-              <Card className="rounded-2xl border-gray-100 shadow-sm">
+              <Card className="rounded-2xl border-gray-100 shadow-sm h-fit">
                 <CardContent className="p-6">
                   <h2 className="font-semibold text-gray-800 mb-1">Two-Factor Authentication</h2>
                   <p className="text-xs text-gray-400 mb-4">Add an extra layer of security to your account.</p>

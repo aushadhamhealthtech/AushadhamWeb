@@ -117,7 +117,7 @@ function NotificationsPageContent() {
   const [inviteOpen, setInviteOpen] = useState(false);
   const requestedTab = searchParams.get("tab");
   const defaultSectionTab: NotificationSection =
-    requestedTab === "updates" || requestedTab === "appointments" || requestedTab === "emergency"
+    requestedTab === "updates" || requestedTab === "emergency"
       ? requestedTab
       : "updates";
 
@@ -168,7 +168,6 @@ function NotificationsPageContent() {
             <div className="px-5 py-4">
               <TabsList className="flex h-14 w-full min-w-0 items-stretch gap-0 overflow-hidden rounded-xl bg-gray-100 p-1">
                 <TabsTrigger value="updates" className="tab-trigger-primary min-w-0 flex-1 rounded-lg px-3 text-sm font-semibold capitalize data-[state=active]:bg-emerald-100 data-[state=active]:text-teal-700 data-[state=inactive]:text-gray-700 data-[state=inactive]:cursor-pointer">updates</TabsTrigger>
-                <TabsTrigger value="appointments" className="tab-trigger-primary min-w-0 flex-1 rounded-lg px-3 text-sm font-semibold capitalize data-[state=active]:bg-emerald-100 data-[state=active]:text-teal-700 data-[state=inactive]:text-gray-700 data-[state=inactive]:cursor-pointer">appointments</TabsTrigger>
                 <TabsTrigger value="emergency" className="tab-trigger-primary min-w-0 flex-1 rounded-lg px-3 text-sm font-semibold capitalize data-[state=active]:bg-emerald-100 data-[state=active]:text-teal-700 data-[state=inactive]:text-gray-700 data-[state=inactive]:cursor-pointer">emergency</TabsTrigger>
               </TabsList>
             </div>
@@ -190,27 +189,6 @@ function NotificationsPageContent() {
                   <TabsContent key={filter} value={filter} className="mt-0 h-[calc(100%-58px)] min-w-0">
                     <ScrollArea className="h-full">
                       <NotificationList items={getFilteredNotifications("updates", filter)} />
-                    </ScrollArea>
-                  </TabsContent>
-                ))}
-              </Tabs>
-            </TabsContent>
-
-            <TabsContent value="appointments" className="mt-0 h-[calc(100%-101px)] min-w-0">
-              <Tabs defaultValue="all" className="h-full min-w-0">
-                <div className="px-5 py-3">
-                  <TabsList className="flex h-12 w-full min-w-0 items-stretch gap-0 overflow-hidden rounded-lg border border-gray-100 bg-gray-50 p-1">
-                    {medicalFilters.map((filter) => (
-                      <TabsTrigger key={filter} value={filter} className="tab-trigger-secondary min-w-0 flex-1 rounded-md px-3 text-sm font-medium capitalize text-gray-500 data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-sm data-[state=inactive]:cursor-pointer">
-                        {filter}
-                      </TabsTrigger>
-                    ))}
-                  </TabsList>
-                </div>
-                {medicalFilters.map((filter) => (
-                  <TabsContent key={filter} value={filter} className="mt-0 h-[calc(100%-58px)] min-w-0">
-                    <ScrollArea className="h-full">
-                      <NotificationList items={getFilteredNotifications("appointments", filter)} />
                     </ScrollArea>
                   </TabsContent>
                 ))}
