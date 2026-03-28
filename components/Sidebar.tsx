@@ -106,7 +106,7 @@ const navItems = [
 
 
 
-export default function Sidebar({ onOpenSettings }: { onOpenSettings?: () => void }) {
+export default function Sidebar() {
   const [expanded, setExpanded] = useState(false);
   const pathname = usePathname();
 
@@ -118,12 +118,6 @@ export default function Sidebar({ onOpenSettings }: { onOpenSettings?: () => voi
   const handleNavClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     setExpanded(false);
-  };
-
-  const handleSettingsClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setExpanded(false);
-    onOpenSettings?.();
   };
 
   return (
@@ -265,10 +259,9 @@ export default function Sidebar({ onOpenSettings }: { onOpenSettings?: () => voi
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={handleSettingsClick}
+              <Link
+                href="/settings"
+                onClick={handleNavClick}
                 className={cn(
                   "flex items-center gap-3 rounded-xl py-2 text-sm text-gray-600 hover:bg-teal-100 hover:text-teal-700 transition-all duration-200 group w-full",
                   expanded ? "justify-start px-3" : "justify-center px-4"
@@ -279,7 +272,7 @@ export default function Sidebar({ onOpenSettings }: { onOpenSettings?: () => voi
                   "whitespace-nowrap overflow-hidden transition-all duration-300",
                   expanded ? "opacity-100 max-w-full" : "opacity-0 max-w-0"
                 )}>Settings</span>
-              </Button>
+              </Link>
             </TooltipTrigger>
             {!expanded && <TooltipContent side="right">Settings</TooltipContent>}
           </Tooltip>

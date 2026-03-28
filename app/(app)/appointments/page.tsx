@@ -76,54 +76,74 @@ const moreAppointments: Appointment[] = [
 
 function AppointmentRow({ apt }: { apt: Appointment }) {
   return (
-    <Link
-      href={`/appointments/${apt.id}`}
-      className={`grid grid-cols-[90px_1fr_1fr_90px] gap-x-4 items-center px-5 py-4 transition-colors cursor-pointer ${
+    <div
+      className={`grid grid-cols-[90px_1fr_1fr_90px_130px] gap-x-4 items-center px-5 py-4 transition-colors ${
         apt.active
           ? "bg-teal-50/60 border-l-[3px] border-l-teal-600"
           : "hover:bg-gray-50 border-l-[3px] border-l-transparent"
       }`}
     >
-      {/* TIME */}
-      <span className={`text-sm font-semibold ${apt.active ? "text-gray-900" : "text-gray-500"}`}>
-        {apt.time}
-      </span>
-
-      {/* PATIENT NAME */}
-      <div className="flex items-center gap-3 min-w-0">
-        <Avatar className="w-9 h-9 shrink-0">
-          <AvatarImage src="" />
-          <AvatarFallback className={`${apt.avatarColor} text-gray-700 text-xs font-semibold`}>
-            {apt.initials}
-          </AvatarFallback>
-        </Avatar>
-        <span className={`text-sm leading-tight ${apt.active ? "font-bold text-gray-900" : "font-medium text-gray-700"}`}>
-          {apt.name.split("\n").map((line, i) => (
-            <span key={i}>
-              {line}
-              {i === 0 && apt.name.includes("\n") && <br />}
-            </span>
-          ))}
+      <Link href={`/appointments/${apt.id}`} className="contents">
+        {/* TIME */}
+        <span className={`text-sm font-semibold ${apt.active ? "text-gray-900" : "text-gray-500"}`}>
+          {apt.time}
         </span>
+
+        {/* PATIENT NAME */}
+        <div className="flex items-center gap-3 min-w-0">
+          <Avatar className="w-9 h-9 shrink-0">
+            <AvatarImage src="" />
+            <AvatarFallback className={`${apt.avatarColor} text-gray-700 text-xs font-semibold`}>
+              {apt.initials}
+            </AvatarFallback>
+          </Avatar>
+          <span className={`text-sm leading-tight ${apt.active ? "font-bold text-gray-900" : "font-medium text-gray-700"}`}>
+            {apt.name.split("\n").map((line, i) => (
+              <span key={i}>
+                {line}
+                {i === 0 && apt.name.includes("\n") && <br />}
+              </span>
+            ))}
+          </span>
+        </div>
+
+        {/* REASON */}
+        <span className={`text-sm ${apt.active ? "font-semibold text-gray-900" : "text-gray-600"}`}>
+          {apt.reason}
+        </span>
+
+        {/* STATUS */}
+        <Badge
+          variant="outline"
+          className={`text-xs font-semibold rounded-full px-2.5 py-0.5 border whitespace-nowrap ${
+            apt.status === "In-clinic"
+              ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+              : "bg-blue-50 text-blue-700 border-blue-200"
+          }`}
+        >
+          {apt.status}
+        </Badge>
+      </Link>
+
+      <div className="flex justify-end">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              type="button"
+              className="h-9 rounded-full px-5 text-sm font-semibold text-white bg-teal-600 hover:bg-teal-700"
+            >
+              Join Now
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-40">
+            <DropdownMenuItem variant="destructive">Reschedule</DropdownMenuItem>
+            <DropdownMenuItem className="text-blue-600 focus:bg-blue-50 focus:text-blue-700">
+              In Clinic
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
-
-      {/* REASON */}
-      <span className={`text-sm ${apt.active ? "font-semibold text-gray-900" : "text-gray-600"}`}>
-        {apt.reason}
-      </span>
-
-      {/* STATUS */}
-      <Badge
-        variant="outline"
-        className={`text-xs font-semibold rounded-full px-2.5 py-0.5 border whitespace-nowrap ${
-          apt.status === "In-clinic"
-            ? "bg-emerald-50 text-emerald-700 border-emerald-200"
-            : "bg-blue-50 text-blue-700 border-blue-200"
-        }`}
-      >
-        {apt.status}
-      </Badge>
-    </Link>
+    </div>
   );
 }
 
@@ -185,11 +205,12 @@ export default function AppointmentsPage() {
           {/* Appointments Table */}
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
             {/* Table Header */}
-            <div className="grid grid-cols-[90px_1fr_1fr_90px] gap-x-4 px-5 py-3 border-b border-gray-100 bg-gray-50/80">
+            <div className="grid grid-cols-[90px_1fr_1fr_90px_130px] gap-x-4 px-5 py-3 border-b border-gray-100 bg-gray-50/80">
               <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Time</span>
               <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Patient Name</span>
               <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Reason</span>
               <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Status</span>
+              <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider text-right">Scheduled</span>
             </div>
 
             {/* Table Body */}
