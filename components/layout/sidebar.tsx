@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 import {
-  Search,
   Home,
   CalendarDays,
   Users,
@@ -12,10 +12,10 @@ import {
   MessageCircle,
   Settings,
   LogOut,
+  Search,
 } from "lucide-react";
 
 const NAV_ITEMS = [
-  { icon: Search, href: "/search", label: "Search" },
   { icon: Home, href: "/patient-dashboard", label: "Dashboard" },
   { icon: CalendarDays, href: "/appointments", label: "Appointments" },
   { icon: Users, href: "/doctors", label: "Doctors" },
@@ -24,19 +24,14 @@ const NAV_ITEMS = [
   { icon: MessageCircle, href: "/messages", label: "Messages" },
 ];
 
-const BOTTOM_ITEMS = [
-  { icon: Settings, href: "/settings", label: "Settings" },
-  { icon: LogOut, href: "/logout", label: "Logout" },
-];
-
 export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed left-0 top-0 z-40 hidden h-screen w-16 flex-col items-center border-r border-border bg-white py-4 lg:flex">
+    <aside className="fixed left-0 top-0 z-40 hidden h-screen w-20 flex-col items-center border-r border-gray-100 bg-white py-5 shadow-[4px_0_16px_rgba(0,0,0,0.05)] lg:flex">
       {/* Logo */}
-      <Link href="/" className="mb-6">
-        <svg width="32" height="32" viewBox="0 0 68 46" fill="none">
+      <Link href="/" className="mb-8 flex items-center justify-center">
+        <svg width="38" height="28" viewBox="0 0 68 46" fill="none">
           <circle cx="22" cy="8" r="2.8" fill="#228573" />
           <circle cx="30" cy="3" r="3.8" fill="#228573" />
           <circle cx="39" cy="5" r="2.4" fill="#228573" />
@@ -55,8 +50,16 @@ export default function Sidebar() {
         </svg>
       </Link>
 
+      {/* Search button */}
+      <button
+        title="Search"
+        className="mb-6 flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 text-gray-400 transition-colors hover:border-gray-300 hover:text-gray-600"
+      >
+        <Search size={18} strokeWidth={1.8} />
+      </button>
+
       {/* Main nav */}
-      <nav className="flex flex-1 flex-col items-center gap-1">
+      <nav className="flex flex-1 flex-col items-center gap-3">
         {NAV_ITEMS.map(({ icon: Icon, href, label }) => {
           const isActive = pathname === href;
           return (
@@ -64,48 +67,60 @@ export default function Sidebar() {
               key={href}
               href={href}
               title={label}
-              className={`flex h-10 w-10 items-center justify-center rounded-lg transition-colors ${
+              className={`flex h-11 w-11 items-center justify-center rounded-xl transition-colors ${
                 isActive
                   ? "bg-[#e8f5f2] text-[#065b4b]"
                   : "text-gray-400 hover:bg-gray-50 hover:text-gray-600"
               }`}
             >
-              <Icon size={20} strokeWidth={isActive ? 2.2 : 1.8} />
+              <Icon size={22} strokeWidth={isActive ? 2 : 1.6} />
             </Link>
           );
         })}
       </nav>
 
-      {/* Collapse toggle */}
-      <div className="my-2">
+      {/* Collapse toggle — protrudes on the right edge */}
+      <div className="relative my-3 w-full flex justify-end pr-0">
         <button
-          title="Toggle sidebar"
-          className="flex h-8 w-8 items-center justify-center rounded text-gray-400 hover:text-gray-600"
+          title="Expand sidebar"
+          className="absolute -right-3 flex h-7 w-7 items-center justify-center rounded-full bg-white text-gray-400 shadow-md hover:text-gray-600"
         >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M4 2.5l3.5 3.5-3.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
       </div>
 
       {/* Bottom nav */}
-      <div className="flex flex-col items-center gap-1 border-t border-border pt-3">
+      <div className="flex flex-col items-center gap-3 pt-3">
         {/* Avatar */}
-        <div className="mb-1 h-8 w-8 overflow-hidden rounded-full bg-[#e8f5f2]">
-          <div className="flex h-full w-full items-center justify-center text-xs font-semibold text-[#065b4b]">
-            P
-          </div>
+        <div className="mb-1 h-11 w-11 overflow-hidden rounded-full border-2 border-gray-100">
+          <Image
+            src="/patient-priyanka.jpg"
+            alt="Priyanka"
+            width={44}
+            height={44}
+            className="h-full w-full object-cover"
+          />
         </div>
-        {BOTTOM_ITEMS.map(({ icon: Icon, href, label }) => (
-          <Link
-            key={href}
-            href={href}
-            title={label}
-            className="flex h-10 w-10 items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-gray-50 hover:text-gray-600"
-          >
-            <Icon size={20} strokeWidth={1.8} />
-          </Link>
-        ))}
+
+        {/* Settings */}
+        <Link
+          href="/settings"
+          title="Settings"
+          className="flex h-11 w-11 items-center justify-center rounded-xl text-gray-400 transition-colors hover:bg-gray-50 hover:text-gray-600"
+        >
+          <Settings size={22} strokeWidth={1.6} />
+        </Link>
+
+        {/* Logout */}
+        <Link
+          href="/logout"
+          title="Logout"
+          className="flex h-11 w-11 items-center justify-center rounded-xl text-red-400 transition-colors hover:bg-red-50 hover:text-red-500"
+        >
+          <LogOut size={22} strokeWidth={1.6} />
+        </Link>
       </div>
     </aside>
   );

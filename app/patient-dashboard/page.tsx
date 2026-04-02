@@ -19,6 +19,13 @@ import {
   FileBarChart2,
   Lock,
 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import Image from "next/image";
 
 /* ─── Color Palette ─── */
@@ -103,6 +110,8 @@ const APPOINTMENTS = [
    ═══════════════════════════════════════════════════════════════ */
 export default function PatientDashboardPage() {
   const [activeAppt, setActiveAppt] = React.useState(0);
+  const [cancelAppt, setCancelAppt] = React.useState<typeof APPOINTMENTS[0] | null>(null);
+  const [cancelledAppt, setCancelledAppt] = React.useState<typeof APPOINTMENTS[0] | null>(null);
   const scrollRef = React.useRef<HTMLDivElement>(null);
 
   function handleApptScroll() {
@@ -117,7 +126,7 @@ export default function PatientDashboardPage() {
       <Sidebar />
 
       {/* Main area offset by sidebar width */}
-      <div className="flex-1 lg:ml-16">
+      <div className="flex-1 lg:ml-20">
         {/* ─── Top Bar ─── */}
         <header className="sticky top-0 z-30 flex items-center justify-between bg-white px-6 py-4">
           <div className="flex items-center gap-4">
@@ -190,7 +199,10 @@ export default function PatientDashboardPage() {
                       <div key={idx} className="w-full shrink-0 snap-start">
                         <Card className="gap-0 rounded-2xl border-0 bg-white px-5 py-5 shadow-sm">
                           <p className="text-lg font-bold text-gray-800">{appt.date}</p>
-                          <button className="mt-1 flex items-center gap-1 text-sm font-medium text-red-500">
+                          <button
+                            className="mt-1 flex items-center gap-1 text-sm font-medium text-red-500"
+                            onClick={() => setCancelAppt(appt)}
+                          >
                             <X size={14} /> Cancel appointment
                           </button>
 
@@ -417,16 +429,30 @@ export default function PatientDashboardPage() {
           </div>
 
           {/* ── Bottom section: 3-column grid ── */}
-          <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
+          <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3 lg:items-stretch">
             {/* Latest Reports */}
             <Card
-              className="border shadow-none"
+              className="flex h-full flex-col border shadow-none"
               style={{ backgroundColor: C.cardBg, borderColor: C.border }}
             >
               <CardHeader className="flex-row items-center justify-between pb-0">
-                <CardTitle className="text-2xl font-bold text-gray-800">
-                  Latest Reports
-                </CardTitle>
+                <div className="flex items-center gap-4">
+                  <div
+                    className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full"
+                    style={{
+                      background: `linear-gradient(135deg, ${C.light} 0%, ${C.mid} 100%)`,
+                      color: "white",
+                    }}
+                  >
+                    <FileBarChart2 size={28} />
+                  </div>
+                  <CardTitle
+                    className="text-3xl font-extrabold"
+                    style={{ color: C.primary }}
+                  >
+                    Latest Reports
+                  </CardTitle>
+                </div>
                 <CardAction>
                   <Button
                     variant="link"
@@ -467,27 +493,40 @@ export default function PatientDashboardPage() {
 
             {/* Next Medication */}
             <Card
-              className="border shadow-none"
+              className="flex h-full flex-col border shadow-none"
               style={{ backgroundColor: C.cardBg, borderColor: C.border }}
             >
               <CardHeader className="flex-row items-center justify-between pb-0">
-                <div className="flex items-center gap-3">
-                  <SectionIcon>
+                <div className="flex items-center gap-4">
+                  {/* Large gradient teal circle icon */}
+                  <div
+                    className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full"
+                    style={{
+                      background: `linear-gradient(135deg, ${C.light} 0%, ${C.mid} 100%)`,
+                      color: "white",
+                    }}
+                  >
                     <svg
-                      width="18"
-                      height="18"
+                      width="30"
+                      height="30"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
-                      strokeWidth="1.8"
+                      strokeWidth="1.6"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     >
-                      <rect x="3" y="3" width="18" height="18" rx="3" />
-                      <path d="M8 12h8M12 8v8" />
+                      <rect x="3" y="4" width="18" height="17" rx="2" />
+                      <path d="M8 4V2M16 4V2" />
+                      <path d="M3 9h18" />
+                      <path d="M7 14h2M11 14h2M15 14h2" />
+                      <path d="M7 18h2M11 18h2M15 18h2" />
                     </svg>
-                  </SectionIcon>
-                  <CardTitle className="text-2xl font-bold text-gray-800">
+                  </div>
+                  <CardTitle
+                    className="text-3xl font-extrabold"
+                    style={{ color: C.primary }}
+                  >
                     Next Medication
                   </CardTitle>
                 </div>
@@ -503,38 +542,34 @@ export default function PatientDashboardPage() {
               </CardHeader>
 
               <CardContent>
-                <p className="mb-3 text-sm font-bold text-gray-800">
+                <p className="mb-2 text-base font-bold text-gray-800">
                   Afternoon (1pm -3 pm)
                 </p>
 
-                <div
-                  className="divide-y"
-                  style={{ borderColor: C.border }}
-                >
+                <div className="divide-y" style={{ borderColor: C.border }}>
                   {[
                     { name: "Steam inhalation", dosage: "" },
-                    {
-                      name: "Navision Drops",
-                      dosage: "3 Drops in each nostrils",
-                    },
+                    { name: "Navision Drops", dosage: "3 Drops in each nostrils" },
                     { name: "Ear Drops", dosage: "3 Drops in each ear" },
                     { name: "Paracetomol 200 mg", dosage: "After lunch" },
                   ].map((med) => (
                     <div
                       key={med.name}
-                      className="flex items-center justify-between py-2.5"
+                      className="flex items-center justify-between py-3"
                     >
-                      <div className="text-sm">
-                        <span className="font-medium text-gray-800">
-                          {med.name}
-                        </span>
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-base text-gray-800">{med.name}</span>
                         {med.dosage && (
-                          <span className="ml-2 text-xs text-gray-400">
-                            {med.dosage}
-                          </span>
+                          <span className="text-sm text-gray-400">{med.dosage}</span>
                         )}
                       </div>
-                      <Checkbox className="h-5 w-5 rounded border-gray-300" />
+                      <Checkbox
+                        className="h-6 w-6 rounded-sm"
+                        style={{
+                          borderColor: C.mid,
+                          borderWidth: 2,
+                        }}
+                      />
                     </div>
                   ))}
                 </div>
@@ -543,27 +578,39 @@ export default function PatientDashboardPage() {
 
             {/* Next Meal — blurred with lock */}
             <Card
-              className="relative overflow-hidden border shadow-none"
+              className="relative flex h-full flex-col overflow-hidden border shadow-none"
               style={{ backgroundColor: C.cardBg, borderColor: C.border }}
             >
               <CardHeader className="flex-row items-center justify-between pb-0">
-                <div className="flex items-center gap-3">
-                  <SectionIcon>
+                <div className="flex items-center gap-4">
+                  <div
+                    className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full"
+                    style={{
+                      background: `linear-gradient(135deg, ${C.light} 0%, ${C.mid} 100%)`,
+                      color: "white",
+                    }}
+                  >
                     <svg
-                      width="18"
-                      height="18"
+                      width="30"
+                      height="30"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
-                      strokeWidth="1.8"
+                      strokeWidth="1.6"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     >
-                      <circle cx="12" cy="12" r="9" />
-                      <path d="M12 7v5l3 3" />
+                      <rect x="3" y="4" width="18" height="17" rx="2" />
+                      <path d="M8 4V2M16 4V2" />
+                      <path d="M3 9h18" />
+                      <path d="M7 14h2M11 14h2M15 14h2" />
+                      <path d="M7 18h2M11 18h2M15 18h2" />
                     </svg>
-                  </SectionIcon>
-                  <CardTitle className="text-2xl font-bold text-gray-800">
+                  </div>
+                  <CardTitle
+                    className="text-3xl font-extrabold"
+                    style={{ color: C.primary }}
+                  >
                     Next Meal
                   </CardTitle>
                 </div>
@@ -639,6 +686,134 @@ export default function PatientDashboardPage() {
           </div>
         </main>
       </div>
+
+      {/* ─── Cancel Appointment Dialog ─── */}
+      <Dialog open={!!cancelAppt} onOpenChange={(open) => !open && setCancelAppt(null)}>
+        <DialogContent className="max-w-md rounded-3xl bg-gray-50 p-7 shadow-xl">
+          <DialogHeader className="mb-2">
+            <DialogTitle className="text-2xl font-extrabold text-gray-900">
+              Confirm Cancellation
+            </DialogTitle>
+          </DialogHeader>
+
+          {/* Red calendar icon */}
+          <div className="flex justify-center py-4">
+            <svg width="100" height="100" viewBox="0 0 24 24" fill="none">
+              {/* Pegs */}
+              <path d="M8 2v3M16 2v3" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" />
+              {/* Filled header bar */}
+              <rect x="2" y="4" width="20" height="5" rx="2" fill="#ef4444" />
+              {/* Left + bottom partial (C-shape, open at bottom-right) */}
+              <path d="M2 8v11a2 2 0 002 2h9" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+              {/* Right side partial */}
+              <path d="M22 8v7" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" />
+              {/* Minus */}
+              <path d="M16 21h6" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" />
+            </svg>
+          </div>
+
+          {/* Heading */}
+          <p className="text-center text-xl font-bold text-gray-900">
+            Are you sure you want to cancel?
+          </p>
+
+          {/* Subtext */}
+          <p className="mt-2 text-center text-sm leading-relaxed text-gray-500">
+            If you can&apos;t make your appointment with{" "}
+            <span className="font-bold text-gray-900">{cancelAppt?.doctor}</span> on{" "}
+            <span className="font-bold text-gray-900">15 Mar, 11:00 am</span>, you can{" "}
+            <button className="font-medium" style={{ color: C.mid }}>
+              reschedule for free.
+            </button>
+          </p>
+
+          {/* Warning boxes */}
+          <div className="mt-5 grid grid-cols-2 gap-4 rounded-2xl bg-gray-100 p-4">
+            <p className="text-center text-sm font-semibold leading-snug text-red-500">
+              Once cancelled, you can&apos;t reverse it and must restart the process for a new appointment.
+            </p>
+            <p className="text-center text-sm font-semibold leading-snug text-red-500">
+              You will lose 20% of your paid fee as you are cancelling less than 2 hours before the appointment
+            </p>
+          </div>
+
+          {/* Refund note */}
+          <p className="mt-4 text-center text-xs leading-relaxed text-gray-400">
+            80% of the amount paid by you will be returned to your payment mode in 7 working days
+          </p>
+
+          {/* Buttons */}
+          <div className="mt-6 flex gap-3">
+            <Button
+              className="h-12 flex-1 rounded-2xl text-base font-semibold text-white"
+              style={{ backgroundColor: C.mid }}
+              onClick={() => setCancelAppt(null)}
+            >
+              Reschedule
+            </Button>
+            <Button
+              variant="outline"
+              className="h-12 flex-1 rounded-2xl border-2 text-base font-semibold text-red-500 hover:bg-red-50"
+              style={{ borderColor: "#ef4444" }}
+              onClick={() => {
+                setCancelledAppt(cancelAppt);
+                setCancelAppt(null);
+              }}
+            >
+              Cancel
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* ─── Appointment Cancelled Dialog ─── */}
+      <Dialog open={!!cancelledAppt} onOpenChange={(open) => !open && setCancelledAppt(null)}>
+        <DialogContent className="max-w-md rounded-3xl bg-gray-50 p-7 shadow-xl">
+          <DialogTitle className="sr-only">Appointment Cancelled</DialogTitle>
+          <DialogDescription className="sr-only">Your appointment has been cancelled.</DialogDescription>
+          {/* Red calendar icon */}
+          <div className="flex justify-center pb-2 pt-8">
+            <svg width="110" height="110" viewBox="0 0 24 24" fill="none">
+              {/* Pegs */}
+              <path d="M8 2v3M16 2v3" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" />
+              {/* Filled header bar */}
+              <rect x="2" y="4" width="20" height="5" rx="2" fill="#ef4444" />
+              {/* Left + bottom partial (C-shape, open at bottom-right) */}
+              <path d="M2 8v11a2 2 0 002 2h9" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+              {/* Right side partial */}
+              <path d="M22 8v7" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" />
+              {/* Minus */}
+              <path d="M16 21h6" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" />
+            </svg>
+          </div>
+
+          {/* Heading */}
+          <p className="mt-4 text-center text-2xl font-bold text-gray-900">
+            Appointment Cancelled
+          </p>
+
+          {/* Description */}
+          <p className="mt-3 text-center text-base leading-relaxed text-gray-700">
+            Your appointment with{" "}
+            <span className="font-bold">{cancelledAppt?.doctor}</span> on{" "}
+            <span className="font-bold">15 Mar, 11:00 am</span> has been cancelled
+          </p>
+
+          {/* Redirect note */}
+          <p className="mt-3 text-center text-sm leading-relaxed text-gray-400">
+            You will be redirected to Appointments page shortly or click below to set up a new appointment
+          </p>
+
+          {/* Button */}
+          <Button
+            className="mt-8 h-14 w-full rounded-2xl text-base font-semibold text-white"
+            style={{ backgroundColor: C.mid }}
+            onClick={() => setCancelledAppt(null)}
+          >
+            New Appointment
+          </Button>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
