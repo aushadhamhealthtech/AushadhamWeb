@@ -10,6 +10,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { DateSelector } from "@/components/DateSelector";
 import { InviteDialog } from "@/components/InviteDialog";
 import {
@@ -122,13 +128,14 @@ export default function HomePage() {
 
             <CardContent className="px-5 pb-5">
               {/* Table Header */}
-              <div className="grid grid-cols-[100px_1fr_1fr_120px] gap-3 px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wide border-b border-gray-100">
+              <div className="grid grid-cols-[100px_1fr_1fr_120px_130px] gap-3 px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wide border-b border-gray-100">
                 <span>TIME</span>
                 <span>PATIENT NAME</span>
                 <span>REASON</span>
                 <div className="flex items-center gap-1">
                   <span>STATUS</span>
                 </div>
+                <span className="text-right">SCHEDULED</span>
               </div>
 
               {/* Table Rows - Scrollable */}
@@ -137,7 +144,7 @@ export default function HomePage() {
                   {appointments.map((apt, idx) => (
                     <div
                       key={idx}
-                      className={`grid grid-cols-[100px_1fr_1fr_120px] gap-3 px-3 py-3.5 items-center rounded-xl ${
+                      className={`grid grid-cols-[100px_1fr_1fr_120px_130px] gap-3 px-3 py-3.5 items-center rounded-xl ${
                         apt.active ? "bg-teal-600/5 border-l-2 border-l-teal-600" : "hover:bg-gray-50"
                       }`}
                     >
@@ -159,6 +166,25 @@ export default function HomePage() {
                       >
                         {apt.status}
                       </Badge>
+
+                      <div className="flex justify-end">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              type="button"
+                              className="h-9 rounded-full px-5 text-sm font-semibold text-white bg-teal-600 hover:bg-teal-700"
+                            >
+                              Join Now
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="w-40">
+                            <DropdownMenuItem variant="destructive">Reschedule</DropdownMenuItem>
+                            <DropdownMenuItem className="text-blue-600 focus:bg-blue-50 focus:text-blue-700">
+                              In Clinic
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
                     </div>
                   ))}
 

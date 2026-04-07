@@ -205,7 +205,7 @@ export default function MessagesPage() {
       {/* Conversation list */}
       <div className="w-84 bg-white border-r border-gray-100 flex flex-col shrink-0 overflow-hidden">
         <div className="px-5 py-5 border-b border-gray-100 shrink-0">
-          <h2 className="text-6 font-bold text-gray-800 mb-4">Messages</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">Messages</h2>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <Input
@@ -251,11 +251,11 @@ export default function MessagesPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
-                    <p className="text-4 font-semibold text-gray-800 truncate">{c.name}</p>
+                    <p className="text-base font-semibold text-gray-800 truncate">{c.name}</p>
                     <span className="text-[10px] text-gray-400 shrink-0">{c.lastTime}</span>
                   </div>
                   <div className="flex items-center justify-between mt-0.5">
-                    <p className="text-3.5 text-gray-500 truncate">{c.lastMsg}</p>
+                    <p className="text-sm text-gray-500 truncate">{c.lastMsg}</p>
                     {c.unread > 0 && (
                       <Badge className="bg-teal-600 text-white text-[10px] px-1.5 py-0 ml-1 shrink-0">{c.unread}</Badge>
                     )}
@@ -327,7 +327,7 @@ export default function MessagesPage() {
                   ) : !isDoctor ? <div className="w-7 shrink-0" /> : null}
 
                   <div className={`max-w-[72%] ${isDoctor ? "items-end" : "items-start"} flex flex-col`}>
-                    <div className={`px-4 py-3 rounded-2xl text-4 leading-7 ${
+                    <div className={`px-4 py-3 rounded-2xl text-base leading-7 ${
                       isDoctor
                         ? "bg-teal-600 text-white rounded-br-sm"
                         : "bg-white text-gray-800 rounded-bl-sm shadow-sm border border-gray-100"

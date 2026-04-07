@@ -602,7 +602,7 @@ Other Relevant Family Medical Conditions: Her mother had hypertension and osteoa
               <CardContent className="px-5 pb-5 pt-0 space-y-5">
                 <Separator />
                 <div>
-                  <h3 className="text-3.75 font-bold text-teal-700">Patient Name: {patientName}</h3>
+                  <h3 className="text-[15px] font-bold text-teal-700">Patient Name: {patientName}</h3>
                   <div className="flex items-center gap-4 mt-2 flex-wrap text-xs text-gray-500">
                     <span className="flex items-center gap-1">✦ Patient ID: {patient.id}</span>
                     <span className="flex items-center gap-1">✦ {patient.age} Years</span>
@@ -614,14 +614,14 @@ Other Relevant Family Medical Conditions: Her mother had hypertension and osteoa
 
                 {/* Latest Vitals */}
                 <div>
-                  <h4 className="text-5.5 font-bold text-gray-800 mb-4">Latest Vitals</h4>
+                  <h4 className="text-[22px] font-bold text-gray-800 mb-4">Latest Vitals</h4>
                   <div className="grid grid-cols-5 gap-3">
                     {vitals.map((v) => (
                       <div key={v.label} className="rounded-xl border border-gray-100 bg-white p-3 text-center space-y-1 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
                         <div className={`w-7 h-7 rounded-full flex items-center justify-center mx-auto ${v.color}`}>
                           <Heart className="w-3.5 h-3.5" />
                         </div>
-                        <p className="text-2.5 text-gray-500">{v.label}</p>
+                        <p className="text-[10px] text-gray-500">{v.label}</p>
                         <p className={`text-sm font-bold ${v.highlight ? "text-red-500" : "text-gray-800"}`}>
                           {v.value}
                         </p>
@@ -674,7 +674,7 @@ Other Relevant Family Medical Conditions: Her mother had hypertension and osteoa
                 <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center">
                   <ShieldAlert className="w-5 h-5 text-teal-600" />
                 </div>
-                <span className="text-8 font-bold text-gray-800">Present Illness</span>
+                <span className="text-[2rem] font-bold text-gray-800">Present Illness</span>
               </div>
               {illnessOpen ? <ChevronUp className="w-5 h-5 text-gray-400" /> : <ChevronDown className="w-5 h-5 text-gray-400" />}
             </button>
@@ -707,7 +707,7 @@ Other Relevant Family Medical Conditions: Her mother had hypertension and osteoa
                 <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center">
                   <Droplets className="w-5 h-5 text-teal-600" />
                 </div>
-                <span className="text-8 font-bold text-gray-800">Diagnosis</span>
+                <span className="text-[2rem] font-bold text-gray-800">Diagnosis</span>
               </div>
               {diagnosisOpen ? <ChevronUp className="w-5 h-5 text-gray-400" /> : <ChevronDown className="w-5 h-5 text-gray-400" />}
             </button>
@@ -743,7 +743,7 @@ Other Relevant Family Medical Conditions: Her mother had hypertension and osteoa
                 <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center">
                   <Pencil className="w-5 h-5 text-teal-600" />
                 </div>
-                <span className="text-8 font-bold text-gray-800">Symptoms</span>
+                <span className="text-[2rem] font-bold text-gray-800">Symptoms</span>
               </div>
               {symptomsOpen ? <ChevronUp className="w-5 h-5 text-gray-400" /> : <ChevronDown className="w-5 h-5 text-gray-400" />}
             </button>
@@ -766,7 +766,7 @@ Other Relevant Family Medical Conditions: Her mother had hypertension and osteoa
                 <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center">
                   <FileText className="w-5 h-5 text-teal-600" />
                 </div>
-                <span className="text-8 font-bold text-gray-800">Medication</span>
+                <span className="text-[2rem] font-bold text-gray-800">Medication</span>
               </div>
               {medicationOpen ? <ChevronUp className="w-5 h-5 text-gray-400" /> : <ChevronDown className="w-5 h-5 text-gray-400" />}
             </button>

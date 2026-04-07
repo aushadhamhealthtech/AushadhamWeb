@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -108,7 +108,12 @@ const navItems = [
 
 export default function Sidebar() {
   const [expanded, setExpanded] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const open  = () => setExpanded(true);
   const close = () => setExpanded(false);
@@ -188,7 +193,7 @@ export default function Sidebar() {
         {/* Nav Items */}
         <nav className="flex-1 px-2 py-2 space-y-1 overflow-y-auto">
           {navItems.map((item) => {
-            const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
+            const isActive = mounted && (pathname === item.href || pathname.startsWith(item.href + "/"));
             return (
             <Tooltip key={item.label}>
               <TooltipTrigger asChild>
