@@ -66,9 +66,17 @@ const defaultProfile: DoctorProfileForm = {
   memberships: "Indian Medical Association (IMA)",
 };
 
-function FieldLabel({ label, required = false }: { label: string; required?: boolean }) {
+function FieldLabel({
+  label,
+  required = false,
+  htmlFor,
+}: {
+  label: string;
+  required?: boolean;
+  htmlFor?: string;
+}) {
   return (
-    <label className="mb-1.5 block text-sm font-medium text-gray-700">
+    <label htmlFor={htmlFor} className="mb-1.5 block text-sm font-medium text-gray-700">
       {label}
       {required ? <span className="text-red-500">*</span> : null}
     </label>
@@ -187,8 +195,9 @@ export default function DoctorProfilePage() {
                 />
               </div>
               <div>
-                <FieldLabel label="Email" required />
+                <FieldLabel label="Email" required htmlFor="doctor-email" />
                 <Input
+                  id="doctor-email"
                   type="email"
                   value={profile.email}
                   onChange={(e) => handleChange("email", e.target.value)}
@@ -364,6 +373,7 @@ export default function DoctorProfilePage() {
                       value={profile.consultationFee}
                       onChange={(e) => handleChange("consultationFee", e.target.value)}
                       placeholder="Ex: 400"
+                      aria-label="Consultation fees"
                       className="border-0 rounded-none focus-visible:ring-0"
                     />
                   </div>

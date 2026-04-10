@@ -817,7 +817,12 @@ Other Relevant Family Medical Conditions: Her mother had hypertension and osteoa
                   {labTestTags.map((tag) => (
                     <Badge key={tag} variant="secondary" className="rounded-full bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 px-3 py-1">
                       {tag}
-                      <button type="button" className="ml-2 text-gray-400 hover:text-gray-600" onClick={() => removeLabTestTag(tag)}>
+                      <button
+                        type="button"
+                        aria-label={`Remove ${tag}`}
+                        className="ml-2 text-gray-400 hover:text-gray-600"
+                        onClick={() => removeLabTestTag(tag)}
+                      >
                         <X className="w-3 h-3" />
                       </button>
                     </Badge>
@@ -954,6 +959,7 @@ Other Relevant Family Medical Conditions: Her mother had hypertension and osteoa
                 type="button"
                 role="switch"
                 aria-checked={recommendPersonalizedPlan}
+                aria-label="Recommend personalized plan"
                 onClick={() => setRecommendPersonalizedPlan((prev) => !prev)}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
                   recommendPersonalizedPlan ? "bg-green-500" : "bg-gray-200"
