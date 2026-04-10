@@ -14,9 +14,9 @@ import { cn } from "@/lib/utils";
 
 type DoctorProfileForm = {
   firstName: string;
-  middleName: string;
   lastName: string;
   mobileNumber: string;
+  email: string;
   practice: string;
   specialization: string;
   qualification: string;
@@ -41,9 +41,9 @@ type DoctorProfileForm = {
 
 const defaultProfile: DoctorProfileForm = {
   firstName: "Ritika",
-  middleName: "",
   lastName: "Shah",
   mobileNumber: "+91 98201 12345",
+  email: "ritika.sahu@aushadham.in",
   practice: "General Medicine",
   specialization: "General Physician",
   qualification: "MBBS, MD",
@@ -66,9 +66,17 @@ const defaultProfile: DoctorProfileForm = {
   memberships: "Indian Medical Association (IMA)",
 };
 
-function FieldLabel({ label, required = false }: { label: string; required?: boolean }) {
+function FieldLabel({
+  label,
+  required = false,
+  htmlFor,
+}: {
+  label: string;
+  required?: boolean;
+  htmlFor?: string;
+}) {
   return (
-    <label className="mb-1.5 block text-sm font-medium text-gray-700">
+    <label htmlFor={htmlFor} className="mb-1.5 block text-sm font-medium text-gray-700">
       {label}
       {required ? <span className="text-red-500">*</span> : null}
     </label>
@@ -158,22 +166,13 @@ export default function DoctorProfilePage() {
           </CardHeader>
 
           <CardContent className="space-y-12 p-6 md:p-8">
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
               <div>
                 <FieldLabel label="First Name" required />
                 <Input
                   value={profile.firstName}
                   onChange={(e) => handleChange("firstName", e.target.value)}
                   placeholder="Enter your first name"
-                  className="rounded-xl border-gray-200"
-                />
-              </div>
-              <div>
-                <FieldLabel label="Middle Name" />
-                <Input
-                  value={profile.middleName}
-                  onChange={(e) => handleChange("middleName", e.target.value)}
-                  placeholder="Enter your middle name"
                   className="rounded-xl border-gray-200"
                 />
               </div>
@@ -192,6 +191,17 @@ export default function DoctorProfilePage() {
                   value={profile.mobileNumber}
                   onChange={(e) => handleChange("mobileNumber", e.target.value)}
                   placeholder="Enter your mobile number"
+                  className="rounded-xl border-gray-200"
+                />
+              </div>
+              <div>
+                <FieldLabel label="Email" required htmlFor="doctor-email" />
+                <Input
+                  id="doctor-email"
+                  type="email"
+                  value={profile.email}
+                  onChange={(e) => handleChange("email", e.target.value)}
+                  placeholder="Enter your email address"
                   className="rounded-xl border-gray-200"
                 />
               </div>
@@ -354,9 +364,8 @@ export default function DoctorProfilePage() {
             <Separator />
 
             <div className="space-y-5">
-              <h3 className="text-4xl font-bold text-teal-700">Clinic or Hospital Details</h3>
+              <h3 className="text-4xl font-bold text-teal-700">Consultation Fees</h3>
               <div>
-                <FieldLabel label="Consultation Fees" required />
                 <div className="max-w-xl">
                   <div className="flex items-center overflow-hidden rounded-xl border border-gray-200 bg-white">
                     <span className="px-3 text-gray-700">₹</span>
@@ -364,6 +373,7 @@ export default function DoctorProfilePage() {
                       value={profile.consultationFee}
                       onChange={(e) => handleChange("consultationFee", e.target.value)}
                       placeholder="Ex: 400"
+                      aria-label="Consultation fees"
                       className="border-0 rounded-none focus-visible:ring-0"
                     />
                   </div>
