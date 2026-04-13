@@ -254,10 +254,10 @@ export default function PatientDashboardPage() {
 
                           <div className="mt-5 flex gap-0">
                             <div
-                              className="flex w-[170px] shrink-0 flex-col items-center rounded-2xl px-4 pb-4 pt-6"
+                              className="flex w-42.5 shrink-0 flex-col items-center rounded-2xl px-4 pb-4 pt-6"
                               style={{ backgroundColor: "#f5f5f0" }}
                             >
-                              <div className="relative mb-3 h-[110px] w-[110px]">
+                              <div className="relative mb-3 h-27.5 w-27.5">
                                 <div
                                   className="absolute inset-0 rounded-full"
                                   style={{ backgroundColor: "#f5c842" }}
