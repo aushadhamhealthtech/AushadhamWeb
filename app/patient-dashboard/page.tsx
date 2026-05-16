@@ -10,6 +10,7 @@ import {
   CardAction,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
@@ -49,6 +50,7 @@ import {
   rescheduleAppointment,
   makePayment,
 } from "@/lib/api/patient-dashboard";
+import { useRouter } from "next/navigation";
 
 /* ─── Color Palette ─── */
 const C = {
@@ -110,6 +112,7 @@ function PaymentLogo({ logo }: { logo: PaymentMethod["logo"] }) {
    Patient Dashboard Page
    ═══════════════════════════════════════════════════════════════ */
 export default function PatientDashboardPage() {
+  const router = useRouter();
   const PATIENT_ID = "patient-1" // TODO: get from auth session
 
   const [patient, setPatient] = React.useState<PatientProfile | null>(null)
@@ -196,11 +199,14 @@ export default function PatientDashboardPage() {
           </div>
 
           <Button
+            asChild
             className="rounded-full px-5 py-2.5 text-sm font-semibold"
             style={{ backgroundColor: C.mid }}
           >
-            <Plus size={16} strokeWidth={2.5} />
-            New Appointment
+            <Link href="/patient-dashboard/new-appointment">
+              <Plus size={16} strokeWidth={2.5} />
+              New Appointment
+            </Link>
           </Button>
         </header>
 
@@ -224,11 +230,12 @@ export default function PatientDashboardPage() {
                   </CardTitle>
                   <CardAction>
                     <Button
+                      asChild
                       variant="link"
                       className="p-0 text-sm font-semibold no-underline hover:no-underline"
                       style={{ color: C.mid }}
                     >
-                      View All
+                      <Link href="/patient-dashboard/appointments">View All</Link>
                     </Button>
                   </CardAction>
                 </CardHeader>
@@ -1045,7 +1052,10 @@ export default function PatientDashboardPage() {
           <Button
             className="mt-8 h-14 w-full rounded-2xl text-base font-semibold text-white"
             style={{ backgroundColor: C.mid }}
-            onClick={() => setRescheduleSuccess(false)}
+            onClick={() => {
+              setRescheduleSuccess(false);
+              router.push("/patient-dashboard/appointments");
+            }}
           >
             Appointments
           </Button>
@@ -1172,11 +1182,12 @@ export default function PatientDashboardPage() {
 
           {/* Button */}
           <Button
+            asChild
             className="mt-8 h-14 w-full rounded-2xl text-base font-semibold text-white"
             style={{ backgroundColor: C.mid }}
             onClick={() => setCancelledAppt(null)}
           >
-            New Appointment
+            <Link href="/patient-dashboard/new-appointment">New Appointment</Link>
           </Button>
         </DialogContent>
       </Dialog>

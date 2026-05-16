@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { CalendarClock, Plus, Search } from "lucide-react";
+import Link from "next/link";
 
 const HISTORY_ITEMS = [
   {
@@ -51,9 +52,11 @@ export default function PatientMedicalHistoryPage() {
             </div>
           </div>
 
-          <Button className="rounded-full bg-[#15806e] text-white hover:bg-[#0f6f60]">
-            <Plus className="h-4 w-4" />
-            New Appointment
+          <Button asChild className="rounded-full bg-[#15806e] text-white hover:bg-[#0f6f60]">
+            <Link href="/patient-dashboard/new-appointment">
+              <Plus className="h-4 w-4" />
+              New Appointment
+            </Link>
           </Button>
         </header>
 

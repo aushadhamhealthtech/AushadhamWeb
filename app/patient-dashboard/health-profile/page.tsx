@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
 import {
   CalendarClock,
   Plus,
@@ -39,9 +40,11 @@ export default function PatientHealthProfilePage() {
               <ChevronLeft className="h-4 w-4" />
               Back
             </Button>
-            <Button className="rounded-full bg-[#15806e] text-white hover:bg-[#0f6f60]">
-              <Plus className="h-4 w-4" />
-              New Appointment
+            <Button asChild className="rounded-full bg-[#15806e] text-white hover:bg-[#0f6f60]">
+              <Link href="/patient-dashboard/new-appointment">
+                <Plus className="h-4 w-4" />
+                New Appointment
+              </Link>
             </Button>
           </div>
         </header>

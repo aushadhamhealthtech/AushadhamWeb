@@ -1,24 +1,17 @@
-import { notFound } from "next/navigation";
 import Sidebar from "@/components/layout/sidebar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { CalendarDays, ChevronLeft, Plus, FileText } from "lucide-react";
 import Link from "next/link";
 
-const SECTION_TITLES: Record<string, string> = {
-  appointments: "Appointments",
-  "health-profile": "Health Profile",
-  "medical-reports": "Medical Reports",
-  prescription: "Prescription",
-  "medical-history": "Medical History",
-  messages: "Messages",
-  settings: "Settings",
-  doctors: "Doctors",
-  prescriptions: "Prescriptions",
-  notifications: "Notifications",
+const patient = {
+  name: "Priyanka",
+  id: "8700549874",
+  photo: "/patient-priyanka.jpg",
 };
 
 const medicationSchedule = [
@@ -48,46 +41,20 @@ const prescriptions = [
   { date: "20-12-23", title: "Cold & Flu", doctor: "Dr. Nidhi Nath" },
 ];
 
-export default function PatientSectionPage({
-  params,
-}: {
-  params: { section: string };
-}) {
-  const { section } = params;
-  const title = SECTION_TITLES[section];
-
-  if (!title) {
-    notFound();
-  }
-
-  if (section !== "medical-reports") {
-    return (
-      <div className="flex min-h-screen bg-white">
-        <Sidebar />
-        <main className="flex-1 lg:ml-20 px-6 py-8">
-          <div className="mx-auto max-w-4xl rounded-2xl border border-gray-200 bg-white p-8">
-            <h1 className="text-3xl font-bold text-[#065b4b]">{title}</h1>
-            <p className="mt-3 text-gray-600">
-              This is the patient {title.toLowerCase()} screen.
-            </p>
-          </div>
-        </main>
-      </div>
-    );
-  }
-
+export default function PrescriptionPage() {
   return (
     <div className="flex min-h-screen bg-[#f6fbf9]">
       <Sidebar />
       <main className="flex-1 lg:ml-20 px-6 py-8">
         <header className="flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#e8f5f2] text-[#228573]">
-              <CalendarDays className="h-5 w-5" />
-            </div>
+          <div className="flex items-center gap-4">
+            <Avatar className="h-14 w-14">
+              <AvatarImage src={patient.photo} alt={patient.name} />
+              <AvatarFallback>PR</AvatarFallback>
+            </Avatar>
             <div>
-              <h1 className="text-3xl font-bold text-[#065b4b]">Medical Reports</h1>
-              <p className="text-sm font-medium text-gray-500">Patient dashboard overview</p>
+              <h1 className="text-3xl font-extrabold text-[#065b4b]">Hello {patient.name}</h1>
+              <p className="text-sm font-semibold text-gray-500">Patient Id:&nbsp; {patient.id}</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -164,7 +131,7 @@ export default function PatientSectionPage({
                   </p>
                 </div>
                 <div className="rounded-2xl bg-white/10 p-4">
-                  {medicationSchedule[0].items.map((item, index) => (
+                  {medicationSchedule[0].items.map((item) => (
                     <div key={`${item.name}-reminder`} className="flex items-center justify-between py-2">
                       <div>
                         <p className="text-sm font-medium text-white">{item.name}</p>
