@@ -11,6 +11,7 @@ export interface PatientProfile {
 
 export interface Appointment {
   id: string
+  doctorId: string
   date: string
   doctor: string
   specialty: string

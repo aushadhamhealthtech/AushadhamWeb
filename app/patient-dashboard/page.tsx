@@ -314,8 +314,7 @@ export default function PatientDashboardPage() {
                                   style={{ backgroundColor: C.mid }}
                                   onClick={() => {
                                     setShowReschedule(true)
-                                    // find the doctor id from the active appointment
-                                    const doctorId = appointments[activeAppt]?.id ?? "doctor-1"
+                                    const doctorId = appointments[activeAppt]?.doctorId ?? "doctor-1"
                                     getAvailableSlots(doctorId, "in-clinic").then(setRescheduleData)
                                   }}
                                 >
@@ -880,7 +879,10 @@ export default function PatientDashboardPage() {
           <Button
             className="mt-8 h-14 w-full rounded-2xl text-base font-semibold text-white"
             style={{ backgroundColor: C.mid }}
-            onClick={() => setPaymentSuccess(false)}
+            onClick={() => {
+              setPaymentSuccess(false)
+              router.push("/patient-dashboard/appointments")
+            }}
           >
             Appointments
           </Button>
@@ -1131,7 +1133,12 @@ export default function PatientDashboardPage() {
               className="h-12 flex-1 rounded-2xl border-2 text-base font-semibold text-red-500 hover:bg-red-50"
               style={{ borderColor: "#ef4444" }}
               onClick={() => {
-                if (cancelAppt) cancelAppointment(cancelAppt.id)
+                if (cancelAppt) {
+                  const cancelledId = cancelAppt.id
+                  cancelAppointment(cancelledId)
+                  setAppointments((prev) => prev.filter((a) => a.id !== cancelledId))
+                  setActiveAppt(0)
+                }
                 setCancelledAppt(cancelAppt)
                 setCancelAppt(null)
               }}

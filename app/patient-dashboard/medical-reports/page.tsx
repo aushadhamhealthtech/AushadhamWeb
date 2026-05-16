@@ -1,9 +1,12 @@
+"use client";
+
 import Sidebar from "@/components/layout/sidebar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ChevronDown, ChevronLeft, FileText, Plus, UploadCloud } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const patient = {
   name: "Priyanka",
@@ -18,6 +21,7 @@ const reports = [
 ];
 
 export default function MedicalReportsPage() {
+  const router = useRouter();
   return (
     <div className="flex min-h-screen bg-[#f6fbf9]">
       <Sidebar />
@@ -34,7 +38,11 @@ export default function MedicalReportsPage() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="ghost" className="h-10 px-3 text-sm text-[#228573]">
+            <Button
+              variant="ghost"
+              onClick={() => router.back()}
+              className="h-10 px-3 text-sm text-[#228573]"
+            >
               <ChevronLeft className="h-4 w-4" />
               Back
             </Button>

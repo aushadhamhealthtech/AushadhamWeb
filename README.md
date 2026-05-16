@@ -66,7 +66,7 @@ Patients can:
 
 ### Prerequisites
 
-- Node.js 18.18+ (Node 20+ recommended)
+- Node.js 20.9+ (required by Next.js 16)
 - npm
 
 ### Run Locally

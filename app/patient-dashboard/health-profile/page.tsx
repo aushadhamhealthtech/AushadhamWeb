@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   CalendarClock,
   Plus,
@@ -18,6 +19,7 @@ import {
 } from "lucide-react";
 
 export default function PatientHealthProfilePage() {
+  const router = useRouter();
   return (
     <div className="flex min-h-screen bg-[#f3faf7]">
       <Sidebar />
@@ -36,7 +38,11 @@ export default function PatientHealthProfilePage() {
           </div>
 
           <div className="flex items-center gap-3">
-            <Button variant="ghost" className="gap-1 text-[#0f7f71] hover:bg-transparent">
+            <Button
+              variant="ghost"
+              onClick={() => router.back()}
+              className="gap-1 text-[#0f7f71] hover:bg-transparent"
+            >
               <ChevronLeft className="h-4 w-4" />
               Back
             </Button>

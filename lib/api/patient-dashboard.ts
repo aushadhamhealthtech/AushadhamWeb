@@ -29,6 +29,7 @@ export async function getUpcomingAppointments(patientId: string): Promise<Appoin
   return [
     {
       id: "appt-1",
+      doctorId: "doctor-sunil-shinde",
       date: "Wednesday, 20 March 2024",
       doctor: "Dr. Sunil Shinde",
       specialty: "Orthopedic",
@@ -39,6 +40,7 @@ export async function getUpcomingAppointments(patientId: string): Promise<Appoin
     },
     {
       id: "appt-2",
+      doctorId: "doctor-priya-sharma",
       date: "Friday, 22 March 2024",
       doctor: "Dr. Priya Sharma",
       specialty: "Cardiologist",
@@ -49,6 +51,7 @@ export async function getUpcomingAppointments(patientId: string): Promise<Appoin
     },
     {
       id: "appt-3",
+      doctorId: "doctor-ramesh-kumar",
       date: "Monday, 25 March 2024",
       doctor: "Dr. Ramesh Kumar",
       specialty: "General Physician",

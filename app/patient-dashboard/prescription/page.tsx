@@ -1,3 +1,5 @@
+"use client";
+
 import Sidebar from "@/components/layout/sidebar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -7,6 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { CalendarDays, ChevronLeft, Plus, FileText } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const patient = {
   name: "Priyanka",
@@ -42,6 +45,7 @@ const prescriptions = [
 ];
 
 export default function PrescriptionPage() {
+  const router = useRouter();
   return (
     <div className="flex min-h-screen bg-[#f6fbf9]">
       <Sidebar />
@@ -58,7 +62,11 @@ export default function PrescriptionPage() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="ghost" className="h-10 px-3 text-sm text-[#228573]">
+            <Button
+              variant="ghost"
+              onClick={() => router.back()}
+              className="h-10 px-3 text-sm text-[#228573]"
+            >
               <ChevronLeft className="h-4 w-4" />
               Back
             </Button>
