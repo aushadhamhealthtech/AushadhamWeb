@@ -174,7 +174,7 @@ export default function Navbar() {
                     ) : (
                         <>
                             <button
-                                onClick={() => router.push("/dashboard")}
+                                onClick={() => router.push("/patient-dashboard")}
                                 className="px-6 py-2.5 rounded-full border border-gray-800 text-gray-900 text-sm font-semibold hover:bg-gray-50 transition-all duration-200 inline-flex items-center justify-center"
                             >
                                 Sign up

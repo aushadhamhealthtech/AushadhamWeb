@@ -826,6 +826,7 @@ export default function AuthModal() {
         router.refresh();
     }
 
+
     useEffect(() => {
         const handler = (e: KeyboardEvent) => { if (e.key === "Escape") handleClose(); };
         if (isOpen) window.addEventListener("keydown", handler);
