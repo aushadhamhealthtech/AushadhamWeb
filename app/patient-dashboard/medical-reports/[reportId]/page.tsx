@@ -3,8 +3,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowDown, ArrowUp, ChevronLeft, Download, Plus } from "lucide-react";
+import { ArrowDown, ArrowUp, ChevronLeft, Plus } from "lucide-react";
 import Link from "next/link";
+import DownloadReportButton from "@/components/DownloadReportButton";
 
 const patient = {
   name: "Priyanka",
@@ -18,6 +19,7 @@ const reportDetails: Record<
     title: string;
     date: string;
     doctor: string;
+    download: { filename: string; sizeLabel: string };
     highlights: Array<{ label: string; value: string; unit: string; trend: "up" | "down" }>;
   }
 > = {
@@ -25,6 +27,7 @@ const reportDetails: Record<
     title: "The Complete Blood Count Report",
     date: "27-08-24",
     doctor: "Dr. Nakul Raj Parekh",
+    download: { filename: "complete_blood_count.pdf", sizeLabel: "1708 kb" },
     highlights: [
       { label: "Red blood Cells (RBC)", value: "1.8", unit: "M/mcL", trend: "down" },
       { label: "Hemoglobin (HB/Hgb)", value: "6.5", unit: "g/dL", trend: "down" },
@@ -36,6 +39,7 @@ const reportDetails: Record<
     title: "Lipid Panel Report",
     date: "20-12-23",
     doctor: "Dr. Nakul Raj Parekh",
+    download: { filename: "lipid_panel.pdf", sizeLabel: "1260 kb" },
     highlights: [
       { label: "LDL Cholesterol", value: "110", unit: "mg/dL", trend: "down" },
       { label: "HDL Cholesterol", value: "42", unit: "mg/dL", trend: "up" },
@@ -47,6 +51,7 @@ const reportDetails: Record<
     title: "Fasting Sugar Report",
     date: "20-12-23",
     doctor: "Dr. Nakul Raj Parekh",
+    download: { filename: "fasting_sugar.pdf", sizeLabel: "980 kb" },
     highlights: [
       { label: "Fasting Glucose", value: "96", unit: "mg/dL", trend: "down" },
       { label: "HbA1c", value: "6.2", unit: "%", trend: "up" },
@@ -56,13 +61,14 @@ const reportDetails: Record<
   },
 };
 
-export default function MedicalReportDetailPage({
+export default async function MedicalReportDetailPage({
   params,
 }: {
-  params: { reportId: string };
+  params: Promise<{ reportId: string }>;
 }) {
-  const normalizedId = params.reportId?.toLowerCase();
-  const report = reportDetails[params.reportId] ?? reportDetails[normalizedId] ?? reportDetails.cbc;
+  const { reportId } = await params;
+  const normalizedId = reportId?.toLowerCase();
+  const report = reportDetails[reportId] ?? reportDetails[normalizedId] ?? reportDetails.cbc;
 
   return (
     <div className="flex min-h-screen bg-[#f6fbf9]">
@@ -151,12 +157,12 @@ export default function MedicalReportDetailPage({
                       ))}
                     </div>
                   </div>
-                  <Button
-                    size="icon"
-                    className="absolute bottom-4 right-4 h-9 w-9 rounded-full bg-[#228573]"
-                  >
-                    <Download className="h-4 w-4" />
-                  </Button>
+                  <div className="absolute bottom-4 right-4">
+                    <DownloadReportButton
+                      filename={report.download.filename}
+                      sizeLabel={report.download.sizeLabel}
+                    />
+                  </div>
                 </div>
               </CardContent>
             </Card>

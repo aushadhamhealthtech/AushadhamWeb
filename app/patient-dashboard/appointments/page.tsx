@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
@@ -183,6 +183,9 @@ export default function PatientAppointmentsPage() {
         <Dialog open={showReschedule} onOpenChange={setShowReschedule}>
           <DialogContent className="max-w-3xl rounded-3xl border-0 p-0">
             <DialogTitle className="sr-only">Reschedule appointment</DialogTitle>
+            <DialogDescription className="sr-only">
+              Choose a new slot to reschedule your appointment.
+            </DialogDescription>
             <div className="rounded-3xl bg-white px-8 pb-8 pt-6">
               <div className="flex items-start justify-between">
                 <h2 className="text-2xl font-bold text-[#1f2a27]">Reschedule appointment</h2>
@@ -232,11 +235,12 @@ export default function PatientAppointmentsPage() {
                 ].map((day) => (
                   <button
                     key={day.label}
-                    className={`flex min-w-[140px] flex-col items-center rounded-2xl border px-3 py-2 text-sm font-semibold transition ${
+                    className={`flex flex-col items-center rounded-2xl border px-3 py-2 text-sm font-semibold transition ${
                       day.active
                         ? "border-[#228573] bg-[#228573] text-white"
                         : "border-[#e5e7eb] bg-white text-[#1f2a27]"
                     } ${day.muted ? "text-gray-400" : ""}`}
+                    style={{ minWidth: 140 }}
                   >
                     <span>{day.label}</span>
                     <span
@@ -336,6 +340,9 @@ export default function PatientAppointmentsPage() {
         <Dialog open={showEditSymptoms} onOpenChange={setShowEditSymptoms}>
           <DialogContent className="max-w-2xl rounded-3xl border-0 p-0">
             <DialogTitle className="sr-only">Edit symptoms</DialogTitle>
+            <DialogDescription className="sr-only">
+              Update symptoms for your rescheduled appointment.
+            </DialogDescription>
             <div className="rounded-3xl bg-white px-8 pb-8 pt-6">
               <div className="flex items-start justify-between">
                 <h2 className="text-2xl font-bold text-[#1f2a27]">Edit Symptoms</h2>
@@ -366,7 +373,8 @@ export default function PatientAppointmentsPage() {
                 <p className="text-base font-semibold text-[#1f2a27]">Explain your symptoms</p>
                 <Textarea
                   defaultValue="Nausea, Heart Burn, Heat Flashes"
-                  className="min-h-[140px] rounded-2xl border-[#e5e7eb] bg-[#f7f7f7] text-sm"
+                  className="rounded-2xl border-[#e5e7eb] bg-[#f7f7f7] text-sm"
+                  style={{ minHeight: 140 }}
                 />
                 <div className="flex items-start gap-2 text-sm text-[#6c7a76]">
                   <span className="mt-0.5">i</span>
@@ -390,6 +398,9 @@ export default function PatientAppointmentsPage() {
         <Dialog open={showUpdated} onOpenChange={setShowUpdated}>
           <DialogContent className="max-w-2xl rounded-3xl border-0 p-0">
             <DialogTitle className="sr-only">Appointment updated</DialogTitle>
+            <DialogDescription className="sr-only">
+              Your appointment has been updated successfully.
+            </DialogDescription>
             <div className="rounded-3xl bg-white px-10 pb-10 pt-8 text-center">
               <div className="flex justify-end">
                 <Button
@@ -450,6 +461,9 @@ export default function PatientAppointmentsPage() {
         <Dialog open={showPayNow} onOpenChange={setShowPayNow}>
           <DialogContent className="max-w-xl rounded-3xl border-0 p-0">
             <DialogTitle className="sr-only">Choose payment method</DialogTitle>
+            <DialogDescription className="sr-only">
+              Select a payment method to complete payment.
+            </DialogDescription>
             <div className="rounded-3xl bg-white px-8 pb-8 pt-6">
               <div className="flex items-start justify-between">
                 <h2 className="text-2xl font-bold text-[#1f2a27]">Choose Payment method</h2>
@@ -535,6 +549,9 @@ export default function PatientAppointmentsPage() {
         <Dialog open={showPaymentSuccess} onOpenChange={setShowPaymentSuccess}>
           <DialogContent className="max-w-2xl rounded-3xl border-0 p-0">
             <DialogTitle className="sr-only">Payment success</DialogTitle>
+            <DialogDescription className="sr-only">
+              Your payment was successful.
+            </DialogDescription>
             <div className="rounded-3xl bg-white px-10 pb-10 pt-8 text-center">
               <div className="flex justify-end">
                 <Button
@@ -595,6 +612,9 @@ export default function PatientAppointmentsPage() {
         <Dialog open={showCancelConfirm} onOpenChange={setShowCancelConfirm}>
           <DialogContent className="max-w-2xl rounded-3xl border-0 p-0">
             <DialogTitle className="sr-only">Confirm cancellation</DialogTitle>
+            <DialogDescription className="sr-only">
+              Confirm whether you want to cancel this appointment.
+            </DialogDescription>
             <div className="rounded-3xl bg-white px-10 pb-10 pt-8 text-center">
               <div className="flex justify-end">
                 <Button
@@ -673,6 +693,9 @@ export default function PatientAppointmentsPage() {
         <Dialog open={showCancelled} onOpenChange={setShowCancelled}>
           <DialogContent className="max-w-2xl rounded-3xl border-0 p-0">
             <DialogTitle className="sr-only">Appointment cancelled</DialogTitle>
+            <DialogDescription className="sr-only">
+              Your appointment has been cancelled.
+            </DialogDescription>
             <div className="rounded-3xl bg-white px-10 pb-10 pt-8 text-center">
               <div className="flex justify-end">
                 <Button
@@ -761,7 +784,13 @@ export default function PatientAppointmentsPage() {
                         </Badge>
                       )}
                     </div>
-                    <Button variant="link" className="h-auto justify-start p-0 text-[#2563eb]">
+                    <Button
+                      variant="link"
+                      className="h-auto justify-start p-0 text-[#2563eb]"
+                      onClick={() =>
+                        router.push(`/patient-dashboard/prescription/casesheet?doctor=${item.id}`)
+                      }
+                    >
                       View
                     </Button>
                     <div>
