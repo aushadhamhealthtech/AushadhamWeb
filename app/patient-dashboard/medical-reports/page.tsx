@@ -259,7 +259,7 @@ export default function MedicalReportsPage() {
               <div className="mt-6 space-y-6">
                 <div className="grid grid-cols-[120px_1fr] items-center gap-4">
                   <p className="text-sm font-semibold text-[#1f2a27]">Doctor</p>
-                  <div className="h-11 rounded-xl border border-[#e5e7eb] bg-white px-4 text-sm leading-[44px]">
+                  <div className="h-11 rounded-xl border border-[#e5e7eb] bg-white px-4 text-sm leading-11">
                     Dr. Sudha Krishnan
                   </div>
                 </div>
@@ -274,7 +274,7 @@ export default function MedicalReportsPage() {
                     ].map((label) => (
                       <div
                         key={label}
-                        className="h-11 rounded-xl border border-[#e5e7eb] bg-white text-center text-sm leading-[44px]"
+                        className="h-11 rounded-xl border border-[#e5e7eb] bg-white text-center text-sm leading-11"
                       >
                         {label}
                       </div>
