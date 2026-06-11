@@ -121,7 +121,7 @@ export default function Header() {
       <div className="flex items-center gap-3">
         {/* Date Navigator */}
         <div className="flex items-center gap-1 bg-gray-50 rounded-xl px-3 py-2 border border-gray-200">
-          <Button variant="ghost" size="icon" className="w-6 h-6 text-gray-400 hover:text-gray-700" disabled={dateIndex === 0} onClick={prev}>
+          <Button variant="ghost" size="icon" aria-label="Previous day" className="w-6 h-6 text-gray-400 hover:text-gray-700" disabled={dateIndex === 0} onClick={prev}>
             <ChevronLeft className="w-4 h-4" />
           </Button>
 
@@ -154,7 +154,7 @@ export default function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Button variant="ghost" size="icon" className="w-6 h-6 text-gray-400 hover:text-gray-700" disabled={dateIndex === mockDates.length - 1} onClick={next}>
+          <Button variant="ghost" size="icon" aria-label="Next day" className="w-6 h-6 text-gray-400 hover:text-gray-700" disabled={dateIndex === mockDates.length - 1} onClick={next}>
             <ChevronRight className="w-4 h-4" />
           </Button>
         </div>

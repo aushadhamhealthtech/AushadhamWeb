@@ -29,6 +29,7 @@ export function DateSelector() {
       <Button
         variant="ghost"
         size="icon"
+        aria-label="Previous day"
         className="w-6 h-6 text-gray-400 hover:text-gray-600"
         onClick={goToPreviousDay}
       >
@@ -43,6 +44,7 @@ export function DateSelector() {
       <Button
         variant="ghost"
         size="icon"
+        aria-label="Next day"
         className="w-6 h-6 text-gray-400 hover:text-gray-600"
         onClick={goToNextDay}
       >

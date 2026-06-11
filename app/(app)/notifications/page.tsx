@@ -134,11 +134,11 @@ function NotificationsPageContent() {
         </div>
 
         <div className="flex flex-wrap items-center gap-2 sm:justify-end">
-          <Button variant="outline" size="icon" className="h-9 w-9 rounded-full border-gray-200">
+          <Button variant="outline" size="icon" aria-label="Previous" className="h-9 w-9 rounded-full border-gray-200">
             <ChevronLeft className="h-4 w-4" />
           </Button>
           <p className="px-2 text-sm font-semibold text-teal-700">{activeDateLabel}</p>
-          <Button variant="outline" size="icon" className="h-9 w-9 rounded-full border-gray-200">
+          <Button variant="outline" size="icon" aria-label="Next" className="h-9 w-9 rounded-full border-gray-200">
             <ChevronRight className="h-4 w-4" />
           </Button>
           <Button

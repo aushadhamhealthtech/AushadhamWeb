@@ -123,7 +123,7 @@ export default function SettingsPage() {
                       <Avatar className="w-16 h-16">
                         <AvatarFallback className="bg-amber-400 text-white text-xl font-bold">RS</AvatarFallback>
                       </Avatar>
-                      <Button type="button" size="icon" className="absolute bottom-0 right-0 w-6 h-6 bg-teal-600 rounded-full shadow hover:bg-teal-700">
+                      <Button type="button" size="icon" aria-label="Change profile photo" className="absolute bottom-0 right-0 w-6 h-6 bg-teal-600 rounded-full shadow hover:bg-teal-700">
                         <Camera className="w-3 h-3 text-white" />
                       </Button>
                     </div>

@@ -6,16 +6,7 @@ import gsap from "gsap";
 import { ArrowRight, Camera, Calendar, UploadCloud, UserRound } from "lucide-react";
 import { OnboardingLogo } from "@/components/onboarding/logo";
 import { PillInput, PillSelect } from "@/components/onboarding/primitives";
-
-const C = {
-    primary: "#065b4b",
-    mid:     "#228573",
-    light:   "#3aa692",
-    mint:    "#e8f5f2",
-    border:  "#d9e7e2",
-    bg:      "#f8fffe",
-    muted:   "rgba(6,91,75,0.56)",
-};
+import { C } from "@/lib/constants/brand-colors";
 
 const GENDERS   = ["Male", "Female", "Other", "Prefer not to say"];
 const LANGUAGES = ["English", "Hindi", "Telugu", "Tamil", "Kannada", "Malayalam", "Marathi", "Bengali"];
@@ -75,7 +66,7 @@ function LeftPanel() {
     return (
         <aside
             className="hidden lg:flex w-[300px] shrink-0 px-8 py-9 flex-col justify-between relative overflow-hidden"
-            style={{ background: "linear-gradient(160deg, #032f27 0%, #065b4b 45%, #228573 100%)" }}
+            style={{ background: "linear-gradient(160deg, #032f27 0%, var(--brand-dark) 45%, var(--brand-mid) 100%)" }}
         >
             <div className="absolute top-[-62px] left-[-62px] w-[220px] h-[220px] rounded-full opacity-15"
                 style={{ background: "radial-gradient(circle, #77e8ca 0%, transparent 70%)" }} />
@@ -192,7 +183,7 @@ export default function PatientProfileSetupPage() {
                                 </p>
 
                                 {/* Profile photo */}
-                                <div className="mt-6 rounded-2xl p-4 border bg-[#f8fffd]" style={{ borderColor: C.border }}>
+                                <div className="mt-6 rounded-2xl p-4 border bg-brand-input-bg" style={{ borderColor: C.border }}>
                                     <div className="flex items-center gap-4">
                                         <div className="relative w-20 h-20 rounded-full border overflow-hidden flex items-center justify-center bg-white"
                                             style={{ borderColor: C.border }}>

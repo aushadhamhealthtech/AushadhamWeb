@@ -9,20 +9,10 @@ import {
 } from "lucide-react";
 import { OnboardingLogo } from "@/components/onboarding/logo";
 import { PillInput, PillSelect, PillMultiSelect } from "@/components/onboarding/primitives";
+import { C as _C } from "@/lib/constants/brand-colors";
 
 /* ── Brand palette ── */
-const C = {
-    primary: "#065b4b",
-    mid:     "#228573",
-    light:   "#3aa692",
-    mint:    "#e8f5f2",
-    blue:    "#658DF1",
-    blueBg:  "#eef1ff",
-    body:    "#3F4946",
-    muted:   "rgba(6,91,75,0.5)",
-    border:  "#e5e7eb",
-    bg:      "#f8fffe",
-};
+const C = { ..._C, blue: "#658DF1", blueBg: "#eef1ff", body: "#3F4946", muted: "rgba(6,91,75,0.5)", border: "#e5e7eb" } as const;
 
 const PROFILE_STEPS = [
     { num: 1, label: "Clinic details",   sub: "Your clinic name & address"        },
@@ -282,7 +272,7 @@ function StepClinicDetails({
                         value={form.fee}
                         onChange={e => setForm(f => ({ ...f, fee: e.target.value }))}
                         className="flex-1 px-5 py-3.5 rounded-full border text-sm outline-none transition-all duration-200"
-                        style={{ borderColor: C.border, color: C.primary, backgroundColor: "#fafffe" }}
+                        style={{ borderColor: C.border, color: C.primary, backgroundColor: "var(--brand-input-bg)" }}
                         onFocus={e => { e.currentTarget.style.borderColor = C.mid; e.currentTarget.style.boxShadow = "0 0 0 3px rgba(34,133,115,0.12)"; }}
                         onBlur={e  => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.boxShadow = "none"; }}
                     />
@@ -345,7 +335,7 @@ function StepPracticeDetails({
                         }
                     }}
                     className="w-full px-5 py-3.5 rounded-full border text-sm outline-none transition-all duration-200"
-                    style={{ borderColor: C.border, color: C.primary, backgroundColor: "#fafffe" }}
+                    style={{ borderColor: C.border, color: C.primary, backgroundColor: "var(--brand-input-bg)" }}
                     onFocus={e => { e.currentTarget.style.borderColor = C.mid; e.currentTarget.style.boxShadow = "0 0 0 3px rgba(34,133,115,0.12)"; }}
                     onBlur={e  => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.boxShadow = "none"; }}
                 />
@@ -580,7 +570,7 @@ function StepTimeSlots({
                             <Plus size={18} />
                         </button>
 
-                        <div className="mt-2 rounded-2xl px-4 py-3" style={{ backgroundColor: "#f8fffe", border: `1px solid ${C.border}` }}>
+                        <div className="mt-2 rounded-2xl px-4 py-3" style={{ backgroundColor: "var(--brand-input-bg)", border: `1px solid ${C.border}` }}>
                             <div className="flex items-center justify-between gap-2 mb-2">
                                 <p className="text-xs font-semibold" style={{ color: C.primary }}>
                                     Copy {selectedDay} timings to other days
@@ -726,7 +716,7 @@ function LeftPanel({ step }: { step: number }) {
             style={{
                 width: "300px",
                 minHeight: "100vh",
-                background: "linear-gradient(160deg, #032f27 0%, #065b4b 45%, #228573 100%)",
+                background: "linear-gradient(160deg, #032f27 0%, var(--brand-dark) 45%, var(--brand-mid) 100%)",
             }}
         >
             {/* Ambient orbs */}
@@ -759,7 +749,7 @@ function LeftPanel({ step }: { step: number }) {
                     <path d="M138 158 C138 158 128 172 128 182 C128 191 134 195 141 195 C148 195 154 189 154 180 C154 169 147 161 147 161"
                         stroke="white" strokeWidth="6" strokeLinecap="round" fill="none" opacity="0.65" />
                     <circle cx="147" cy="155" r="7" fill="white" opacity="0.8" />
-                    <circle cx="147" cy="155" r="4" fill="#228573" />
+                    <circle cx="147" cy="155" r="4" fill="var(--brand-mid)" />
                     {/* Sparkle */}
                     <path d="M168 44 L170 38 L172 44 L178 46 L172 48 L170 54 L168 48 L162 46 Z"
                         fill="white" opacity="0.35" />
@@ -789,7 +779,7 @@ function LeftPanel({ step }: { step: number }) {
                         <div className="h-1.5 rounded-full transition-all duration-700"
                             style={{
                                 width: `${pct}%`,
-                                background: "linear-gradient(90deg, #a0f2de, #3aa692)",
+                                background: "linear-gradient(90deg, #a0f2de, var(--brand-light))",
                             }} />
                     </div>
                     <p className="text-[11px] mt-2 opacity-50 text-white">Step {step} of {PROFILE_STEPS.length}</p>

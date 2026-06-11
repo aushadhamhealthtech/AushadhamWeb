@@ -5,20 +5,9 @@ import gsap from "gsap";
 import { useRouter } from "next/navigation";
 import { ChevronDown, Upload, Check, Shield, Star, Users, ArrowRight, ArrowLeft, UserCog, Clock } from "lucide-react";
 import { OnboardingLogo } from "@/components/onboarding/logo";
+import { C as _C } from "@/lib/constants/brand-colors";
 
-/* ── Brand palette ── */
-const C = {
-    primary:  "#065b4b",
-    mid:      "#228573",
-    light:    "#3aa692",
-    mint:     "#e8f5f2",
-    blue:     "#658DF1",
-    blueBg:   "#eef1ff",
-    body:     "#3F4946",
-    muted:    "rgba(6,91,75,0.5)",
-    border:   "#e5e7eb",
-    bg:       "#f8fffe",
-};
+const C = { ..._C, blue: "#658DF1", blueBg: "#eef1ff", body: "#3F4946", muted: "rgba(6,91,75,0.5)", border: "#e5e7eb" } as const;
 
 /* ── Form state types ── */
 type PersonalForm = {
@@ -69,7 +58,7 @@ function Field({
                 id={id} name={id} type={type} placeholder={placeholder}
                 required={required} value={value} onChange={onChange}
                 className="w-full px-5 py-3.5 rounded-full border text-sm outline-none transition-all duration-200"
-                style={{ borderColor: C.border, color: C.primary, backgroundColor: "#fafffe" }}
+                style={{ borderColor: C.border, color: C.primary, backgroundColor: "var(--brand-input-bg)" }}
                 onFocus={e => { e.currentTarget.style.borderColor = C.mid;    e.currentTarget.style.boxShadow = "0 0 0 3px rgba(34,133,115,0.12)"; }}
                 onBlur={e =>  { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.boxShadow = "none"; }}
             />
@@ -142,7 +131,7 @@ function FieldSelect({
                     style={{
                         borderColor:     open ? C.mid : C.border,
                         color:           value ? C.primary : C.muted,
-                        backgroundColor: "#fafffe",
+                        backgroundColor: "var(--brand-input-bg)",
                         boxShadow:       open ? "0 0 0 3px rgba(34,133,115,0.12)" : "none",
                     }}
                 >
@@ -168,7 +157,7 @@ function FieldSelect({
                         marginTop:       "6px",
                         borderRadius:    "1rem",
                         border:          `1px solid ${C.border}`,
-                        backgroundColor: "#fafffe",
+                        backgroundColor: "var(--brand-input-bg)",
                         maxHeight:       "220px",
                         overflowY:       "auto",
                         boxShadow:       "0 8px 30px rgba(6,91,75,0.12)",
@@ -307,7 +296,7 @@ function StepRegistration({
             </div>
 
             {/* Documents card */}
-            <div className="onboard-card rounded-3xl p-5" style={{ backgroundColor: "#fafffe", border: "1px solid rgba(34,133,115,0.12)" }}>
+            <div className="onboard-card rounded-3xl p-5" style={{ backgroundColor: "var(--brand-input-bg)", border: "1px solid rgba(34,133,115,0.12)" }}>
                 <p className="text-sm font-bold mb-4" style={{ color: C.primary }}>Verification Documents</p>
                 <div className="flex flex-col gap-3.5">
                     <FieldSelect id="idProofType" label="Identity Proof Type" options={ID_PROOFS} placeholder="Select document type"
@@ -470,7 +459,7 @@ function LeftPanel({ step }: { step: number }) {
             style={{
                 width: "300px",
                 minHeight: "100vh",
-                background: "linear-gradient(160deg, #065b4b 0%, #1a7a65 52%, #228573 100%)",
+                background: "linear-gradient(160deg, var(--brand-dark) 0%, #1a7a65 52%, var(--brand-mid) 100%)",
             }}
         >
             <OnboardingLogo variant="white" />
@@ -534,7 +523,7 @@ function LeftPanel({ step }: { step: number }) {
                     <path d="M76 52 C76 52 62 80 62 104 C62 126 76 136 96 136 C116 136 130 120 130 98 C130 74 116 56 116 56"
                         stroke="white" strokeWidth="9" strokeLinecap="round" fill="none" opacity="0.8" />
                     <circle cx="116" cy="49" r="11" fill="white" opacity="0.88" />
-                    <circle cx="116" cy="49" r="6"  fill="#228573" />
+                    <circle cx="116" cy="49" r="6"  fill="var(--brand-mid)" />
                     <circle cx="76"  cy="52" r="5"  fill="white" opacity="0.65" />
                     <circle cx="80"  cy="38" r="5"  fill="white" opacity="0.65" />
                     <path d="M156 168 C156 168 140 161 140 178 C140 195 156 206 156 206 C156 206 172 195 172 178 C172 161 156 168 156 168Z"
@@ -746,7 +735,7 @@ export default function DoctorOnboardingPage() {
                 <div
                     ref={entryWipeRef}
                     className="pointer-events-none absolute inset-0 z-90"
-                    style={{ background: "linear-gradient(112deg, #065b4b 0%, #228573 58%, #3aa692 100%)" }}
+                    style={{ background: "linear-gradient(112deg, var(--brand-dark) 0%, var(--brand-mid) 58%, var(--brand-light) 100%)" }}
                 />
             )}
 

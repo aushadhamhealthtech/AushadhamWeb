@@ -25,6 +25,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useUser } from "@/lib/context/user";
+import { SidebarShell } from "@/components/ui/sidebar-shell";
 
 /**
  * AushodamLogo
@@ -105,11 +106,8 @@ const navItems = [
   { icon: MessageSquare,    label: "Messages",      href: "/messages"      },
 ];
 
-
-
 export default function Sidebar() {
   const { displayName, initials } = useUser();
-  const [expanded, setExpanded] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
 
@@ -117,194 +115,182 @@ export default function Sidebar() {
     setMounted(true);
   }, []);
 
-  const open  = () => setExpanded(true);
-  const close = () => setExpanded(false);
-  const toggle = (e: React.MouseEvent) => { e.stopPropagation(); setExpanded(v => !v); };
-
-  // Close sidebar and stop click from bubbling up to the aside's open() handler
-  const handleNavClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setExpanded(false);
-  };
-
   return (
-    <>
-      {/* Dim backdrop — fades in/out smoothly */}
-      <div
-        className={cn(
-          "fixed inset-0 z-40 bg-black/30 backdrop-blur-[1px] transition-all duration-300",
-          expanded ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        )}
-        onClick={close}
-        aria-hidden="true"
-      />
+    <SidebarShell
+      expandedWidth="w-60"
+      collapsedWidth="w-20"
+      asideClassName="bg-white border-r border-gray-100 shadow-sm"
+    >
+      {({ expanded, open, close, toggle }) => {
+        // Close sidebar and stop click from bubbling up to the outer open() handler
+        const handleNavClick = (e: React.MouseEvent) => {
+          e.stopPropagation();
+          close();
+        };
 
-      <aside
-        onClick={!expanded ? open : undefined}
-        className={cn(
-          "fixed left-0 top-0 h-screen bg-white border-r border-gray-100 flex flex-col z-50 shadow-sm",
-          "transition-[width] duration-300 ease-in-out",
-          expanded ? "w-60 cursor-default" : "w-20 cursor-pointer"
-        )}
-      >
-        {/* Logo / Brand */}
-        <div className="flex items-center h-16 px-4 border-b border-gray-100 overflow-hidden">
-          <AushodamLogo className={cn("shrink-0 transition-all duration-300", expanded ? "w-10" : "w-9 mx-auto")} />
-          <div className={cn(
-            "flex flex-col leading-tight ml-2 transition-all duration-300 overflow-hidden whitespace-nowrap",
-            expanded ? "opacity-100 max-w-40" : "opacity-0 max-w-0"
-          )}>
-            <span className="text-teal-700 font-bold text-base tracking-widest">AUSHADHAM</span>
-            <span className="text-teal-600 text-[10px] tracking-wide">Hospital or clinic Name</span>
-          </div>
-        </div>
+        return (
+          <div
+            className={cn("flex flex-col h-full", expanded ? "cursor-default" : "cursor-pointer")}
+            onClick={!expanded ? open : undefined}
+          >
+            {/* Logo / Brand */}
+            <div className="flex items-center h-16 px-4 border-b border-gray-100 overflow-hidden">
+              <AushodamLogo className={cn("shrink-0 transition-all duration-300", expanded ? "w-10" : "w-9 mx-auto")} />
+              <div className={cn(
+                "flex flex-col leading-tight ml-2 transition-all duration-300 overflow-hidden whitespace-nowrap",
+                expanded ? "opacity-100 max-w-40" : "opacity-0 max-w-0"
+              )}>
+                <span className="text-teal-700 font-bold text-base tracking-widest">AUSHADHAM</span>
+                <span className="text-teal-600 text-[10px] tracking-wide">Hospital or clinic Name</span>
+              </div>
+            </div>
 
-        {/* Toggle button */}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggle}
-              className="w-full h-12 rounded-none text-gray-500 hover:text-teal-600 hover:bg-teal-100"
-              aria-label="Toggle sidebar"
-            >
-              <Menu className={cn(
-              "w-5 h-5 transition-transform duration-300",
-              expanded ? "rotate-90" : "rotate-0"
-            )} />
-            </Button>
-          </TooltipTrigger>
-          {!expanded && <TooltipContent side="right">Toggle menu</TooltipContent>}
-        </Tooltip>
-
-        {/* Search — fades in when expanded */}
-        <div className={cn(
-          "px-3 pb-2 overflow-hidden transition-all duration-300",
-          expanded ? "opacity-100 max-h-16" : "opacity-0 max-h-0 pb-0"
-        )}>
-          <div className="relative">
-            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
-            <Input
-              placeholder="Search"
-              className="pl-8 h-8 text-sm bg-gray-50 border-0 focus-visible:ring-1 focus-visible:ring-teal-300 rounded-lg"
-            />
-          </div>
-        </div>
-
-        {/* Nav Items */}
-        <nav className="flex-1 px-2 py-2 space-y-1 overflow-y-auto">
-          {navItems.map((item) => {
-            const isActive = mounted && (pathname === item.href || pathname.startsWith(item.href + "/"));
-            return (
-            <Tooltip key={item.label}>
+            {/* Toggle button */}
+            <Tooltip>
               <TooltipTrigger asChild>
-                <Link
-                  href={item.href}
-                  onClick={handleNavClick}
-                  className={cn(
-                    "flex items-center gap-3 rounded-xl py-2.5 text-sm font-medium transition-all duration-200 group",
-                    expanded ? "justify-start px-3" : "justify-center px-4",
-                    isActive
-                      ? "bg-teal-600 text-white shadow-sm shadow-teal-200"
-                      : "text-gray-600 hover:bg-teal-100 hover:text-teal-700 hover:shadow-sm hover:shadow-teal-100"
-                  )}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={(e) => { e.stopPropagation(); toggle(); }}
+                  className="w-full h-12 rounded-none text-gray-500 hover:text-teal-600 hover:bg-teal-100"
+                  aria-label="Toggle sidebar"
                 >
-                  <item.icon
-                    className={cn(
-                      "w-5.5 h-5.5 shrink-0 transition-transform duration-200 group-hover:scale-110",
-                      isActive ? "text-white" : "text-gray-400 group-hover:text-teal-600"
-                    )}
-                  />
-                  <span className={cn(
-                    "flex-1 whitespace-nowrap overflow-hidden transition-all duration-300",
-                    expanded ? "opacity-100 max-w-full" : "opacity-0 max-w-0"
-                  )}>
-                    {item.label}
-                  </span>
-                  <ChevronDown className={cn(
-                    "w-4 h-4 text-gray-400 shrink-0 transition-all duration-300",
-                    item.hasChildren && expanded ? "opacity-100 max-w-full" : "opacity-0 max-w-0 overflow-hidden"
+                  <Menu className={cn(
+                    "w-5 h-5 transition-transform duration-300",
+                    expanded ? "rotate-90" : "rotate-0"
                   )} />
-                </Link>
+                </Button>
               </TooltipTrigger>
-              {!expanded && (
-                <TooltipContent side="right">{item.label}</TooltipContent>
-              )}
+              {!expanded && <TooltipContent side="right">Toggle menu</TooltipContent>}
             </Tooltip>
-            );
-          })}
 
+            {/* Search — fades in when expanded */}
+            <div className={cn(
+              "px-3 pb-2 overflow-hidden transition-all duration-300",
+              expanded ? "opacity-100 max-h-16" : "opacity-0 max-h-0 pb-0"
+            )}>
+              <div className="relative">
+                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
+                <Input
+                  placeholder="Search"
+                  className="pl-8 h-8 text-sm bg-gray-50 border-0 focus-visible:ring-1 focus-visible:ring-teal-300 rounded-lg"
+                />
+              </div>
+            </div>
 
-        </nav>
+            {/* Nav Items */}
+            <nav className="flex-1 px-2 py-2 space-y-1 overflow-y-auto">
+              {navItems.map((item) => {
+                const isActive = mounted && (pathname === item.href || pathname.startsWith(item.href + "/"));
+                return (
+                  <Tooltip key={item.label}>
+                    <TooltipTrigger asChild>
+                      <Link
+                        href={item.href}
+                        onClick={handleNavClick}
+                        className={cn(
+                          "flex items-center gap-3 rounded-xl py-2.5 text-sm font-medium transition-all duration-200 group",
+                          expanded ? "justify-start px-3" : "justify-center px-4",
+                          isActive
+                            ? "bg-teal-600 text-white shadow-sm shadow-teal-200"
+                            : "text-gray-600 hover:bg-teal-100 hover:text-teal-700 hover:shadow-sm hover:shadow-teal-100"
+                        )}
+                      >
+                        <item.icon
+                          className={cn(
+                            "w-5.5 h-5.5 shrink-0 transition-transform duration-200 group-hover:scale-110",
+                            isActive ? "text-white" : "text-gray-400 group-hover:text-teal-600"
+                          )}
+                        />
+                        <span className={cn(
+                          "flex-1 whitespace-nowrap overflow-hidden transition-all duration-300",
+                          expanded ? "opacity-100 max-w-full" : "opacity-0 max-w-0"
+                        )}>
+                          {item.label}
+                        </span>
+                        <ChevronDown className={cn(
+                          "w-4 h-4 text-gray-400 shrink-0 transition-all duration-300",
+                          item.hasChildren && expanded ? "opacity-100 max-w-full" : "opacity-0 max-w-0 overflow-hidden"
+                        )} />
+                      </Link>
+                    </TooltipTrigger>
+                    {!expanded && (
+                      <TooltipContent side="right">{item.label}</TooltipContent>
+                    )}
+                  </Tooltip>
+                );
+              })}
+            </nav>
 
-        {/* Bottom: User profile */}
-        <div className="p-3 space-y-1">
-          <Separator className="mb-3" />
-          {/* Avatar row — always rendered, text fades */}
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href="/profile"
-                onClick={handleNavClick}
-                className="flex items-center gap-3 px-2 py-2 mb-1 overflow-hidden rounded-xl hover:bg-teal-50"
-              >
-                <Avatar className="w-9 h-9 shrink-0">
-                  <AvatarFallback className="bg-amber-400 text-white font-semibold text-sm">{initials}</AvatarFallback>
-                </Avatar>
-                <div className={cn(
-                  "overflow-hidden transition-all duration-300 whitespace-nowrap",
-                  expanded ? "opacity-100 max-w-35" : "opacity-0 max-w-0"
-                )}>
-                  <p className="text-sm font-medium text-gray-800 truncate">{displayName}</p>
-                  <Badge className="text-[10px] bg-amber-400 hover:bg-amber-400 text-white px-1.5 py-0.5 rounded font-medium">Admin</Badge>
-                </div>
-              </Link>
-            </TooltipTrigger>
-            {!expanded && <TooltipContent side="right">{displayName}</TooltipContent>}
-          </Tooltip>
+            {/* Bottom: User profile */}
+            <div className="p-3 space-y-1">
+              <Separator className="mb-3" />
+              {/* Avatar row — always rendered, text fades */}
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link
+                    href="/profile"
+                    onClick={handleNavClick}
+                    className="flex items-center gap-3 px-2 py-2 mb-1 overflow-hidden rounded-xl hover:bg-teal-50"
+                  >
+                    <Avatar className="w-9 h-9 shrink-0">
+                      <AvatarFallback className="bg-amber-400 text-white font-semibold text-sm">{initials}</AvatarFallback>
+                    </Avatar>
+                    <div className={cn(
+                      "overflow-hidden transition-all duration-300 whitespace-nowrap",
+                      expanded ? "opacity-100 max-w-35" : "opacity-0 max-w-0"
+                    )}>
+                      <p className="text-sm font-medium text-gray-800 truncate">{displayName}</p>
+                      <Badge className="text-[10px] bg-amber-400 hover:bg-amber-400 text-white px-1.5 py-0.5 rounded font-medium">Admin</Badge>
+                    </div>
+                  </Link>
+                </TooltipTrigger>
+                {!expanded && <TooltipContent side="right">{displayName}</TooltipContent>}
+              </Tooltip>
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href="/settings"
-                onClick={handleNavClick}
-                className={cn(
-                  "flex items-center gap-3 rounded-xl py-2 text-sm text-gray-600 hover:bg-teal-100 hover:text-teal-700 transition-all duration-200 group w-full",
-                  expanded ? "justify-start px-3" : "justify-center px-4"
-                )}
-              >
-                <Settings className="w-5.5 h-5.5 shrink-0 text-gray-400 group-hover:text-teal-600 transition-transform duration-200 group-hover:scale-110" />
-                <span className={cn(
-                  "whitespace-nowrap overflow-hidden transition-all duration-300",
-                  expanded ? "opacity-100 max-w-full" : "opacity-0 max-w-0"
-                )}>Settings</span>
-              </Link>
-            </TooltipTrigger>
-            {!expanded && <TooltipContent side="right">Settings</TooltipContent>}
-          </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link
+                    href="/settings"
+                    onClick={handleNavClick}
+                    className={cn(
+                      "flex items-center gap-3 rounded-xl py-2 text-sm text-gray-600 hover:bg-teal-100 hover:text-teal-700 transition-all duration-200 group w-full",
+                      expanded ? "justify-start px-3" : "justify-center px-4"
+                    )}
+                  >
+                    <Settings className="w-5.5 h-5.5 shrink-0 text-gray-400 group-hover:text-teal-600 transition-transform duration-200 group-hover:scale-110" />
+                    <span className={cn(
+                      "whitespace-nowrap overflow-hidden transition-all duration-300",
+                      expanded ? "opacity-100 max-w-full" : "opacity-0 max-w-0"
+                    )}>Settings</span>
+                  </Link>
+                </TooltipTrigger>
+                {!expanded && <TooltipContent side="right">Settings</TooltipContent>}
+              </Tooltip>
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href="/logout"
-                onClick={handleNavClick}
-                className={cn(
-                  "flex items-center gap-3 rounded-xl py-2 text-sm text-red-400 hover:bg-red-50 hover:text-red-600 transition-all duration-200 group",
-                  expanded ? "justify-start px-3" : "justify-center px-4"
-                )}
-              >
-                <LogOut className="w-5.5 h-5.5 shrink-0 transition-transform duration-200 group-hover:scale-110" />
-                <span className={cn(
-                  "whitespace-nowrap overflow-hidden transition-all duration-300",
-                  expanded ? "opacity-100 max-w-full" : "opacity-0 max-w-0"
-                )}>Log out</span>
-              </Link>
-            </TooltipTrigger>
-            {!expanded && <TooltipContent side="right">Log out</TooltipContent>}
-          </Tooltip>
-        </div>
-      </aside>
-    </>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link
+                    href="/logout"
+                    onClick={handleNavClick}
+                    className={cn(
+                      "flex items-center gap-3 rounded-xl py-2 text-sm text-red-400 hover:bg-red-50 hover:text-red-600 transition-all duration-200 group",
+                      expanded ? "justify-start px-3" : "justify-center px-4"
+                    )}
+                  >
+                    <LogOut className="w-5.5 h-5.5 shrink-0 transition-transform duration-200 group-hover:scale-110" />
+                    <span className={cn(
+                      "whitespace-nowrap overflow-hidden transition-all duration-300",
+                      expanded ? "opacity-100 max-w-full" : "opacity-0 max-w-0"
+                    )}>Log out</span>
+                  </Link>
+                </TooltipTrigger>
+                {!expanded && <TooltipContent side="right">Log out</TooltipContent>}
+              </Tooltip>
+            </div>
+          </div>
+        );
+      }}
+    </SidebarShell>
   );
 }

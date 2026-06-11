@@ -163,6 +163,7 @@ export default function AppointmentsTable() {
                 <Button
                   variant="ghost"
                   size="icon"
+                  aria-label="Filter by status"
                   className="w-4 h-4 text-gray-400 hover:text-gray-600 p-0"
                 >
                   <ChevronDown className="w-3 h-3" />

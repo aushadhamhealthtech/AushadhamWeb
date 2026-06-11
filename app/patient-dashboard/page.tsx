@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Sidebar from "@/components/layout/sidebar";
 import {
   Card,
   CardContent,
@@ -51,22 +50,10 @@ import {
   makePayment,
 } from "@/lib/api/patient-dashboard";
 import { useRouter } from "next/navigation";
+import { C as _C } from "@/lib/constants/brand-colors";
 
 /* ─── Color Palette ─── */
-const C = {
-  primary: "#065b4b",
-  mid: "#228573",
-  light: "#3aa692",
-  mint: "#e8f5f2",
-  yellowTint: "#fdf8ec",
-  orange: "#e8943a",
-  orangeLight: "#fef4e6",
-  body: "#3F4946",
-  muted: "rgba(6,91,75,0.5)",
-  border: "#e5e7eb",
-  bg: "#f8fffe",
-  cardBg: "#f2f9f7",
-} as const;
+const C = { ..._C, muted: "rgba(6,91,75,0.5)", border: "#e5e7eb", bg: "#f8fffe", body: "#3F4946", yellowTint: "#fdf8ec", orange: "#e8943a", orangeLight: "#fef4e6", cardBg: "#f2f9f7" } as const;
 
 /* ─── Reusable section icon (teal circle with outline icon) ─── */
 function SectionIcon({ children }: { children: React.ReactNode }) {
@@ -171,11 +158,9 @@ export default function PatientDashboardPage() {
   const eveningSlots = rescheduleData?.slots.filter((s) => s.period === "evening") ?? []
 
   return (
-    <div className="flex min-h-screen bg-white">
-      <Sidebar />
-
+    <div className="min-h-screen bg-white">
       {/* Main area offset by sidebar width */}
-      <div className="flex-1 lg:ml-20">
+      <div className="lg:ml-20">
         {/* ─── Top Bar ─── */}
         <header className="sticky top-0 z-30 flex items-center justify-between bg-white px-6 py-4">
           <div className="flex items-center gap-4">

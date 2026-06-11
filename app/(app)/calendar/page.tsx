@@ -606,6 +606,7 @@ export default function CalendarPage() {
           <Button
             variant="ghost"
             size="icon"
+            aria-label="Previous period"
             onClick={() => navigate(-1)}
             className="text-white hover:bg-white/20 w-7 h-7 rounded-full"
           >
@@ -627,6 +628,7 @@ export default function CalendarPage() {
           <Button
             variant="ghost"
             size="icon"
+            aria-label="Next period"
             onClick={() => navigate(1)}
             className="text-white hover:bg-white/20 w-7 h-7 rounded-full"
           >
@@ -648,6 +650,7 @@ export default function CalendarPage() {
           <Button
             variant="ghost"
             size="icon"
+            aria-label="Edit calendar categories"
             className="w-5 h-5 text-white/50 hover:text-white p-0 shrink-0"
           >
             <Pencil className="w-3 h-3" />
@@ -723,6 +726,7 @@ export default function CalendarPage() {
             <Button
               type="button"
               size="icon"
+              aria-label="Close dialog"
               variant="ghost"
               onClick={() => setAvailabilityOpen(false)}
               className="absolute right-4 top-4 h-8 w-8 rounded-full text-gray-500 hover:bg-gray-100 hover:text-gray-700"
@@ -781,7 +785,7 @@ export default function CalendarPage() {
                       <SelectItem value="01:00 PM">01:00 PM</SelectItem>
                     </SelectContent>
                   </Select>
-                  <Button type="button" size="icon" className="h-11 w-11 rounded-full bg-teal-200 text-gray-900 hover:bg-teal-200">
+                  <Button type="button" size="icon" aria-label="Add time slot" className="h-11 w-11 rounded-full bg-teal-200 text-gray-900 hover:bg-teal-200">
                     <CirclePlus className="h-4 w-4" />
                   </Button>
                 </div>

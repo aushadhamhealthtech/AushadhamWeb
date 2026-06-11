@@ -1,6 +1,5 @@
 "use client";
 
-import Sidebar from "@/components/layout/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -71,10 +70,7 @@ export default function PatientAppointmentsPage() {
   const [showCancelled, setShowCancelled] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-[#f6fbf9]">
-      <Sidebar />
-
-      <main className="flex-1 px-5 py-5 lg:ml-20 lg:px-8">
+    <main className="min-h-screen px-5 py-5 lg:ml-20 lg:px-8 bg-[#f6fbf9]">
         <section className="mb-8 flex items-start justify-between gap-4">
           <div className="flex items-start gap-3">
             <Avatar className="h-14 w-14 border border-[#e4eee9]">
@@ -193,6 +189,7 @@ export default function PatientAppointmentsPage() {
                   <Button
                     variant="ghost"
                     size="icon"
+                    aria-label="Go back"
                     className="h-8 w-8 rounded-full"
                     onClick={() => setShowReschedule(false)}
                   >
@@ -201,6 +198,7 @@ export default function PatientAppointmentsPage() {
                   <Button
                     variant="ghost"
                     size="icon"
+                    aria-label="Close dialog"
                     className="h-8 w-8 rounded-full"
                     onClick={() => setShowReschedule(false)}
                   >
@@ -259,6 +257,7 @@ export default function PatientAppointmentsPage() {
                 <Button
                   variant="ghost"
                   size="icon"
+                  aria-label="Next available dates"
                   className="h-11 w-11 rounded-full border border-[#e5e7eb]"
                 >
                   <ChevronRight className="h-4 w-4 text-[#228573]" />
@@ -350,6 +349,7 @@ export default function PatientAppointmentsPage() {
                   <Button
                     variant="ghost"
                     size="icon"
+                    aria-label="Go back"
                     className="h-8 w-8 rounded-full"
                     onClick={() => {
                       setShowEditSymptoms(false);
@@ -361,6 +361,7 @@ export default function PatientAppointmentsPage() {
                   <Button
                     variant="ghost"
                     size="icon"
+                    aria-label="Close dialog"
                     className="h-8 w-8 rounded-full"
                     onClick={() => setShowEditSymptoms(false)}
                   >
@@ -406,6 +407,7 @@ export default function PatientAppointmentsPage() {
                 <Button
                   variant="ghost"
                   size="icon"
+                  aria-label="Close dialog"
                   className="h-8 w-8 rounded-full"
                   onClick={() => setShowUpdated(false)}
                 >
@@ -470,6 +472,7 @@ export default function PatientAppointmentsPage() {
                 <Button
                   variant="ghost"
                   size="icon"
+                  aria-label="Close dialog"
                   className="h-8 w-8 rounded-full"
                   onClick={() => setShowPayNow(false)}
                 >
@@ -557,6 +560,7 @@ export default function PatientAppointmentsPage() {
                 <Button
                   variant="ghost"
                   size="icon"
+                  aria-label="Close dialog"
                   className="h-8 w-8 rounded-full"
                   onClick={() => setShowPaymentSuccess(false)}
                 >
@@ -620,6 +624,7 @@ export default function PatientAppointmentsPage() {
                 <Button
                   variant="ghost"
                   size="icon"
+                  aria-label="Close dialog"
                   className="h-8 w-8 rounded-full"
                   onClick={() => setShowCancelConfirm(false)}
                 >
@@ -701,6 +706,7 @@ export default function PatientAppointmentsPage() {
                 <Button
                   variant="ghost"
                   size="icon"
+                  aria-label="Close dialog"
                   className="h-8 w-8 rounded-full"
                   onClick={() => setShowCancelled(false)}
                 >
@@ -817,6 +823,5 @@ export default function PatientAppointmentsPage() {
           </Card>
         </section>
       </main>
-    </div>
   );
 }

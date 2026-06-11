@@ -5,6 +5,7 @@ import {
   User, CreditCard, Package, Bell, Shield, ChevronRight,
   Camera, Mail, Phone, MapPin, Save, Check,
 } from "lucide-react";
+import { useUser } from "@/lib/context/user";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -12,8 +13,6 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import Sidebar from "@/components/layout/sidebar";
-
 const sections = [
   { id: "account",       label: "Edit Account",      icon: User       },
   { id: "billing",       label: "Billing",            icon: CreditCard },
@@ -53,11 +52,12 @@ const plans = [
 ];
 
 export default function PatientSettingsPage() {
+  const { name: userName, email: userEmail } = useUser();
   const [active, setActive] = useState("account");
   const [saved, setSaved] = useState(false);
   const [form, setForm] = useState({
-    name: "Pranjal Panda",
-    email: "pranjal@aushadham.in",
+    name: userName,
+    email: userEmail,
     phone: "+91 98201 12345",
     dateOfBirth: "1998-04-10",
     location: "Mumbai, Maharashtra",
@@ -78,9 +78,7 @@ export default function PatientSettingsPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <Sidebar />
-      <div className="flex-1 lg:ml-20 overflow-hidden flex flex-col">
+    <div className="min-h-screen lg:ml-20 overflow-hidden flex flex-col bg-gray-50">
 
       <header className="px-6 py-4 bg-white border-b border-gray-100">
         <h1 className="text-2xl font-bold text-gray-800">Settings</h1>
@@ -125,7 +123,7 @@ export default function PatientSettingsPage() {
                       <Avatar className="w-16 h-16">
                         <AvatarFallback className="bg-teal-500 text-white text-xl font-bold">PP</AvatarFallback>
                       </Avatar>
-                      <Button type="button" size="icon" className="absolute bottom-0 right-0 w-6 h-6 bg-teal-600 rounded-full shadow hover:bg-teal-700">
+                      <Button type="button" size="icon" aria-label="Change profile photo" className="absolute bottom-0 right-0 w-6 h-6 bg-teal-600 rounded-full shadow hover:bg-teal-700">
                         <Camera className="w-3 h-3 text-white" />
                       </Button>
                     </div>
@@ -362,6 +360,5 @@ export default function PatientSettingsPage() {
         </div>
       </div>
       </div>
-    </div>
   );
 }
