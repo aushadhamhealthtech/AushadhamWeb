@@ -1,4 +1,3 @@
-import Sidebar from "@/components/layout/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -287,7 +286,6 @@ export default function PrescriptionCaseSheetPage({
   const medsCount = selectedCaseSheet.summaryMeds.length;
   return (
     <div className="flex min-h-screen bg-[#f6fbf9]">
-      <Sidebar />
       <main className="flex-1 lg:ml-20">
         <header className="sticky top-0 z-30 flex flex-wrap items-center justify-between gap-4 bg-[#f6fbf9] px-6 py-6">
           <div className="flex items-center gap-4">

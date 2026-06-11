@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Sidebar from "@/components/layout/sidebar";
 import {
   Card,
   CardContent,
@@ -172,8 +171,6 @@ export default function PatientDashboardPage() {
 
   return (
     <div className="flex min-h-screen bg-white">
-      <Sidebar />
-
       {/* Main area offset by sidebar width */}
       <div className="flex-1 lg:ml-20">
         {/* ─── Top Bar ─── */}

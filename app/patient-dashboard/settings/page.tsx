@@ -12,8 +12,6 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import Sidebar from "@/components/layout/sidebar";
-
 const sections = [
   { id: "account",       label: "Edit Account",      icon: User       },
   { id: "billing",       label: "Billing",            icon: CreditCard },
@@ -79,7 +77,6 @@ export default function PatientSettingsPage() {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <Sidebar />
       <div className="flex-1 lg:ml-20 overflow-hidden flex flex-col">
 
       <header className="px-6 py-4 bg-white border-b border-gray-100">

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Sidebar from "@/components/layout/sidebar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -29,7 +28,6 @@ export default function MedicalReportsPage() {
   const router = useRouter();
   return (
     <div className="flex min-h-screen bg-[#f6fbf9]">
-      <Sidebar />
       <main className="flex-1 lg:ml-20">
         <header className="sticky top-0 z-30 flex flex-wrap items-center justify-between gap-4 bg-[#f6fbf9] px-6 py-6">
           <div className="flex items-center gap-4">

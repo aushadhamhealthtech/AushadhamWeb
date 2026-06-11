@@ -1,6 +1,5 @@
 "use client";
 
-import Sidebar from "@/components/layout/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -72,8 +71,6 @@ export default function PatientAppointmentsPage() {
 
   return (
     <div className="flex min-h-screen bg-[#f6fbf9]">
-      <Sidebar />
-
       <main className="flex-1 px-5 py-5 lg:ml-20 lg:px-8">
         <section className="mb-8 flex items-start justify-between gap-4">
           <div className="flex items-start gap-3">

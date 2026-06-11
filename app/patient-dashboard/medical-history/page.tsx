@@ -1,6 +1,5 @@
 "use client";
 
-import Sidebar from "@/components/layout/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -37,8 +36,6 @@ const HISTORY_ITEMS = [
 export default function PatientMedicalHistoryPage() {
   return (
     <div className="flex min-h-screen bg-[#f3faf7]">
-      <Sidebar />
-
       <main className="flex-1 px-5 py-5 lg:ml-20 lg:px-7">
         <header className="mb-6 flex items-start justify-between gap-4">
           <div className="flex items-start gap-3">

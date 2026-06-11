@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Sidebar from "@/components/layout/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -90,7 +89,6 @@ export default function PatientSearchPage() {
 
   return (
     <div className="flex min-h-screen bg-[#f6fbf9]">
-      <Sidebar />
       <main className="flex-1 px-4 py-8 lg:ml-20 lg:px-8">
         <div className="mx-auto w-full max-w-3xl">
           <Card className="rounded-[32px] border border-[#eef4f2] bg-white p-8 shadow-[0_24px_60px_rgba(0,0,0,0.08)]">
