@@ -43,10 +43,10 @@ const features = [
 
 export default function DoctorsCTASection() {
   return (
-    <section id="doctors" className="py-20 relative overflow-hidden" style={{ backgroundColor: "#f0faf7" }}>
+    <section id="doctors" className="py-20 relative overflow-hidden bg-brand-surface-alt">
       {/* Decorative circles */}
-      <div className="absolute top-0 left-0 w-72 h-72 rounded-full opacity-5 -translate-x-1/2 -translate-y-1/2" style={{ backgroundColor: "#3aa692" }} />
-      <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full opacity-5 translate-x-1/2 translate-y-1/2" style={{ backgroundColor: "#228573" }} />
+      <div className="absolute top-0 left-0 w-72 h-72 rounded-full opacity-5 -translate-x-1/2 -translate-y-1/2 bg-brand-light" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full opacity-5 translate-x-1/2 translate-y-1/2 bg-brand-mid" />
 
       <div className="max-w-360 mx-auto px-6 lg:px-23 relative z-10">
         {/* Doctor illustrations flanking content */}
@@ -58,17 +58,17 @@ export default function DoctorsCTASection() {
 
           {/* Center content */}
           <div className="flex-1 flex flex-col items-center text-center gap-6">
-            <h2 className="text-[34px] md:text-[46px] font-extrabold leading-tight max-w-3xl" style={{ color: "#065b4b" }}>
+            <h2 className="text-[34px] md:text-[46px] font-extrabold leading-tight max-w-3xl text-brand-dark">
               Aushadham is an amazing place for{" "}
-              <span style={{ color: "#228573" }}>Doctors</span> and other health professionals
+              <span className="text-brand-mid">Doctors</span> and other health professionals
             </h2>
 
-            <p className="text-lg leading-relaxed max-w-2xl" style={{ color: "rgba(6,91,75,0.65)" }}>
+            <p className="text-lg leading-relaxed max-w-2xl text-brand-dark/65">
               One stop solution for patient management, patient care, easy access and much more.
             </p>
 
             {/* Feature icons grid */}
-            <div className="w-full max-w-3xl bg-white rounded-3xl p-6 shadow-sm border border-[#e8f5f2] flex flex-wrap items-center justify-center gap-6 md:gap-10 my-2">
+            <div className="w-full max-w-3xl bg-white rounded-3xl p-6 shadow-sm border border-brand-surface flex flex-wrap items-center justify-center gap-6 md:gap-10 my-2">
               {features.map((item) => (
                 <div key={item.label} className="feature-icon flex flex-col items-center gap-2.5 min-w-22.5 group cursor-pointer">
                   <div
@@ -77,19 +77,18 @@ export default function DoctorsCTASection() {
                   >
                     <item.icon size={30} style={{ color: item.color }} strokeWidth={1.8} className="transition-transform duration-300 group-hover:scale-110" />
                   </div>
-                  <span className="text-xs font-bold transition-colors duration-300 group-hover:text-[#228573]" style={{ color: "#065b4b" }}>{item.label}</span>
+                  <span className="text-xs font-bold transition-colors duration-300 group-hover:text-brand-mid text-brand-dark">{item.label}</span>
                 </div>
               ))}
             </div>
 
-            <p className="text-base font-medium" style={{ color: "rgba(6,91,75,0.6)" }}>
+            <p className="text-base font-medium text-brand-dark/60">
               Join us today to bring a positive and healthier change
             </p>
 
             <Link
               href="/for-doctors"
-              className="group inline-flex items-center gap-3 px-10 py-4 text-white text-lg font-bold rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5 hover:scale-[1.02] hover:opacity-90"
-              style={{ backgroundColor: "#228573" }}
+              className="group inline-flex items-center gap-3 px-10 py-4 text-white text-lg font-bold rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5 hover:scale-[1.02] hover:opacity-90 bg-brand-mid"
             >
               Join Aushadham
               <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />

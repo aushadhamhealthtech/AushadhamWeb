@@ -5,6 +5,7 @@ import {
   User, CreditCard, Package, Bell, Shield,
   Camera, Mail, Phone, MapPin, Save, Check,
 } from "lucide-react";
+import { useUser } from "@/lib/context/user";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -58,10 +59,11 @@ interface SettingsModalProps {
 }
 
 export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
+  const { displayName } = useUser();
   const [active, setActive] = useState("account");
   const [saved, setSaved] = useState(false);
   const [form, setForm] = useState({
-    name: "Dr. Ritika Sahu",
+    name: displayName,
     email: "ritika.sahu@aushadham.in",
     phone: "+91 98201 12345",
     clinic: "AUSHADHAM Clinic",

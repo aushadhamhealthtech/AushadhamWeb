@@ -11,7 +11,7 @@ import { animateCounters, type StatDef } from "@/lib/animations/statsCounter";
 const heroStats = [
     { num: 500, suffix: "+", label: "Doctors", decimals: 0 },
     { num: 10, suffix: "K+", label: "Patients", decimals: 0 },
-    { num: 4.9, suffix: "\u2605", label: "Rating", decimals: 1 },
+    { num: 4.9, suffix: "★", label: "Rating", decimals: 1 },
 ];
 
 // Doctor consultation illustration — matches Figma node 9:2714
@@ -157,33 +157,31 @@ export default function HeroSection() {
     }, { scope: containerRef });
 
     return (
-        <section ref={containerRef} id="hero" className="relative overflow-hidden" style={{ background: "linear-gradient(175deg, #e8f5f2 0%, #f0faf7 45%, #ffffff 80%)" }}>
+        <section ref={containerRef} id="hero" className="relative overflow-hidden" style={{ background: "linear-gradient(175deg, var(--brand-surface) 0%, var(--brand-surface-alt) 45%, #ffffff 80%)" }}>
             {/* Soft background blob — clip wrapper ends bubble at bottom of headline on mobile */}
             <div className="absolute top-0 right-0 left-0 h-80 md:h-150 overflow-hidden pointer-events-none">
                 <div
-                    className="absolute rounded-full opacity-15 -top-20 -right-20 w-105 h-105 md:-top-30 md:-right-30 md:w-175 md:h-175"
-                    style={{ backgroundColor: "#3aa692" }}
+                    className="absolute rounded-full opacity-15 -top-20 -right-20 w-105 h-105 md:-top-30 md:-right-30 md:w-175 md:h-175 bg-brand-light"
                 />
             </div>
 
             {/* ── BLOCK 1: Headline + Upload CTA ── */}
             <div className="max-w-360 mx-auto px-6 lg:px-24.75 pt-10 md:pt-20 pb-16 relative z-10">
                 <div className="flex flex-col gap-4 md:gap-7 max-w-155">
-                    <div className="hero-badge inline-flex items-center gap-2 text-sm font-medium" style={{ color: "#228573" }}>
-                        <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: "#3aa692" }} />
+                    <div className="hero-badge inline-flex items-center gap-2 text-sm font-medium text-brand-mid">
+                        <span className="w-2 h-2 rounded-full animate-pulse bg-brand-light" />
                         Healthcare made simple
                     </div>
 
                     <h1
-                        className="hero-title text-[44px] md:text-[58px] font-extrabold leading-[1.1] tracking-tight"
-                        style={{ color: "#065b4b" }}
+                        className="hero-title text-[44px] md:text-[58px] font-extrabold leading-[1.1] tracking-tight text-brand-dark"
                     >
                         Upload Your Health Records{" "}
                         <br />
-                        <span style={{ color: "#228573" }}>Use Them Anytime, Anywhere</span>
+                        <span className="text-brand-mid">Use Them Anytime, Anywhere</span>
                     </h1>
 
-                    <p className="hero-desc text-[17px] leading-relaxed" style={{ color: "rgba(6,91,75,0.7)" }}>
+                    <p className="hero-desc text-[17px] leading-relaxed text-brand-dark/70">
                         Aushadham allows you to store your medical history and reports in your profile for no additional cost.
                     </p>
 
@@ -191,8 +189,7 @@ export default function HeroSection() {
                         <button
                             onClick={handleUploadCta}
                             aria-label="Upload your health reports"
-                            className="hero-btn group inline-flex items-center gap-3 px-8 py-4 text-white text-[17px] font-semibold rounded-full w-fit transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5 hover:scale-[1.02]"
-                            style={{ backgroundColor: "#065b4b" }}
+                            className="hero-btn group inline-flex items-center gap-3 px-8 py-4 text-white text-[17px] font-semibold rounded-full w-fit transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5 hover:scale-[1.02] bg-brand-dark"
                         >
                             <Upload size={19} />
                             Upload Your Reports Now
@@ -200,8 +197,7 @@ export default function HeroSection() {
 
                         <Link
                             href="/dashboard"
-                            className="hero-learn-more text-sm font-semibold hover:underline w-fit"
-                            style={{ color: "#228573" }}
+                            className="hero-learn-more text-sm font-semibold hover:underline w-fit text-brand-mid"
                         >
                             Learn more →
                         </Link>
@@ -216,8 +212,8 @@ export default function HeroSection() {
                     {/* Left: Illustration */}
                     <div
                         ref={illustrationRef}
-                        className="rounded-[28px] shadow-lg border border-[#d1ece6] overflow-hidden"
-                        style={{ background: "linear-gradient(135deg, #e8f5f2 0%, #c8ebe3 100%)" }}
+                        className="rounded-[28px] shadow-lg border border-brand-border-light overflow-hidden"
+                        style={{ background: "linear-gradient(135deg, var(--brand-surface) 0%, var(--brand-surface-deep) 100%)" }}
                     >
                         <div className="px-6 pt-6 pb-4">
                             <DoctorConsultationIllustration />
@@ -227,22 +223,20 @@ export default function HeroSection() {
                     {/* Right: Connect With Doctors copy + Book CTA */}
                     <div className="flex flex-col gap-7">
                         <h2
-                            className="text-[38px] md:text-[48px] font-extrabold leading-[1.1] tracking-tight"
-                            style={{ color: "#065b4b" }}
+                            className="text-[38px] md:text-[48px] font-extrabold leading-[1.1] tracking-tight text-brand-dark"
                         >
                             Connect With Doctors{" "}
                             <br />
-                            <span style={{ color: "#228573" }}>Direct Consult Online</span>
+                            <span className="text-brand-mid">Direct Consult Online</span>
                         </h2>
 
-                        <p className="text-[16px] leading-relaxed" style={{ color: "rgba(6,91,75,0.7)" }}>
+                        <p className="text-[16px] leading-relaxed text-brand-dark/70">
                             Skip the waiting room and connect with top doctors across India via Video Call or In-Clinic visit. Your Health, Your Schedule!
                         </p>
 
                         <Link
                             href="/appointments"
-                            className="inline-flex items-center gap-3 px-8 py-4 text-white text-[17px] font-semibold rounded-full w-fit transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5"
-                            style={{ backgroundColor: "#228573" }}
+                            className="inline-flex items-center gap-3 px-8 py-4 text-white text-[17px] font-semibold rounded-full w-fit transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5 bg-brand-mid"
                         >
                             <CalendarCheck size={19} />
                             Book an Appointment
@@ -254,12 +248,11 @@ export default function HeroSection() {
                                 <div key={stat.label} className="flex flex-col">
                                     <span
                                         ref={(el) => { statRefs.current[i] = el; }}
-                                        className="text-2xl font-extrabold"
-                                        style={{ color: "#065b4b" }}
+                                        className="text-2xl font-extrabold text-brand-dark"
                                     >
                                         {stat.decimals > 0 ? stat.num.toFixed(stat.decimals) : stat.num}{stat.suffix}
                                     </span>
-                                    <span className="text-sm" style={{ color: "rgba(6,91,75,0.55)" }}>{stat.label}</span>
+                                    <span className="text-sm text-brand-dark/55">{stat.label}</span>
                                 </div>
                             ))}
                         </div>

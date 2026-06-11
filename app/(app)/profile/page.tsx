@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Check, CirclePlus, Save, Upload, User, X } from "lucide-react";
+import { useUser } from "@/lib/context/user";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -84,13 +85,19 @@ function FieldLabel({
 }
 
 export default function DoctorProfilePage() {
+  const { name } = useUser();
   const [mounted, setMounted] = useState(false);
   const [saved, setSaved] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
   const [uploadOpen, setUploadOpen] = useState(false);
   const [selectedFileName, setSelectedFileName] = useState("");
-  const [initialProfile, setInitialProfile] = useState(defaultProfile);
-  const [profile, setProfile] = useState(defaultProfile);
+  const nameBasedProfile = {
+    ...defaultProfile,
+    firstName: name.split(" ")[0] || "Ritika",
+    lastName: name.split(" ").slice(1).join(" ") || "Shah",
+  };
+  const [initialProfile, setInitialProfile] = useState(nameBasedProfile);
+  const [profile, setProfile] = useState(nameBasedProfile);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {

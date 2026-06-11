@@ -28,6 +28,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { getFilteredNotifications } from "@/lib/notifications-data";
+import { useUser } from "@/lib/context/user";
 
 const appointments = [
   { time: "09:00 AM", name: "Kalyani Rao", reason: "Report Discussion", status: "In-clinic", active: true, initials: "KR", color: "bg-orange-200" },
@@ -37,6 +38,7 @@ const appointments = [
 ];
 
 export default function HomePage() {
+  const { displayName } = useUser();
   const [inviteOpen, setInviteOpen] = useState(false);
   const [metricsExpanded, setMetricsExpanded] = useState(false);
   const emergencyMessages = getFilteredNotifications("emergency", "all").slice(0, 2);
@@ -51,7 +53,7 @@ export default function HomePage() {
           <Avatar className="w-12 h-12 border-2 border-emerald-200">
             <AvatarFallback className="bg-amber-400 text-white font-semibold text-sm">RS</AvatarFallback>
           </Avatar>
-          <h1 className="text-xl font-bold text-teal-700">Hi! Dr. Ritika Sahu</h1>
+          <h1 className="text-xl font-bold text-teal-700">Hi! {displayName}</h1>
         </div>
         <div className="flex items-center gap-3">
           <DateSelector />

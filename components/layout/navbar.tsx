@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Search, LogOut, Home, CalendarCheck, User, Stethoscope } from "lucide-react";
 import { useSession, signOut } from "@/lib/auth-client";
+import { useAuthModal } from "@/lib/context/auth-modal";
 import AushadhamLogo from "@/components/ui/logo";
 
 
@@ -29,6 +30,7 @@ function scrollToSection(id: string) {
 
 export default function Navbar() {
     const router = useRouter();
+    const { openModal } = useAuthModal();
     const [active, setActive] = useState("hero");
     const [atBottom, setAtBottom] = useState(false);
     const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -174,15 +176,14 @@ export default function Navbar() {
                     ) : (
                         <>
                             <button
-                                onClick={() => router.push("/patient-dashboard")}
+                                onClick={() => openModal("signup")}
                                 className="px-6 py-2.5 rounded-full border border-gray-800 text-gray-900 text-sm font-semibold hover:bg-gray-50 transition-all duration-200 inline-flex items-center justify-center"
                             >
                                 Sign up
                             </button>
                             <button
-                                onClick={() => router.push("/dashboard")}
-                                className="px-6 py-2.5 rounded-full text-white text-sm font-semibold transition-all duration-200 shadow-sm inline-flex items-center justify-center hover:opacity-90"
-                                style={{ backgroundColor: "#3aa692" }}
+                                onClick={() => openModal("signin")}
+                                className="px-6 py-2.5 rounded-full bg-brand-light text-white text-sm font-semibold transition-all duration-200 shadow-sm inline-flex items-center justify-center hover:opacity-90"
                             >
                                 Sign in
                             </button>
@@ -198,10 +199,9 @@ export default function Navbar() {
         <nav
             role="navigation"
             aria-label="Mobile navigation"
-            className={`lg:hidden fixed bottom-0 left-0 right-0 z-50 transition-all duration-200 ease-out ${
+            className={`lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-brand-footer transition-all duration-200 ease-out ${
                 atBottom ? "opacity-0 pointer-events-none translate-y-full" : "opacity-100 translate-y-0"
             }`}
-            style={{ backgroundColor: "#1f5f4a" }}
         >
             <div className="flex items-center justify-around px-2 py-2.5">
                 {([

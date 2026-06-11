@@ -44,6 +44,7 @@ import {
 import { toast } from "sonner";
 import { mockDates } from "@/data/mockData";
 import { sendInvite } from "@/lib/mock-api";
+import { useUser } from "@/lib/context/user";
 
 const ROLES = ["Doctor", "Nurse", "Admin", "Staff"] as const;
 
@@ -56,6 +57,7 @@ const EMPTY_FORM = {
 };
 
 export default function Header() {
+  const { displayName, initials } = useUser();
   const todayIndex = mockDates.indexOf("Jun 24, 2022");
   const [dateIndex, setDateIndex] = useState(todayIndex >= 0 ? todayIndex : 0);
   const [open, setOpen] = useState(false);
@@ -104,14 +106,14 @@ export default function Header() {
       {/* Left: Doctor Info */}
       <div className="flex items-center gap-3">
         <Avatar className="w-11 h-11 border-2 border-emerald-200">
-          <AvatarImage src="/doctor-avatar.jpg" alt="Dr. Ritika Sahu" />
+          <AvatarImage src="/doctor-avatar.jpg" alt={displayName} />
           <AvatarFallback className="bg-amber-400 text-white font-semibold text-sm">
-            RS
+            {initials}
           </AvatarFallback>
         </Avatar>
         <div>
           <p className="text-xs text-gray-500">Welcome back,</p>
-          <h1 className="text-lg font-bold text-gray-800">Hi! Dr. Ritika Sahu</h1>
+          <h1 className="text-lg font-bold text-gray-800">Hi! {displayName}</h1>
         </div>
       </div>
 

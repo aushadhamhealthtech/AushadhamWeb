@@ -15,6 +15,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { FileText, ChevronRight, Activity } from "lucide-react";
 import { getFilteredNotifications } from "@/lib/notifications-data";
+import { useUser } from "@/lib/context/user";
 
 type Period = "daily" | "weekly" | "monthly";
 
@@ -165,6 +166,7 @@ function StatCard({ stat }: { stat: StatItem }) {
 }
 
 export default function DashboardPage() {
+  const { displayName } = useUser();
   const [mounted, setMounted] = useState(false);
   const [inviteOpen, setInviteOpen] = useState(false);
   const [metricsExpanded, setMetricsExpanded] = useState(false);
@@ -238,7 +240,7 @@ export default function DashboardPage() {
           <Avatar className="w-12 h-12">
             <AvatarFallback className="bg-amber-400 text-white font-bold text-lg">RS</AvatarFallback>
           </Avatar>
-          <h1 className="text-2xl font-bold text-teal-700">Hi! Dr. Ritika Sahu</h1>
+          <h1 className="text-2xl font-bold text-teal-700">Hi! {displayName}</h1>
         </div>
         <div className="flex items-center gap-3">
           {mounted ? <DateSelector /> : <div className="h-10 w-40" />}

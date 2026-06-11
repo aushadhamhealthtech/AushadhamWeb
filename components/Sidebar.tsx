@@ -24,6 +24,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { useUser } from "@/lib/context/user";
 
 /**
  * AushodamLogo
@@ -107,6 +108,7 @@ const navItems = [
 
 
 export default function Sidebar() {
+  const { displayName, initials } = useUser();
   const [expanded, setExpanded] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
@@ -248,18 +250,18 @@ export default function Sidebar() {
                 className="flex items-center gap-3 px-2 py-2 mb-1 overflow-hidden rounded-xl hover:bg-teal-50"
               >
                 <Avatar className="w-9 h-9 shrink-0">
-                  <AvatarFallback className="bg-amber-400 text-white font-semibold text-sm">RS</AvatarFallback>
+                  <AvatarFallback className="bg-amber-400 text-white font-semibold text-sm">{initials}</AvatarFallback>
                 </Avatar>
                 <div className={cn(
                   "overflow-hidden transition-all duration-300 whitespace-nowrap",
                   expanded ? "opacity-100 max-w-35" : "opacity-0 max-w-0"
                 )}>
-                  <p className="text-sm font-medium text-gray-800 truncate">Dr. Ritika Shah</p>
+                  <p className="text-sm font-medium text-gray-800 truncate">{displayName}</p>
                   <Badge className="text-[10px] bg-amber-400 hover:bg-amber-400 text-white px-1.5 py-0.5 rounded font-medium">Admin</Badge>
                 </div>
               </Link>
             </TooltipTrigger>
-            {!expanded && <TooltipContent side="right">Dr. Ritika Shah</TooltipContent>}
+            {!expanded && <TooltipContent side="right">{displayName}</TooltipContent>}
           </Tooltip>
 
           <Tooltip>

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useUser } from "@/lib/context/user";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -30,6 +31,7 @@ const NAV_ITEMS = [
 ];
 
 export default function Sidebar() {
+  const { name, initials } = useUser();
   const pathname = usePathname();
   const [expanded, setExpanded] = useState(false);
 
@@ -146,11 +148,11 @@ export default function Sidebar() {
             {expanded ? (
               <div className="mb-5 flex items-center gap-3 px-4">
                 <Avatar className="h-11 w-11 border border-gray-200">
-                  <AvatarImage src="/patient-priyanka.jpg" alt="Ritika Shah" />
-                  <AvatarFallback>RS</AvatarFallback>
+                  <AvatarImage src="/patient-priyanka.jpg" alt={name} />
+                  <AvatarFallback>{initials}</AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="text-xl font-semibold leading-none text-[#202426]">Ritika Shah</p>
+                  <p className="text-xl font-semibold leading-none text-[#202426]">{name}</p>
                   <Badge className="mt-1 rounded-full bg-[#f0be57] px-3 py-0.5 text-xs font-medium text-[#3f3420] hover:bg-[#f0be57]">
                     XXXXXXXXXX
                   </Badge>
@@ -158,8 +160,8 @@ export default function Sidebar() {
               </div>
             ) : (
               <Avatar className="h-10 w-10 border border-gray-200">
-                <AvatarImage src="/patient-priyanka.jpg" alt="Ritika Shah" />
-                <AvatarFallback>RS</AvatarFallback>
+                <AvatarImage src="/patient-priyanka.jpg" alt={name} />
+                <AvatarFallback>{initials}</AvatarFallback>
               </Avatar>
             )}
 

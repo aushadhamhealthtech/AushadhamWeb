@@ -135,7 +135,7 @@ function LeftPanel({ view }: { view: View }) {
         <div
             ref={panelRef}
             className="hidden lg:flex w-65 shrink-0 flex-col items-center justify-between px-6 py-8"
-            style={{ background: "linear-gradient(160deg, #065b4b 0%, #1a7a65 52%, #228573 100%)" }}
+            style={{ background: "linear-gradient(160deg, var(--brand-dark) 0%, #1a7a65 52%, var(--brand-mid) 100%)" }}
         >
             <AushadhamLogo variant="white" size="sm" />
             <div className="flex flex-col items-center gap-5 flex-1 justify-center">
@@ -179,11 +179,11 @@ function AuthInput({
 }) {
     return (
         <div className="auth-field flex flex-col gap-1.5">
-            <label htmlFor={id} className="text-sm font-semibold" style={{ color: "#065b4b" }}>
-                {label}{required && <span className="ml-0.5" style={{ color: "#228573" }}>*</span>}
+            <label htmlFor={id} className="text-sm font-semibold text-brand-dark">
+                {label}{required && <span className="ml-0.5 text-brand-mid">*</span>}
             </label>
             <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: "#228573" }}>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none text-brand-mid">
                     <Icon size={15} />
                 </span>
                 <input
@@ -191,7 +191,7 @@ function AuthInput({
                     required={required}
                     autoComplete={type === "email" ? "email" : type === "password" ? (id.includes("signup") ? "new-password" : "current-password") : type === "tel" ? "tel" : id}
                     value={value} onChange={onChange}
-                    className="w-full pl-11 pr-12 py-3 rounded-full border border-[#e5e7eb] text-sm text-[#065b4b] bg-[#fafffe] outline-none transition-all duration-200 focus:border-[#228573] focus:shadow-[0_0_0_3px_rgba(34,133,115,0.12)]"
+                    className="w-full pl-11 pr-12 py-3 rounded-full border border-[#e5e7eb] text-sm text-brand-dark bg-brand-input-bg outline-none transition-all duration-200 focus:border-brand-mid focus:shadow-[0_0_0_3px_var(--brand-mid-ring)]"
                 />
                 {rightSlot && (
                     <span className="absolute right-4 top-1/2 -translate-y-1/2">{rightSlot}</span>
@@ -232,10 +232,10 @@ function SignInView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
                 <AushadhamLogo variant="teal" size="sm" />
             </div>
 
-            <h2 className="auth-field text-[20px] font-extrabold mb-1" style={{ color: "#065b4b" }}>
+            <h2 className="auth-field text-[20px] font-extrabold mb-1 text-brand-dark">
                 Welcome back
             </h2>
-            <p className="auth-field text-sm mb-5" style={{ color: "rgba(6,91,75,0.55)" }}>
+            <p className="auth-field text-sm mb-5 text-brand-dark/55">
                 Sign in to your Aushadham account
             </p>
 
@@ -256,7 +256,7 @@ function SignInView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
                     value={password} onChange={e => setPassword(e.target.value)}
                     rightSlot={
                         <button type="button" onClick={() => setShowPw(v => !v)}
-                            className="text-gray-400 hover:text-[#228573] transition-colors"
+                            className="text-gray-400 hover:text-brand-mid transition-colors"
                             aria-label={showPw ? "Hide password" : "Show password"}>
                             {showPw ? <EyeOff size={15} /> : <Eye size={15} />}
                         </button>
@@ -265,11 +265,10 @@ function SignInView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
 
                 <div className="auth-field flex items-center justify-between text-sm">
                     <label className="flex items-center gap-2 cursor-pointer select-none">
-                        <input type="checkbox" checked={remember} onChange={e => setRemember(e.target.checked)} className="accent-[#228573] rounded" />
-                        <span style={{ color: "rgba(6,91,75,0.6)" }}>Remember me</span>
+                        <input type="checkbox" checked={remember} onChange={e => setRemember(e.target.checked)} className="accent-brand-mid rounded" />
+                        <span className="text-brand-dark/60">Remember me</span>
                     </label>
-                    <button type="button" className="font-semibold hover:underline"
-                        style={{ color: "#228573" }}
+                    <button type="button" className="font-semibold hover:underline text-brand-mid"
                         onClick={() => onSwitch("forgot-password")}>
                         Forgot password?
                     </button>
@@ -277,8 +276,8 @@ function SignInView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
 
                 <button
                     type="submit" disabled={loading}
-                    className="auth-cta w-full py-3.5 rounded-full text-white font-bold text-sm mt-1 transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:shadow-[rgba(34,133,115,0.28)] hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed"
-                    style={{ background: "linear-gradient(135deg, #065b4b 0%, #228573 100%)" }}
+                    className="auth-cta w-full py-3.5 rounded-full text-white font-bold text-sm mt-1 transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:shadow-[0_4px_14px_color-mix(in_srgb,var(--brand-mid)_28%,transparent)] hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed"
+                    style={{ background: "linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-mid) 100%)" }}
                 >
                     {loading
                         ? <span className="flex items-center justify-center gap-2">
@@ -290,10 +289,10 @@ function SignInView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
                 </button>
             </form>
 
-            <p className="auth-footer-link text-center mt-4 text-sm" style={{ color: "rgba(6,91,75,0.6)" }}>
+            <p className="auth-footer-link text-center mt-4 text-sm text-brand-dark/60">
                 Don&apos;t have an account?{" "}
                 <button onClick={() => onSwitch("signup")}
-                    className="font-bold hover:underline" style={{ color: "#228573" }}>
+                    className="font-bold hover:underline text-brand-mid">
                     Sign up
                 </button>
             </p>
@@ -374,10 +373,10 @@ function SignUpView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
                 <AushadhamLogo variant="teal" size="sm" />
             </div>
 
-            <h2 className="auth-field text-[20px] font-extrabold mb-1" style={{ color: "#065b4b" }}>
+            <h2 className="auth-field text-[20px] font-extrabold mb-1 text-brand-dark">
                 Create your account
             </h2>
-            <p className="auth-field text-sm mb-4" style={{ color: "rgba(6,91,75,0.55)" }}>
+            <p className="auth-field text-sm mb-4 text-brand-dark/55">
                 Join Aushadham - your health companion
             </p>
 
@@ -390,17 +389,15 @@ function SignUpView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
             {/* Role selector */}
             <div
                 ref={roleSelectorRef}
-                className="auth-field relative grid grid-cols-2 p-1 mb-4 rounded-full"
-                style={{ backgroundColor: "#e8f5f2" }}
+                className="auth-field relative grid grid-cols-2 p-1 mb-4 rounded-full bg-brand-surface"
             >
                 <div
                     ref={pillRef}
-                    className="absolute rounded-full pointer-events-none"
+                    className="absolute rounded-full pointer-events-none bg-brand-mid"
                     style={{
                         top: 4, bottom: 4, left: 4,
                         width: "calc(50% - 4px)",
-                        backgroundColor: "#228573",
-                        boxShadow: "0 4px 14px rgba(34,133,115,0.28)",
+                        boxShadow: "0 4px 14px color-mix(in srgb, var(--brand-mid) 28%, transparent)",
                     }}
                 />
                 {ROLES.map(({ key, label, icon: Icon }) => {
@@ -409,8 +406,7 @@ function SignUpView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
                         <button
                             key={key} id={`role-tab-${key}`} type="button"
                             onClick={() => handleRoleChange(key)}
-                            className="relative z-10 flex items-center justify-center gap-2 py-2 rounded-full text-xs font-semibold transition-colors duration-200"
-                            style={{ color: active ? "white" : "rgba(6,91,75,0.55)" }}
+                            className={`relative z-10 flex items-center justify-center gap-2 py-2 rounded-full text-xs font-semibold transition-colors duration-200 ${active ? "text-white" : "text-brand-dark/55"}`}
                             aria-pressed={active}
                         >
                             <Icon size={14} />
@@ -421,10 +417,9 @@ function SignUpView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
             </div>
 
             {role === "doctor" && (
-                <div className="auth-field flex items-start gap-2 px-3 py-2 rounded-2xl mb-2"
-                    style={{ backgroundColor: "#f0faf7", border: "1px solid #c8ebe3" }}>
-                    <UserCog size={13} style={{ color: "#228573", marginTop: "1px", flexShrink: 0 }} />
-                    <p className="text-[11px] leading-relaxed" style={{ color: "#065b4b" }}>
+                <div className="auth-field flex items-start gap-2 px-3 py-2 rounded-2xl mb-2 bg-brand-surface-alt border border-brand-surface-deep">
+                    <UserCog size={13} className="text-brand-mid shrink-0" style={{ marginTop: "1px" }} />
+                    <p className="text-[11px] leading-relaxed text-brand-dark">
                         You&apos;ll complete a <strong>Doctor Onboarding</strong> form after this step.
                     </p>
                 </div>
@@ -447,7 +442,7 @@ function SignUpView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
                     type={showPw ? "text" : "password"} placeholder="Create a strong password" icon={Lock}
                     rightSlot={
                         <button type="button" onClick={() => setShowPw(v => !v)}
-                            className="text-gray-400 hover:text-[#228573] transition-colors"
+                            className="text-gray-400 hover:text-brand-mid transition-colors"
                             aria-label="Toggle password visibility">
                             {showPw ? <EyeOff size={14} /> : <Eye size={14} />}
                         </button>
@@ -457,11 +452,11 @@ function SignUpView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
                 />
 
                 <div className="auth-field flex flex-col gap-1.5">
-                    <label htmlFor="signup-confirm-password" className="text-sm font-semibold" style={{ color: "#065b4b" }}>
-                        Re-enter Password<span style={{ color: "#228573" }}>*</span>
+                    <label htmlFor="signup-confirm-password" className="text-sm font-semibold text-brand-dark">
+                        Re-enter Password<span className="text-brand-mid">*</span>
                     </label>
                     <div className="relative">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: confirmPw === "" ? "#228573" : pwMatch ? "#22c55e" : "#ef4444" }}>
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: confirmPw === "" ? "var(--brand-mid)" : pwMatch ? "#22c55e" : "#ef4444" }}>
                             <Lock size={15} />
                         </span>
                         <input
@@ -470,15 +465,13 @@ function SignUpView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
                             autoComplete="new-password"
                             required value={confirmPw}
                             onChange={(e) => setConfirmPw(e.target.value)}
-                            className="w-full pl-11 pr-12 py-3 rounded-full border text-sm outline-none transition-all duration-200"
+                            className="w-full pl-11 pr-12 py-3 rounded-full border text-sm outline-none transition-all duration-200 text-brand-dark bg-brand-input-bg"
                             style={{
                                 borderColor: confirmPw === "" ? "#e5e7eb" : pwMatch ? "#22c55e" : "#ef4444",
-                                color: "#065b4b",
-                                backgroundColor: "#fafffe",
                                 boxShadow: confirmPw !== "" ? (pwMatch ? "0 0 0 3px rgba(34,197,94,0.12)" : "0 0 0 3px rgba(239,68,68,0.12)") : "none",
                             }}
                             onFocus={e => {
-                                if (confirmPw === "") { e.currentTarget.style.borderColor = "#228573"; e.currentTarget.style.boxShadow = "0 0 0 3px rgba(34,133,115,0.12)"; }
+                                if (confirmPw === "") { e.currentTarget.style.borderColor = "var(--brand-mid)"; e.currentTarget.style.boxShadow = "0 0 0 3px var(--brand-mid-ring)"; }
                             }}
                             onBlur={e => {
                                 if (confirmPw === "") { e.currentTarget.style.borderColor = "#e5e7eb"; e.currentTarget.style.boxShadow = "none"; }
@@ -501,25 +494,25 @@ function SignUpView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
                         type="button" onClick={() => setAgreed(v => !v)}
                         className="mt-0.5 shrink-0 w-5 h-5 rounded-md border-2 flex items-center justify-center transition-all duration-200"
                         style={agreed
-                            ? { backgroundColor: "#228573", borderColor: "#228573" }
+                            ? { backgroundColor: "var(--brand-mid)", borderColor: "var(--brand-mid)" }
                             : { backgroundColor: "white", borderColor: "#d1d5db" }
                         }
                         aria-checked={agreed} role="checkbox"
                     >
                         {agreed && <CheckCircle2 size={12} className="text-white" />}
                     </button>
-                    <p className="text-xs leading-relaxed" style={{ color: "rgba(6,91,75,0.62)" }}>
+                    <p className="text-xs leading-relaxed text-brand-dark/60">
                         I agree to Aushadham&apos;s{" "}
-                        <span className="font-semibold cursor-pointer hover:underline" style={{ color: "#228573" }}>Terms of Service</span>
+                        <span className="font-semibold cursor-pointer hover:underline text-brand-mid">Terms of Service</span>
                         {" "}and{" "}
-                        <span className="font-semibold cursor-pointer hover:underline" style={{ color: "#228573" }}>Privacy Policy</span>
+                        <span className="font-semibold cursor-pointer hover:underline text-brand-mid">Privacy Policy</span>
                     </p>
                 </div>
 
                 <button
                     type="submit" disabled={loading}
-                    className="auth-cta w-full py-3.5 rounded-full text-white font-bold text-sm mt-1 transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:shadow-[rgba(34,133,115,0.28)] hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed"
-                    style={{ background: "linear-gradient(135deg, #065b4b 0%, #228573 100%)" }}
+                    className="auth-cta w-full py-3.5 rounded-full text-white font-bold text-sm mt-1 transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:shadow-[0_4px_14px_color-mix(in_srgb,var(--brand-mid)_28%,transparent)] hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed"
+                    style={{ background: "linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-mid) 100%)" }}
                 >
                     {loading
                         ? <span className="flex items-center justify-center gap-2">
@@ -531,10 +524,10 @@ function SignUpView({ onSwitch, onSuccess }: { onSwitch: (v: View) => void; onSu
                 </button>
             </form>
 
-            <p className="auth-footer-link text-center mt-4 text-sm" style={{ color: "rgba(6,91,75,0.6)" }}>
+            <p className="auth-footer-link text-center mt-4 text-sm text-brand-dark/60">
                 Already have an account?{" "}
                 <button onClick={() => onSwitch("signin")}
-                    className="font-bold hover:underline" style={{ color: "#228573" }}>
+                    className="font-bold hover:underline text-brand-mid">
                     Sign in
                 </button>
             </p>
@@ -558,36 +551,33 @@ function DoctorOnboardingView({ onSwitch }: { onSwitch: (v: View) => void }) {
     return (
         <div>
             <button onClick={() => onSwitch("signup")}
-                className="auth-field flex items-center gap-1.5 text-xs font-semibold mb-3 hover:underline"
-                style={{ color: "#228573" }}>
+                className="auth-field flex items-center gap-1.5 text-xs font-semibold mb-3 hover:underline text-brand-mid">
                 <ArrowLeft size={12} /> Back to sign up
             </button>
 
             <div className="auth-field flex items-center gap-2 mb-3">
                 <div className="flex items-center gap-1.5">
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold"
-                        style={{ backgroundColor: "rgba(34,133,115,0.14)", color: "#228573" }}>1</div>
-                    <span className="text-xs font-semibold" style={{ color: "rgba(6,91,75,0.42)" }}>Basic Info</span>
+                    <div className="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold text-brand-mid"
+                        style={{ backgroundColor: "color-mix(in srgb, var(--brand-mid) 14%, transparent)" }}>1</div>
+                    <span className="text-xs font-semibold text-brand-dark/40">Basic Info</span>
                 </div>
-                <div className="flex-1 h-px" style={{ backgroundColor: "#228573", opacity: 0.5 }} />
-                <div className="w-4 h-4 rounded-full flex items-center justify-center"
-                    style={{ backgroundColor: "#228573" }}>
+                <div className="flex-1 h-px bg-brand-mid opacity-50" />
+                <div className="w-4 h-4 rounded-full flex items-center justify-center bg-brand-mid">
                     <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
                         <path d="M1.5 4L3.5 6L6.5 2" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                 </div>
-                <div className="flex-1 h-px" style={{ backgroundColor: "#228573" }} />
+                <div className="flex-1 h-px bg-brand-mid" />
                 <div className="flex items-center gap-1.5">
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold"
-                        style={{ backgroundColor: "#228573", color: "white" }}>2</div>
-                    <span className="text-xs font-bold" style={{ color: "#065b4b" }}>Doctor Profile</span>
+                    <div className="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold bg-brand-mid text-white">2</div>
+                    <span className="text-xs font-bold text-brand-dark">Doctor Profile</span>
                 </div>
             </div>
 
-            <h2 className="auth-field text-[18px] font-extrabold mb-0.5" style={{ color: "#065b4b" }}>
+            <h2 className="auth-field text-[18px] font-extrabold mb-0.5 text-brand-dark">
                 Your professional profile
             </h2>
-            <p className="auth-field text-xs mb-3" style={{ color: "rgba(6,91,75,0.55)" }}>
+            <p className="auth-field text-xs mb-3 text-brand-dark/55">
                 Verified by our medical team before you go live.
             </p>
 
@@ -603,20 +593,20 @@ function DoctorOnboardingView({ onSwitch }: { onSwitch: (v: View) => void }) {
                 <AuthInput id="clinic" label="Clinic / Hospital Name" placeholder="Your clinic or hospital" icon={Building2} />
 
                 <div className="auth-field flex flex-col gap-1">
-                    <label htmlFor="bio" className="text-xs font-semibold" style={{ color: "#065b4b" }}>
-                        Professional Bio<span style={{ color: "#228573" }}>*</span>
+                    <label htmlFor="bio" className="text-xs font-semibold text-brand-dark">
+                        Professional Bio<span className="text-brand-mid">*</span>
                     </label>
                     <textarea
                         id="bio" name="bio" rows={2}
                         placeholder="Brief introduction about your practice and expertise..."
-                        className="w-full px-4 py-2 rounded-2xl border border-[#e5e7eb] text-sm outline-none transition-all duration-200 resize-none text-[#065b4b] bg-[#fafffe] focus:border-[#228573] focus:shadow-[0_0_0_3px_rgba(34,133,115,0.12)]"
+                        className="w-full px-4 py-2 rounded-2xl border border-[#e5e7eb] text-sm outline-none transition-all duration-200 resize-none text-brand-dark bg-brand-input-bg focus:border-brand-mid focus:shadow-[0_0_0_3px_var(--brand-mid-ring)]"
                     />
                 </div>
 
                 <button
                     type="submit" disabled={loading}
-                    className="auth-cta w-full py-2.5 rounded-full text-white font-bold text-sm mt-0.5 transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:shadow-[rgba(34,133,115,0.28)] hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed"
-                    style={{ background: "linear-gradient(135deg, #065b4b 0%, #228573 100%)" }}
+                    className="auth-cta w-full py-2.5 rounded-full text-white font-bold text-sm mt-0.5 transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:shadow-[0_4px_14px_color-mix(in_srgb,var(--brand-mid)_28%,transparent)] hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed"
+                    style={{ background: "linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-mid) 100%)" }}
                 >
                     {loading
                         ? <span className="flex items-center justify-center gap-2">
@@ -628,7 +618,7 @@ function DoctorOnboardingView({ onSwitch }: { onSwitch: (v: View) => void }) {
                 </button>
             </form>
 
-            <p className="auth-footer-link text-[10px] text-center mt-2" style={{ color: "rgba(6,91,75,0.42)" }}>
+            <p className="auth-footer-link text-[10px] text-center mt-2 text-brand-dark/40">
                 Our team reviews credentials within 24-48 hours. You&apos;ll receive an email once verified.
             </p>
         </div>
@@ -672,8 +662,7 @@ function ForgotPasswordView({ onSwitch }: { onSwitch: (v: View) => void }) {
         <div>
             <button
                 onClick={() => onSwitch("signin")}
-                className="auth-field flex items-center gap-1.5 text-xs font-semibold mb-5 hover:underline"
-                style={{ color: "#228573" }}
+                className="auth-field flex items-center gap-1.5 text-xs font-semibold mb-5 hover:underline text-brand-mid"
             >
                 <ArrowLeft size={12} /> Back to sign in
             </button>
@@ -682,46 +671,45 @@ function ForgotPasswordView({ onSwitch }: { onSwitch: (v: View) => void }) {
                 <div ref={successRef} className="flex flex-col items-center text-center py-6 gap-5">
                     <div
                         className="w-20 h-20 rounded-full flex items-center justify-center shadow-lg"
-                        style={{ background: "linear-gradient(135deg, #065b4b 0%, #3aa692 100%)", boxShadow: "0 8px 32px rgba(34,133,115,0.32)" }}
+                        style={{ background: "linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-light) 100%)", boxShadow: "0 8px 32px color-mix(in srgb, var(--brand-mid) 32%, transparent)" }}
                     >
                         <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
                             <path d="M8 20L15 27L30 11" stroke="white" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                     </div>
                     <div>
-                        <h2 className="text-[22px] font-extrabold mb-2" style={{ color: "#065b4b" }}>
+                        <h2 className="text-[22px] font-extrabold mb-2 text-brand-dark">
                             Check your inbox!
                         </h2>
-                        <p className="text-sm leading-relaxed" style={{ color: "rgba(6,91,75,0.6)" }}>
+                        <p className="text-sm leading-relaxed text-brand-dark/60">
                             We sent a reset link to<br />
-                            <span className="font-bold" style={{ color: "#228573" }}>{email}</span>
+                            <span className="font-bold text-brand-mid">{email}</span>
                         </p>
                     </div>
-                    <p className="text-xs" style={{ color: "rgba(6,91,75,0.45)" }}>
+                    <p className="text-xs text-brand-dark/45">
                         Didn&apos;t get it?{" "}
                         <button
                             type="button"
                             onClick={() => { setSent(false); setEmail(""); }}
-                            className="font-semibold hover:underline"
-                            style={{ color: "#228573" }}
+                            className="font-semibold hover:underline text-brand-mid"
                         >
                             Try again
                         </button>
                     </p>
                     <button
                         onClick={() => onSwitch("signin")}
-                        className="auth-cta w-full py-3.5 rounded-full text-white font-bold text-sm transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:shadow-[rgba(34,133,115,0.28)] hover:-translate-y-0.5"
-                        style={{ background: "linear-gradient(135deg, #065b4b 0%, #228573 100%)" }}
+                        className="auth-cta w-full py-3.5 rounded-full text-white font-bold text-sm transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:shadow-[0_4px_14px_color-mix(in_srgb,var(--brand-mid)_28%,transparent)] hover:-translate-y-0.5"
+                        style={{ background: "linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-mid) 100%)" }}
                     >
                         Back to Sign In
                     </button>
                 </div>
             ) : (
                 <>
-                    <h2 className="auth-field text-[20px] font-extrabold mb-1" style={{ color: "#065b4b" }}>
+                    <h2 className="auth-field text-[20px] font-extrabold mb-1 text-brand-dark">
                         Forgot your password?
                     </h2>
-                    <p className="auth-field text-sm mb-6" style={{ color: "rgba(6,91,75,0.55)" }}>
+                    <p className="auth-field text-sm mb-6 text-brand-dark/55">
                         No worries - enter your email and we&apos;ll send you a reset link.
                     </p>
 
@@ -745,8 +733,8 @@ function ForgotPasswordView({ onSwitch }: { onSwitch: (v: View) => void }) {
                         <button
                             type="submit"
                             disabled={loading || !email}
-                            className="auth-cta w-full py-3.5 rounded-full text-white font-bold text-sm mt-1 transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:shadow-[rgba(34,133,115,0.28)] hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed"
-                            style={{ background: "linear-gradient(135deg, #065b4b 0%, #228573 100%)" }}
+                            className="auth-cta w-full py-3.5 rounded-full text-white font-bold text-sm mt-1 transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:shadow-[0_4px_14px_color-mix(in_srgb,var(--brand-mid)_28%,transparent)] hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed"
+                            style={{ background: "linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-mid) 100%)" }}
                         >
                             {loading
                                 ? <span className="flex items-center justify-center gap-2">
@@ -758,12 +746,11 @@ function ForgotPasswordView({ onSwitch }: { onSwitch: (v: View) => void }) {
                         </button>
                     </form>
 
-                    <p className="auth-footer-link text-center mt-5 text-sm" style={{ color: "rgba(6,91,75,0.6)" }}>
+                    <p className="auth-footer-link text-center mt-5 text-sm text-brand-dark/60">
                         Remember your password?{" "}
                         <button
                             onClick={() => onSwitch("signin")}
-                            className="font-bold hover:underline"
-                            style={{ color: "#228573" }}
+                            className="font-bold hover:underline text-brand-mid"
                         >
                             Sign in
                         </button>
@@ -920,8 +907,7 @@ export default function AuthModal() {
 
                 <button
                     onClick={handleClose}
-                    className="absolute top-4 right-4 z-30 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 hover:bg-black/10 hover:scale-110"
-                    style={{ color: "rgba(6,91,75,0.55)" }}
+                    className="absolute top-4 right-4 z-30 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 hover:bg-black/10 hover:scale-110 text-brand-dark/55"
                     aria-label="Close dialog"
                 >
                     <X size={18} />
