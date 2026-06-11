@@ -28,6 +28,7 @@ import {
   type NotificationSection,
   type NotificationTone,
 } from "@/lib/notifications-data";
+import { useUser } from "@/lib/context/user";
 
 function NotificationTypeIcon({ tone }: { tone: NotificationTone }) {
   if (tone === "emergency") {
@@ -112,6 +113,7 @@ export default function NotificationsPage() {
 }
 
 function NotificationsPageContent() {
+  const { displayName } = useUser();
   const searchParams = useSearchParams();
   const [activeDateLabel] = useState("Jun 24, 2022 · Today");
   const [inviteOpen, setInviteOpen] = useState(false);
@@ -128,7 +130,7 @@ function NotificationsPageContent() {
           <Avatar className="h-12 w-12 border border-emerald-100">
             <AvatarFallback className="bg-amber-300 text-sm font-semibold text-emerald-900">RS</AvatarFallback>
           </Avatar>
-          <h1 className="text-2xl font-bold text-teal-700">Hi! Dr. Ritika Sahu</h1>
+          <h1 className="text-2xl font-bold text-teal-700">Hi! {displayName}</h1>
         </div>
 
         <div className="flex flex-wrap items-center gap-2 sm:justify-end">

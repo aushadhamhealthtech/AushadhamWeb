@@ -11,14 +11,6 @@
 import { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 
-/* ── Brand tokens (keep in sync with the C object in each page) ── */
-const primary = "#065b4b";
-const mid     = "#228573";
-const mint    = "#e8f5f2";
-const body    = "#3F4946";
-const muted   = "rgba(6,91,75,0.5)";
-const border  = "#e5e7eb";
-
 /* ──────────────────────────────────────────────────────────────────
    PillInput
 ────────────────────────────────────────────────────────────────── */
@@ -46,9 +38,9 @@ export function PillInput({
     return (
         <div className="flex flex-col gap-1.5">
             {label && (
-                <label htmlFor={id} className="text-sm font-semibold" style={{ color: primary }}>
+                <label htmlFor={id} className="text-sm font-semibold text-brand-dark">
                     {label}
-                    {required && <span className="ml-0.5" style={{ color: mid }}>*</span>}
+                    {required && <span className="ml-0.5 text-brand-mid">*</span>}
                 </label>
             )}
             <div className="relative">
@@ -60,24 +52,24 @@ export function PillInput({
                     required={required}
                     value={value}
                     onChange={onChange}
-                    className="w-full px-5 py-3.5 rounded-full border text-sm outline-none transition-all duration-200"
-                    style={{ borderColor: border, backgroundColor: "#fafffe", color: primary }}
+                    className="w-full px-5 py-3.5 rounded-full border text-sm outline-none transition-all duration-200 bg-brand-input-bg text-brand-dark"
+                    style={{ borderColor: "#e5e7eb" }}
                     onFocus={e => {
-                        e.currentTarget.style.borderColor = mid;
-                        e.currentTarget.style.boxShadow  = "0 0 0 3px rgba(34,133,115,0.12)";
+                        e.currentTarget.style.borderColor = "var(--brand-mid)";
+                        e.currentTarget.style.boxShadow  = "0 0 0 3px var(--brand-mid-ring)";
                     }}
                     onBlur={e => {
-                        e.currentTarget.style.borderColor = border;
+                        e.currentTarget.style.borderColor = "#e5e7eb";
                         e.currentTarget.style.boxShadow  = "none";
                     }}
                 />
                 {rightIcon && (
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2" style={{ color: muted }}>
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-brand-dark/50">
                         {rightIcon}
                     </span>
                 )}
             </div>
-            {hint && <p className="text-xs" style={{ color: muted }}>{hint}</p>}
+            {hint && <p className="text-xs text-brand-dark/50">{hint}</p>}
         </div>
     );
 }
@@ -134,28 +126,27 @@ export function PillSelect({
     return (
         <div className="flex flex-col gap-1.5" ref={wrapRef}>
             {label && (
-                <label className="text-sm font-semibold" style={{ color: primary }}>
+                <label className="text-sm font-semibold text-brand-dark">
                     {label}
-                    {required && <span className="ml-0.5" style={{ color: mid }}>*</span>}
+                    {required && <span className="ml-0.5 text-brand-mid">*</span>}
                 </label>
             )}
             <div className="relative">
                 <button
                     type="button"
                     onClick={() => setOpen(o => !o)}
-                    className="w-full flex items-center justify-between px-5 py-3.5 rounded-full border text-sm outline-none transition-all duration-200"
+                    className="w-full flex items-center justify-between px-5 py-3.5 rounded-full border text-sm outline-none transition-all duration-200 bg-brand-input-bg"
                     style={{
-                        borderColor:     open ? mid : border,
-                        color:           value ? primary : muted,
-                        backgroundColor: "#fafffe",
-                        boxShadow:       open ? "0 0 0 3px rgba(34,133,115,0.12)" : "none",
+                        borderColor:     open ? "var(--brand-mid)" : "#e5e7eb",
+                        color:           value ? "var(--brand-dark)" : "var(--brand-dark-50)",
+                        boxShadow:       open ? "0 0 0 3px var(--brand-mid-ring)" : "none",
                     }}
                 >
                     <span>{value || placeholder}</span>
                     <ChevronDown
                         size={15}
                         style={{
-                            color: mid,
+                            color: "var(--brand-mid)",
                             transition: "transform 0.18s ease-out",
                             transform: open ? "rotate(180deg)" : "rotate(0deg)",
                         }}
@@ -170,11 +161,11 @@ export function PillSelect({
                         right:           0,
                         ...(openUp ? { bottom: "calc(100% + 6px)" } : { top: "calc(100% + 6px)" }),
                         borderRadius:    "1rem",
-                        border:          `1px solid ${border}`,
-                        backgroundColor: "#fafffe",
+                        border:          "1px solid #e5e7eb",
+                        backgroundColor: "var(--brand-input-bg)",
                         maxHeight:       "220px",
                         overflowY:       "auto",
-                        boxShadow:       "0 8px 30px rgba(6,91,75,0.12)",
+                        boxShadow:       "0 8px 30px var(--brand-dark-ring)",
                         opacity:         open ? 1 : 0,
                         transform:       open
                             ? "translateY(0px) scale(1)"
@@ -194,12 +185,12 @@ export function PillSelect({
                                 padding:         "10px 20px",
                                 fontSize:        "0.875rem",
                                 cursor:          "pointer",
-                                color:           o === value ? primary : body,
-                                backgroundColor: o === value ? mint    : "transparent",
+                                color:           o === value ? "var(--brand-dark)" : "var(--brand-dark-80)",
+                                backgroundColor: o === value ? "var(--brand-surface)" : "transparent",
                                 fontWeight:      o === value ? 600     : 400,
                                 transition:      "background-color 0.1s",
                             }}
-                            onMouseEnter={e => { if (o !== value) (e.currentTarget as HTMLElement).style.backgroundColor = mint; }}
+                            onMouseEnter={e => { if (o !== value) (e.currentTarget as HTMLElement).style.backgroundColor = "var(--brand-surface)"; }}
                             onMouseLeave={e => { if (o !== value) (e.currentTarget as HTMLElement).style.backgroundColor = "transparent"; }}
                         >
                             {o}
@@ -223,16 +214,21 @@ export function PillMultiSelect({
     options,
     placeholder = "Select options",
     required = true,
+    value: controlledValue,
+    onChange,
 }: {
     label: string;
     id: string;
     options: string[];
     placeholder?: string;
     required?: boolean;
+    value?: string[];
+    onChange?: (values: string[]) => void;
 }) {
     const [open,     setOpen]    = useState(false);
     const [openUp,   setOpenUp]  = useState(false);
-    const [selected, setSelected] = useState<string[]>([]);
+    const [internalSelected, setInternal] = useState<string[]>([]);
+    const selected = controlledValue !== undefined ? controlledValue : internalSelected;
     const wrapRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -250,26 +246,27 @@ export function PillMultiSelect({
     }, [open]);
 
     function toggle(opt: string) {
-        setSelected(prev => prev.includes(opt) ? prev.filter(v => v !== opt) : [...prev, opt]);
+        const next = selected.includes(opt) ? selected.filter(v => v !== opt) : [...selected, opt];
+        if (onChange) onChange(next);
+        else setInternal(next);
     }
 
     return (
         <div className="flex flex-col gap-1.5" ref={wrapRef}>
-            <label className="text-sm font-semibold" style={{ color: primary }}>
+            <label className="text-sm font-semibold text-brand-dark">
                 {label}
-                {required && <span className="ml-0.5" style={{ color: mid }}>*</span>}
+                {required && <span className="ml-0.5 text-brand-mid">*</span>}
             </label>
 
             <div className="relative">
                 <button
                     type="button"
                     onClick={() => setOpen(v => !v)}
-                    className="w-full flex items-center justify-between px-5 py-3.5 rounded-full border text-sm outline-none transition-all duration-200"
+                    className="w-full flex items-center justify-between px-5 py-3.5 rounded-full border text-sm outline-none transition-all duration-200 bg-brand-input-bg"
                     style={{
-                        borderColor:     open ? mid : border,
-                        color:           selected.length ? primary : muted,
-                        backgroundColor: "#fafffe",
-                        boxShadow:       open ? "0 0 0 3px rgba(34,133,115,0.12)" : "none",
+                        borderColor:     open ? "var(--brand-mid)" : "#e5e7eb",
+                        color:           selected.length ? "var(--brand-dark)" : "var(--brand-dark-50)",
+                        boxShadow:       open ? "0 0 0 3px var(--brand-mid-ring)" : "none",
                     }}
                 >
                     <span className="truncate text-left">
@@ -278,7 +275,7 @@ export function PillMultiSelect({
                     <ChevronDown
                         size={15}
                         style={{
-                            color: mid,
+                            color: "var(--brand-mid)",
                             transition: "transform 0.18s ease-out",
                             transform: open ? "rotate(180deg)" : "rotate(0deg)",
                         }}
@@ -293,11 +290,11 @@ export function PillMultiSelect({
                         right:           0,
                         ...(openUp ? { bottom: "calc(100% + 6px)" } : { top: "calc(100% + 6px)" }),
                         borderRadius:    "1rem",
-                        border:          `1px solid ${border}`,
-                        backgroundColor: "#fafffe",
+                        border:          "1px solid #e5e7eb",
+                        backgroundColor: "var(--brand-input-bg)",
                         maxHeight:       "220px",
                         overflowY:       "auto",
-                        boxShadow:       "0 8px 30px rgba(6,91,75,0.12)",
+                        boxShadow:       "0 8px 30px var(--brand-dark-ring)",
                         opacity:         open ? 1 : 0,
                         transform:       open
                             ? "translateY(0px) scale(1)"
@@ -321,8 +318,8 @@ export function PillMultiSelect({
                                     display:         "flex",
                                     alignItems:      "center",
                                     gap:             "10px",
-                                    color:           checked ? primary : body,
-                                    backgroundColor: checked ? mint    : "transparent",
+                                    color:           checked ? "var(--brand-dark)" : "var(--brand-dark-80)",
+                                    backgroundColor: checked ? "var(--brand-surface)" : "transparent",
                                 }}
                             >
                                 <span
@@ -330,8 +327,8 @@ export function PillMultiSelect({
                                         width:           "16px",
                                         height:          "16px",
                                         borderRadius:    "4px",
-                                        border:          `1px solid ${checked ? mid : border}`,
-                                        backgroundColor: checked ? mid : "white",
+                                        border:          `1px solid ${checked ? "var(--brand-mid)" : "#e5e7eb"}`,
+                                        backgroundColor: checked ? "var(--brand-mid)" : "white",
                                         display:         "inline-flex",
                                         alignItems:      "center",
                                         justifyContent:  "center",
@@ -357,8 +354,7 @@ export function PillMultiSelect({
                             key={lang}
                             type="button"
                             onClick={() => toggle(lang)}
-                            className="px-2.5 py-1 rounded-full text-[11px] font-semibold"
-                            style={{ backgroundColor: mint, color: primary }}
+                            className="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-brand-surface text-brand-dark"
                         >
                             {lang} ×
                         </button>

@@ -14,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { getFilteredNotifications } from "@/lib/notifications-data";
+import { useUser } from "@/lib/context/user";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -148,6 +149,7 @@ function AppointmentRow({ apt }: { apt: Appointment }) {
 }
 
 export default function AppointmentsPage() {
+  const { displayName } = useUser();
   const [filter, setFilter] = useState("All");
   const [inviteOpen, setInviteOpen] = useState(false);
   const [metricsExpanded, setMetricsExpanded] = useState(false);
@@ -162,7 +164,7 @@ export default function AppointmentsPage() {
           <Avatar className="w-12 h-12 border-2 border-emerald-200">
             <AvatarFallback className="bg-amber-400 text-white font-semibold text-sm">RS</AvatarFallback>
           </Avatar>
-          <h1 className="text-xl font-bold text-teal-700">Hi! Dr. Ritika Sahu</h1>
+          <h1 className="text-xl font-bold text-teal-700">Hi! {displayName}</h1>
         </div>
         <div className="flex items-center gap-3">
           <DateSelector />

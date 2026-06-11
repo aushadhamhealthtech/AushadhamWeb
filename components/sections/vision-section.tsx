@@ -122,21 +122,20 @@ function VisionCard({ card }: { card: typeof visionCards[number] }) {
     return (
         <div className="rounded-3xl overflow-hidden flex flex-col flex-1">
             {/* SVG Illustration */}
-            <div className={`${card.height} p-4`} style={{ backgroundColor: "#f0faf7" }}>
+            <div className={`${card.height} p-4 bg-brand-surface-alt`}>
                 {card.illustration}
             </div>
             {/* Content */}
             <div className="bg-white p-6 flex flex-col gap-3 flex-1">
                 {card.featured && (
                     <span
-                        className="text-xs font-bold px-2.5 py-1 rounded-full w-fit"
-                        style={{ backgroundColor: "#e8f5f2", color: "#228573" }}
+                        className="text-xs font-bold px-2.5 py-1 rounded-full w-fit bg-brand-surface text-brand-mid"
                     >
                         ★ Most Popular
                     </span>
                 )}
-                <h3 className="font-bold text-[18px]" style={{ color: "#065b4b" }}>{card.title}</h3>
-                <p className="text-[14px] leading-relaxed" style={{ color: "rgba(6,91,75,0.65)" }}>{card.description}</p>
+                <h3 className="font-bold text-[18px] text-brand-dark">{card.title}</h3>
+                <p className="text-[14px] leading-relaxed text-brand-dark/65">{card.description}</p>
             </div>
         </div>
     );
@@ -250,8 +249,8 @@ export default function VisionSection() {
                             key={i}
                             className={`rounded-3xl border shadow-sm flex flex-col w-67.5 md:w-95 shrink-0 transition-transform duration-300 ease-out hover:scale-[1.05] ${
                                 card.featured
-                                    ? "shadow-lg border-[#c8ebe3]"
-                                    : "border-[#e8f5f2]"
+                                    ? "shadow-lg border-brand-surface-deep"
+                                    : "border-brand-surface"
                             }`}
                         >
                             <VisionCard card={card} />

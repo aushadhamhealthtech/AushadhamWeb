@@ -45,6 +45,17 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+  /* ── Aushadham brand palette ── */
+  --color-brand-dark:         var(--brand-dark);
+  --color-brand-mid:          var(--brand-mid);
+  --color-brand-light:        var(--brand-light);
+  --color-brand-surface:      var(--brand-surface);
+  --color-brand-surface-alt:  var(--brand-surface-alt);
+  --color-brand-surface-deep: var(--brand-surface-deep);
+  --color-brand-footer:       var(--brand-footer);
+  --color-brand-input-bg:     var(--brand-input-bg);
+  --color-brand-border-light: var(--brand-border-light);
+  --color-brand-mid-ring:     var(--brand-mid-ring);
 }
 
 :root {
@@ -55,7 +66,7 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+  --primary: oklch(0.318 0.087 174.8);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -66,7 +77,7 @@
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --ring: oklch(0.535 0.099 180.7);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -80,6 +91,18 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  /* ── Aushadham brand palette ── */
+  --brand-dark:         #065b4b;
+  --brand-mid:          #228573;
+  --brand-light:        #3aa692;
+  --brand-surface:      #e8f5f2;
+  --brand-surface-alt:  #f0faf7;
+  --brand-surface-deep: #c8ebe3;
+  --brand-footer:       #1f5f4a;
+  --brand-input-bg:     #fafffe;
+  --brand-border-light: #d1ece6;
+  --brand-mid-ring:     rgba(34, 133, 115, 0.12);
+  --brand-dark-ring:    rgba(6, 91, 75, 0.12);
 }
 
 .dark {

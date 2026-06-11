@@ -42,6 +42,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DateSelector } from "@/components/DateSelector";
 import { InviteDialog } from "@/components/InviteDialog";
+import { useUser } from "@/lib/context/user";
 
 /* ─── Static patient data ───────────────────────────────────── */
 const patientsDatabase: Record<number, any> = {
@@ -1055,6 +1056,7 @@ Other Relevant Family Medical Conditions: Her mother had hypertension and osteoa
 /* ─── Chat Tab ──────────────────────────────────────────────── */
 function ChatTab({ patient }: { patient: any }) {
   const [message, setMessage] = useState("");
+  const { displayName } = useUser();
 
   return (
     <div className="flex flex-1 overflow-hidden">
@@ -1115,7 +1117,7 @@ function ChatTab({ patient }: { patient: any }) {
                 <FileText className="w-3.5 h-3.5 text-red-600" />
               </div>
               <span className="text-sm text-gray-700 flex-1">
-                Lab test document has been shared by Dr. Ritika Sahu
+                Lab test document has been shared by {displayName}
               </span>
               <button className="text-sm text-teal-600 font-medium underline hover:text-teal-700">
                 View now
@@ -1274,6 +1276,7 @@ function MedicationsTab({ patient }: { patient: any }) {
    MAIN PAGE
    ═══════════════════════════════════════════════════════════════ */
 function PatientDetailContent({ patient }: { patient: any }) {
+  const { displayName } = useUser();
   const router = useRouter();
   const [inviteOpen, setInviteOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("case-sheet");
@@ -1286,7 +1289,7 @@ function PatientDetailContent({ patient }: { patient: any }) {
           <Avatar className="w-12 h-12 border-2 border-emerald-200">
             <AvatarFallback className="bg-amber-400 text-white font-semibold text-sm">RS</AvatarFallback>
           </Avatar>
-          <h1 className="text-xl font-bold text-teal-700">Hi! Dr. Ritika Sahu</h1>
+          <h1 className="text-xl font-bold text-teal-700">Hi! {displayName}</h1>
         </div>
         <div className="flex items-center gap-3">
           <DateSelector />

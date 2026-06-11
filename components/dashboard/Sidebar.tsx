@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import { useUser } from "@/lib/context/user";
 
 const navItems = [
   { icon: Home,          label: "Home",          href: "/pranjal"             },
@@ -39,6 +40,7 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
+  const { displayName, initials } = useUser();
   const pathname = usePathname();
 
   return (
@@ -200,11 +202,11 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
             <div className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors">
               <Avatar className="w-8 h-8 shrink-0">
                 <AvatarFallback className="bg-amber-400 text-white text-xs font-semibold">
-                  RS
+                  {initials}
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-semibold text-gray-800 truncate">Dr. Ritika Sahu</p>
+                <p className="text-xs font-semibold text-gray-800 truncate">{displayName}</p>
                 <p className="text-[10px] text-gray-400 truncate">ritika@aushodam.in</p>
               </div>
             </div>
@@ -215,7 +217,7 @@ export default function Sidebar({ collapsed, onToggle }: SidebarProps) {
           <div className="flex justify-center pt-1">
             <Avatar className="w-8 h-8">
               <AvatarFallback className="bg-amber-400 text-white text-xs font-semibold">
-                RS
+                {initials}
               </AvatarFallback>
             </Avatar>
           </div>

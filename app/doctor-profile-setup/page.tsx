@@ -63,6 +63,13 @@ const DAYS = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 const DURATIONS = ["10 min","15 min","20 min","30 min","45 min","60 min"];
 const TIME_GAPS = ["0 min", "5 min", "10 min", "15 min", "20 min"];
 
+/* ── Lifted state types ── */
+type ClinicForm    = { clinicName: string; doorNo: string; street: string; city: string; state: string; zip: string; fee: string };
+type DayRange      = { start: string; end: string };
+type DaySchedule   = { enabled: boolean; ranges: DayRange[] };
+type PracticeForm  = { practice: string; specialization: string; experience: string; mode: string; language: string[]; illnessTags: string[] };
+type TimeSlotsForm = { daySchedules: Record<string, DaySchedule>; slotDuration: string; timeGap: string };
+type ProfileForm   = { photoName: string | null };
 
 /* ── Horizontal stepper ── */
 function HorizontalStepper({ step }: { step: number }) {
@@ -175,12 +182,14 @@ function ContextCard({ step }: { step: number }) {
 }
 
 /* ── Step 1: Clinic Details ── */
-function StepClinicDetails() {
-    const [form, setForm] = useState({
-        clinicName: "", doorNo: "", street: "", city: "", state: "", zip: "", fee: "",
-    });
+function StepClinicDetails({
+    form, setForm,
+}: {
+    form: ClinicForm;
+    setForm: React.Dispatch<React.SetStateAction<ClinicForm>>;
+}) {
     const [pinInfo, setPinInfo] = useState<string>("");
-    const set = (k: keyof typeof form) =>
+    const set = (k: keyof ClinicForm) =>
         (e: React.ChangeEvent<HTMLInputElement>) => setForm(f => ({ ...f, [k]: e.target.value }));
 
     useEffect(() => {
@@ -287,16 +296,19 @@ function StepClinicDetails() {
 }
 
 /* ── Step 2: Practice Details ── */
-function StepPracticeDetails() {
-    const [experience, setExperience] = useState("");
+function StepPracticeDetails({
+    form, setForm,
+}: {
+    form: PracticeForm;
+    setForm: React.Dispatch<React.SetStateAction<PracticeForm>>;
+}) {
     const [illnessInput, setIllnessInput] = useState("");
-    const [illnessTags, setIllnessTags] = useState<string[]>([]);
 
     function addTag(raw: string) {
         const tag = raw.trim();
         if (!tag) return;
-        if (illnessTags.includes(tag)) return;
-        setIllnessTags(prev => [...prev, tag].slice(0, 8));
+        if (form.illnessTags.includes(tag)) return;
+        setForm(f => ({ ...f, illnessTags: [...f.illnessTags, tag].slice(0, 8) }));
     }
 
     return (
@@ -304,10 +316,14 @@ function StepPracticeDetails() {
             <PillSelect
                 id="practice" label="Practice"
                 options={PRACTICE_TYPES} placeholder="Select"
+                value={form.practice}
+                onChange={v => setForm(f => ({ ...f, practice: v }))}
             />
             <PillSelect
                 id="specialization" label="Specialty"
                 options={SPECIALIZATIONS} placeholder="Select"
+                value={form.specialization}
+                onChange={v => setForm(f => ({ ...f, specialization: v }))}
             />
 
             <div className="ps-field flex flex-col gap-1.5">
@@ -335,11 +351,11 @@ function StepPracticeDetails() {
                 />
 
                 <div className="flex flex-wrap gap-1.5 mt-0.5">
-                    {illnessTags.map(tag => (
+                    {form.illnessTags.map(tag => (
                         <button
                             key={tag}
                             type="button"
-                            onClick={() => setIllnessTags(prev => prev.filter(t => t !== tag))}
+                            onClick={() => setForm(f => ({ ...f, illnessTags: f.illnessTags.filter(t => t !== tag) }))}
                             className="px-3 py-1.5 rounded-full text-xs font-semibold"
                             style={{ backgroundColor: C.mint, color: C.primary }}
                         >
@@ -349,7 +365,7 @@ function StepPracticeDetails() {
                 </div>
 
                 <div className="flex flex-wrap gap-1.5 mt-0.5">
-                    {ILLNESS_TAGS.filter(t => !illnessTags.includes(t)).slice(0, 6).map(tag => (
+                    {ILLNESS_TAGS.filter(t => !form.illnessTags.includes(t)).slice(0, 6).map(tag => (
                         <button
                             key={tag}
                             type="button"
@@ -366,36 +382,39 @@ function StepPracticeDetails() {
             <PillSelect
                 id="mode" label="Mode of Appointment"
                 options={APPOINTMENT_MODES} placeholder="Select"
+                value={form.mode}
+                onChange={v => setForm(f => ({ ...f, mode: v }))}
             />
             <PillMultiSelect
                 id="language" label="Languages"
                 options={LANGUAGES} placeholder="Select all the languages you know"
+                value={form.language}
+                onChange={v => setForm(f => ({ ...f, language: v }))}
             />
             <PillInput
                 id="experience" label="Experience"
                 placeholder="Enter no. of years" type="number"
-                value={experience}
-                onChange={e => setExperience(e.target.value)}
+                value={form.experience}
+                onChange={e => setForm(f => ({ ...f, experience: e.target.value }))}
             />
         </div>
     );
 }
 
 /* ── Step 3: Time Slots ── */
-function StepTimeSlots() {
+function StepTimeSlots({
+    form, setForm,
+}: {
+    form: TimeSlotsForm;
+    setForm: React.Dispatch<React.SetStateAction<TimeSlotsForm>>;
+}) {
     const [selectedDay, setSelectedDay] = useState<string>("Mon");
     const [copyTargets, setCopyTargets] = useState<string[]>([]);
-    const [daySchedules, setDaySchedules] = useState<Record<string, { enabled: boolean; ranges: Array<{ start: string; end: string }> }>>(() => {
-        return Object.fromEntries(
-            DAYS.map((d) => [
-                d,
-                {
-                    enabled: false,
-                    ranges: [],
-                },
-            ])
-        );
-    });
+    const { daySchedules } = form;
+
+    function setDaySchedules(updater: (prev: Record<string, DaySchedule>) => Record<string, DaySchedule>) {
+        setForm(f => ({ ...f, daySchedules: updater(f.daySchedules) }));
+    }
 
     const current = daySchedules[selectedDay];
 
@@ -610,18 +629,25 @@ function StepTimeSlots() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <PillSelect id="slotDuration" label="Select Duration"
-                    options={DURATIONS} placeholder="15 Mins" />
+                    options={DURATIONS} placeholder="15 Mins"
+                    value={form.slotDuration}
+                    onChange={v => setForm(f => ({ ...f, slotDuration: v }))} />
                 <PillSelect id="timeGap" label="Select Time Gap"
-                    options={TIME_GAPS} placeholder="5 Mins" />
+                    options={TIME_GAPS} placeholder="5 Mins"
+                    value={form.timeGap}
+                    onChange={v => setForm(f => ({ ...f, timeGap: v }))} />
             </div>
         </div>
     );
 }
 
 /* ── Step 4: Profile Details ── */
-function StepProfileDetails() {
-    const [photoName, setPhotoName] = useState<string | null>(null);
-
+function StepProfileDetails({
+    form, setForm,
+}: {
+    form: ProfileForm;
+    setForm: React.Dispatch<React.SetStateAction<ProfileForm>>;
+}) {
     return (
         <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between min-h-70">
             <div className="flex flex-col gap-3">
@@ -642,15 +668,15 @@ function StepProfileDetails() {
                         type="file"
                         accept="image/*"
                         className="hidden"
-                        onChange={e => setPhotoName(e.target.files?.[0]?.name ?? null)}
+                        onChange={e => setForm(f => ({ ...f, photoName: e.target.files?.[0]?.name ?? null }))}
                     />
                 </label>
 
                 <p className="text-xs max-w-57.5" style={{ color: C.muted }}>
                     Make sure your image is clear and clearly recognized.
                 </p>
-                {photoName && (
-                    <p className="text-xs font-semibold" style={{ color: C.mid }}>Selected: {photoName}</p>
+                {form.photoName && (
+                    <p className="text-xs font-semibold" style={{ color: C.mid }}>Selected: {form.photoName}</p>
                 )}
             </div>
 
@@ -793,7 +819,19 @@ function LeftPanel({ step }: { step: number }) {
 export default function DoctorProfileSetupPage() {
     const router = useRouter();
     const [step, setStep] = useState(1);
-    const [stepDir, setStepDir] = useState(1);
+    const stepDirRef = useRef(1);
+    const [clinic, setClinic]       = useState<ClinicForm>({
+        clinicName: "", doorNo: "", street: "", city: "", state: "", zip: "", fee: "",
+    });
+    const [practice, setPractice]   = useState<PracticeForm>({
+        practice: "", specialization: "", experience: "", mode: "", language: [], illnessTags: [],
+    });
+    const [timeSlots, setTimeSlots] = useState<TimeSlotsForm>({
+        daySchedules: Object.fromEntries(DAYS.map(d => [d, { enabled: false, ranges: [] as DayRange[] }])),
+        slotDuration: "",
+        timeGap: "",
+    });
+    const [profile, setProfile]     = useState<ProfileForm>({ photoName: null });
     const contentRef  = useRef<HTMLDivElement>(null);
     const headerRef   = useRef<HTMLDivElement>(null);
     const formCardRef = useRef<HTMLDivElement>(null);
@@ -805,18 +843,18 @@ export default function DoctorProfileSetupPage() {
         gsap.fromTo(el, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.38, ease: "power2.out" });
     }, []);
 
-    /* Step entry animation */
+    /* Step entry animation — depends only on step, reads direction from ref (no re-render on dir change) */
     useEffect(() => {
         const root = contentRef.current;
         if (!root) return;
         gsap.killTweensOf(root);
         gsap.set(root, { opacity: 1, x: 0, y: 0 });
         const tween = gsap.fromTo(root,
-            { x: 16 * stepDir, y: 6, opacity: 0 },
+            { x: 16 * stepDirRef.current, y: 6, opacity: 0 },
             { x: 0, y: 0, opacity: 1, duration: 0.34, ease: "power3.out", overwrite: true }
         );
         return () => { tween.kill(); };
-    }, [step, stepDir]);
+    }, [step]);
 
     useEffect(() => {
         const card = formCardRef.current;
@@ -843,7 +881,7 @@ export default function DoctorProfileSetupPage() {
         const root = contentRef.current;
         if (!root) { setStep(n); return; }
         const dir = n > step ? 1 : -1;
-        setStepDir(dir);
+        stepDirRef.current = dir;  // mutate ref — no re-render, exit tween survives
         gsap.to(root, {
             x: -28 * dir, opacity: 0, duration: 0.24, ease: "power2.inOut",
             onComplete: () => setStep(n),
@@ -933,10 +971,10 @@ export default function DoctorProfileSetupPage() {
                             </div>
 
                             <div ref={contentRef}>
-                                {step === 1 && <StepClinicDetails />}
-                                {step === 2 && <StepPracticeDetails />}
-                                {step === 3 && <StepTimeSlots />}
-                                {step === 4 && <StepProfileDetails />}
+                                {step === 1 && <StepClinicDetails form={clinic} setForm={setClinic} />}
+                                {step === 2 && <StepPracticeDetails form={practice} setForm={setPractice} />}
+                                {step === 3 && <StepTimeSlots form={timeSlots} setForm={setTimeSlots} />}
+                                {step === 4 && <StepProfileDetails form={profile} setForm={setProfile} />}
                             </div>
                         </div>
 

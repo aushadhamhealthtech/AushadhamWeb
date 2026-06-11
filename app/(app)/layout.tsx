@@ -3,9 +3,11 @@
 import Sidebar from "@/components/Sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { DateProvider } from "@/lib/DateContext";
+import { UserProvider } from "@/lib/context/user";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
+    <UserProvider role="doctor" fallback={{ name: "Ritika Sahu", email: "ritika.sahu@aushadham.in" }}>
     <DateProvider>
       <TooltipProvider delayDuration={200}>
         <div className="flex h-screen overflow-hidden bg-gray-50 transition-all duration-200">
@@ -19,6 +21,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </div>
       </TooltipProvider>
     </DateProvider>
+    </UserProvider>
   );
 }
 

@@ -5,6 +5,7 @@ import {
   User, CreditCard, Package, Bell, Shield, ChevronRight,
   Camera, Mail, Phone, MapPin, Save, Check,
 } from "lucide-react";
+import { useUser } from "@/lib/context/user";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -52,10 +53,11 @@ const plans = [
 ];
 
 export default function SettingsPage() {
+  const { displayName } = useUser();
   const [active, setActive] = useState("account");
   const [saved, setSaved] = useState(false);
   const [form, setForm] = useState({
-    name: "Dr. Ritika Sahu",
+    name: displayName,
     email: "ritika.sahu@aushadham.in",
     phone: "+91 98201 12345",
     clinic: "AUSHADHAM Clinic",

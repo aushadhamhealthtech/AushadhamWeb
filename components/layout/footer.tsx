@@ -35,7 +35,7 @@ const footerColumns = [
 
 export default function Footer() {
     return (
-        <footer id="site-footer" style={{ backgroundColor: "#1f5f4a" }}>
+        <footer id="site-footer" className="bg-brand-footer">
             <div className="max-w-360 mx-auto px-6 lg:px-30.25 py-16">
                 {/* Main grid */}
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10 pb-10" style={{ borderBottom: "1px solid rgba(255,255,255,0.15)" }}>
@@ -69,8 +69,7 @@ export default function Footer() {
                         <h4 className="text-[15px] font-bold mb-1" style={{ color: "white" }}>Get Started</h4>
                         <Link
                             href="/signin"
-                            className="px-5 py-2.5 rounded-full text-white text-sm font-semibold text-center transition-all duration-200 hover:opacity-90"
-                            style={{ backgroundColor: "#3aa692" }}
+                            className="px-5 py-2.5 rounded-full text-white text-sm font-semibold text-center transition-all duration-200 hover:opacity-90 bg-brand-light"
                         >
                             Sign in
                         </Link>
@@ -101,8 +100,7 @@ export default function Footer() {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     aria-label={`Visit ${label}`}
-                                    className="w-10 h-10 rounded-full flex items-center justify-center text-white transition-all duration-200 hover:scale-110 hover:opacity-90"
-                                    style={{ backgroundColor: "#228573" }}
+                                    className="w-10 h-10 rounded-full flex items-center justify-center text-white transition-all duration-200 hover:scale-110 hover:opacity-90 bg-brand-mid"
                                 >
                                     <Icon size={18} />
                                 </Link>
