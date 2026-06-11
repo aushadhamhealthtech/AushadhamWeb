@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import {
   Home,
@@ -91,23 +90,25 @@ export default function Sidebar() {
 
           {expanded ? (
             <div className="relative mb-6 px-2">
-              <Search className="pointer-events-none absolute left-6 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
-              <Input
+              <Link
+                href="/patient-dashboard/search"
                 data-sidebar-interactive="true"
                 aria-label="Search"
-                placeholder="Search"
-                className="h-11 rounded-full border-[#d7dfdd] bg-white pl-11 text-base text-gray-700"
-              />
+                className="flex h-11 items-center rounded-full border border-[#d7dfdd] bg-white pl-11 text-base text-gray-700"
+              >
+                <Search className="pointer-events-none absolute left-6 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                <span className="text-gray-400">Search</span>
+              </Link>
             </div>
           ) : (
-            <button
-              type="button"
+            <Link
+              href="/patient-dashboard/search"
               data-sidebar-interactive="true"
               title="Search"
               className="mb-6 mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500"
             >
               <Search size={20} strokeWidth={1.8} />
-            </button>
+            </Link>
           )}
 
           <nav

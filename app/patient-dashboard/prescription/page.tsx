@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Sidebar from "@/components/layout/sidebar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -7,7 +8,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { CalendarDays, ChevronLeft, Plus, FileText } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CalendarDays, ChevronLeft, Plus, FileText, UploadCloud, X, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -46,6 +49,8 @@ const prescriptions = [
 
 export default function PrescriptionPage() {
   const router = useRouter();
+  const [showUpload, setShowUpload] = useState(false);
+  const [showUploadComplete, setShowUploadComplete] = useState(false);
   return (
     <div className="flex min-h-screen bg-[#f6fbf9]">
       <Sidebar />
@@ -197,13 +202,191 @@ export default function PrescriptionPage() {
                     </p>
                   </div>
                 </div>
-                <Button variant="link" className="h-auto p-0 text-sm font-semibold text-[#228573]">
+                <Button
+                  variant="link"
+                  className="h-auto p-0 text-sm font-semibold text-[#228573]"
+                  onClick={() => setShowUpload(true)}
+                >
                   Learn more
                 </Button>
               </CardContent>
             </Card>
           </div>
         </div>
+
+        <Dialog open={showUpload} onOpenChange={setShowUpload}>
+          <DialogContent className="max-w-2xl rounded-3xl border-0 p-0">
+            <DialogTitle className="sr-only">Upload Prescriptions</DialogTitle>
+            <DialogDescription className="sr-only">
+              Upload a prescription to your records.
+            </DialogDescription>
+            <div className="rounded-3xl bg-white px-8 pb-8 pt-6">
+              <div className="flex items-start justify-between">
+                <h2 className="text-2xl font-bold text-[#1f2a27]">Upload Prescriptions</h2>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 rounded-full"
+                  onClick={() => setShowUpload(false)}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+
+              <div className="mt-6 space-y-6">
+                <div className="grid grid-cols-[120px_1fr] items-center gap-4">
+                  <p className="text-sm font-semibold text-[#1f2a27]">Doctor</p>
+                  <Select defaultValue="sudha">
+                    <SelectTrigger className="h-11 rounded-xl border-[#e5e7eb] bg-white">
+                      <SelectValue placeholder="Select doctor" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="sudha">Dr. Sudha Krishnan</SelectItem>
+                      <SelectItem value="nakul">Dr. Nakul Raj Parekh</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="grid grid-cols-[120px_1fr] items-center gap-4">
+                  <p className="text-sm font-semibold text-[#1f2a27]">Date</p>
+                  <div className="grid grid-cols-3 gap-3">
+                    <Select defaultValue="27">
+                      <SelectTrigger className="h-11 rounded-xl border-[#e5e7eb] bg-white">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="27">27</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Select defaultValue="august">
+                      <SelectTrigger className="h-11 rounded-xl border-[#e5e7eb] bg-white">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="august">August</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Select defaultValue="2024">
+                      <SelectTrigger className="h-11 rounded-xl border-[#e5e7eb] bg-white">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="2024">2024</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="rounded-2xl border border-dashed border-[#cbd5e1] p-10 text-center">
+                  <UploadCloud className="mx-auto h-8 w-8 text-[#1f2a27]" />
+                  <p className="mt-4 text-sm font-semibold text-[#1f2a27]">
+                    Choose a file or drag & drop it here
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    JPEG, PNG, PDF, and MP4 formats, up to 50MB
+                  </p>
+                </div>
+
+                <Button
+                  className="w-full rounded-full bg-[#228573] py-5 text-sm font-semibold text-white"
+                  onClick={() => {
+                    setShowUpload(false);
+                    setShowUploadComplete(true);
+                  }}
+                >
+                  Save
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={showUploadComplete} onOpenChange={setShowUploadComplete}>
+          <DialogContent className="max-w-2xl rounded-3xl border-0 p-0">
+            <DialogTitle className="sr-only">Upload complete</DialogTitle>
+            <DialogDescription className="sr-only">
+              Your prescription has been uploaded successfully.
+            </DialogDescription>
+            <div className="rounded-3xl bg-white px-8 pb-8 pt-6">
+              <div className="flex items-start justify-between">
+                <h2 className="text-2xl font-bold text-[#1f2a27]">Upload Prescriptions</h2>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 rounded-full"
+                  onClick={() => setShowUploadComplete(false)}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+
+              <div className="mt-6 space-y-6">
+                <div className="grid grid-cols-[120px_1fr] items-center gap-4">
+                  <p className="text-sm font-semibold text-[#1f2a27]">Doctor</p>
+                  <div className="h-11 rounded-xl border border-[#e5e7eb] bg-white px-4 text-sm leading-11">
+                    Dr. Sudha Krishnan
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-[120px_1fr] items-center gap-4">
+                  <p className="text-sm font-semibold text-[#1f2a27]">Date</p>
+                  <div className="grid grid-cols-3 gap-3">
+                    {["27", "August", "2024"].map((label) => (
+                      <div
+                        key={label}
+                        className="h-11 rounded-xl border border-[#e5e7eb] bg-white text-center text-sm leading-11"
+                      >
+                        {label}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="rounded-2xl border border-dashed border-[#cbd5e1] p-10 text-center">
+                  <UploadCloud className="mx-auto h-8 w-8 text-[#1f2a27]" />
+                  <p className="mt-4 text-sm font-semibold text-[#1f2a27]">
+                    Choose a file or drag & drop it here
+                  </p>
+                  <p className="text-xs text-gray-500">JPEG, PNG, PDG, and MP4 formats, up to 50MB</p>
+                </div>
+
+                <div className="rounded-2xl bg-[#f2f2f2] px-5 py-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className="text-lg font-semibold text-[#1f2a27]">PDF</div>
+                      <div>
+                        <p className="text-sm font-semibold text-[#1f2a27]">Diabetes</p>
+                        <p className="text-xs text-gray-500">94 KB of 94 KB</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <div className="text-sm font-semibold text-[#1a8f7a]">Completed</div>
+                      <Trash2 className="h-5 w-5 text-[#1f2a27]" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <Button
+                    variant="outline"
+                    className="w-full rounded-full border-[#cfeee8] bg-[#dff6f1] py-4 text-sm font-semibold text-[#1f2a27] sm:flex-1"
+                  >
+                    Add Document
+                  </Button>
+                  <Button
+                    className="w-full rounded-full bg-[#228573] py-4 text-sm font-semibold text-white sm:flex-1"
+                    onClick={() => {
+                      setShowUploadComplete(false);
+                      router.push("/patient-dashboard/prescription");
+                    }}
+                  >
+                    View saved Prescriptions
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </main>
     </div>
   );

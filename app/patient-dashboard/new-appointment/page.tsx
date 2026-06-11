@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -122,6 +122,7 @@ export default function PatientNewAppointmentPage() {
                       src={doctor.image}
                       alt={doctor.name}
                       fill
+                      sizes="(max-width: 768px) 96px, 112px"
                       className="object-cover"
                     />
                   </div>
@@ -199,6 +200,9 @@ export default function PatientNewAppointmentPage() {
         <Dialog open={showBooking} onOpenChange={setShowBooking}>
           <DialogContent className="max-w-2xl rounded-3xl border-0 p-0">
             <DialogTitle className="sr-only">Book appointment</DialogTitle>
+            <DialogDescription className="sr-only">
+              Select a slot to book your appointment.
+            </DialogDescription>
             <div className="rounded-3xl bg-white px-6 pb-6 pt-5">
               <div className="flex items-start justify-between">
                 <div>
@@ -250,7 +254,7 @@ export default function PatientNewAppointmentPage() {
                 ].map((day) => (
                   <button
                     key={day.label}
-                    className={`flex min-w-[140px] flex-col items-center rounded-2xl border px-3 py-2 text-sm font-semibold transition ${
+                    className={`flex min-w-35 flex-col items-center rounded-2xl border px-3 py-2 text-sm font-semibold transition ${
                       day.active
                         ? "border-[#228573] bg-[#228573] text-white"
                         : "border-[#e5e7eb] bg-white text-[#1f2a27]"
@@ -348,6 +352,9 @@ export default function PatientNewAppointmentPage() {
         <Dialog open={showConfirm} onOpenChange={setShowConfirm}>
           <DialogContent className="max-w-4xl rounded-3xl border-0 p-0">
             <DialogTitle className="sr-only">Confirm details before proceeding</DialogTitle>
+            <DialogDescription className="sr-only">
+              Confirm your personal details before proceeding.
+            </DialogDescription>
             <div className="rounded-3xl bg-white px-10 pb-10 pt-8">
               <div className="flex items-center justify-between">
                 <h2 className="text-2xl font-bold text-[#1f2a27]">Confirm your details before proceeding</h2>
@@ -452,6 +459,9 @@ export default function PatientNewAppointmentPage() {
         <Dialog open={showHistory} onOpenChange={setShowHistory}>
           <DialogContent className="max-w-4xl rounded-3xl border-0 p-0">
             <DialogTitle className="sr-only">Medical history details</DialogTitle>
+            <DialogDescription className="sr-only">
+              Provide medical history and lifestyle details.
+            </DialogDescription>
             <div className="rounded-3xl bg-white px-10 pb-10 pt-8">
               <div className="flex items-center justify-between">
                 <h2 className="text-2xl font-bold text-[#1f2a27]">Confirm your details before proceeding</h2>
@@ -581,7 +591,7 @@ export default function PatientNewAppointmentPage() {
                             </SelectContent>
                           </Select>
                           <Select>
-                            <SelectTrigger className="h-10 min-w-[220px] rounded-lg border-[#cfe0fb] bg-white text-sm">
+                            <SelectTrigger className="h-10 min-w-55 rounded-lg border-[#cfe0fb] bg-white text-sm">
                               <SelectValue placeholder="Select or enter texts to add history" />
                             </SelectTrigger>
                             <SelectContent>
@@ -658,6 +668,9 @@ export default function PatientNewAppointmentPage() {
         <Dialog open={showSymptoms} onOpenChange={setShowSymptoms}>
           <DialogContent className="max-w-2xl rounded-3xl border-0 p-0">
             <DialogTitle className="sr-only">Symptoms</DialogTitle>
+            <DialogDescription className="sr-only">
+              Describe your symptoms before proceeding to payment.
+            </DialogDescription>
             <div className="rounded-3xl bg-white px-8 pb-8 pt-6">
               <div className="flex items-start justify-between">
                 <h2 className="text-2xl font-bold text-[#1f2a27]">Symptoms</h2>
@@ -688,7 +701,7 @@ export default function PatientNewAppointmentPage() {
                 <p className="text-base font-semibold text-[#1f2a27]">Explain your symptoms</p>
                 <Textarea
                   defaultValue="Nausea, Heart Burn, Heat Flashes"
-                  className="min-h-[140px] rounded-2xl border-[#e5e7eb] bg-[#f7f7f7] text-sm"
+                  className="min-h-35 rounded-2xl border-[#e5e7eb] bg-[#f7f7f7] text-sm"
                 />
                 <div className="flex items-start gap-2 text-sm text-[#6c7a76]">
                   <span className="mt-0.5">i</span>
@@ -712,6 +725,9 @@ export default function PatientNewAppointmentPage() {
         <Dialog open={showPayment} onOpenChange={setShowPayment}>
           <DialogContent className="max-w-xl rounded-3xl border-0 p-0">
             <DialogTitle className="sr-only">Choose payment method</DialogTitle>
+            <DialogDescription className="sr-only">
+              Choose a payment method to complete your booking.
+            </DialogDescription>
             <div className="rounded-3xl bg-white px-8 pb-8 pt-6">
               <div className="flex items-start justify-between">
                 <h2 className="text-2xl font-bold text-[#1f2a27]">Choose Payment method</h2>
@@ -797,6 +813,9 @@ export default function PatientNewAppointmentPage() {
         <Dialog open={showSuccess} onOpenChange={setShowSuccess}>
           <DialogContent className="max-w-2xl rounded-3xl border-0 p-0">
             <DialogTitle className="sr-only">Payment success</DialogTitle>
+            <DialogDescription className="sr-only">
+              Your payment is complete.
+            </DialogDescription>
             <div className="rounded-3xl bg-white px-10 pb-10 pt-8 text-center">
               <div className="flex justify-end">
                 <Button
