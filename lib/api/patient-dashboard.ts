@@ -65,7 +65,6 @@ export async function getUpcomingAppointments(patientId: string): Promise<Appoin
 
 export async function cancelAppointment(appointmentId: string): Promise<void> {
   // TODO: replace with real API call — DELETE /api/appointments/:appointmentId
-  console.log("Cancel appointment", appointmentId)
 }
 
 export async function rescheduleAppointment(
@@ -75,7 +74,6 @@ export async function rescheduleAppointment(
   type: "in-clinic" | "online"
 ): Promise<void> {
   // TODO: replace with real API call — PATCH /api/appointments/:appointmentId/reschedule
-  console.log("Reschedule", { appointmentId, date, slotId, type })
 }
 
 // ─── Health profile ────────────────────────────────────────────────────
@@ -129,7 +127,6 @@ export async function getPaymentMethods(patientId: string): Promise<PaymentMetho
 
 export async function makePayment(appointmentId: string, paymentMethodId: string): Promise<void> {
   // TODO: replace with real API call — POST /api/appointments/:appointmentId/payment
-  console.log("Make payment", { appointmentId, paymentMethodId })
 }
 
 // ─── Slots ─────────────────────────────────────────────────────────────

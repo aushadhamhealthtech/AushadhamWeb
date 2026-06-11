@@ -135,7 +135,7 @@ export default function AuthModal() {
     if (!mounted || !isOpen) return null;
 
     return createPortal(
-        <div className="fixed inset-0 z-9999 flex items-center justify-center p-3 sm:p-5"
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-5"
             aria-modal="true" role="dialog" aria-label="Aushadham authentication">
 
             <div

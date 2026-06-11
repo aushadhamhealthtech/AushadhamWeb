@@ -27,8 +27,7 @@ export default function MedicalReportsPage() {
   const [showUploadComplete, setShowUploadComplete] = useState(false);
   const router = useRouter();
   return (
-    <div className="flex min-h-screen bg-[#f6fbf9]">
-      <main className="flex-1 lg:ml-20">
+    <main className="min-h-screen lg:ml-20 bg-[#f6fbf9]">
         <header className="sticky top-0 z-30 flex flex-wrap items-center justify-between gap-4 bg-[#f6fbf9] px-6 py-6">
           <div className="flex items-center gap-4">
             <Avatar className="h-14 w-14">
@@ -141,6 +140,7 @@ export default function MedicalReportsPage() {
                 <Button
                   variant="ghost"
                   size="icon"
+                  aria-label="Close dialog"
                   className="h-8 w-8 rounded-full"
                   onClick={() => setShowUpload(false)}
                 >
@@ -247,6 +247,7 @@ export default function MedicalReportsPage() {
                 <Button
                   variant="ghost"
                   size="icon"
+                  aria-label="Close dialog"
                   className="h-8 w-8 rounded-full"
                   onClick={() => setShowUploadComplete(false)}
                 >
@@ -340,6 +341,5 @@ export default function MedicalReportsPage() {
           </DialogContent>
         </Dialog>
       </main>
-    </div>
   );
 }

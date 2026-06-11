@@ -77,8 +77,7 @@ export default function PatientNewAppointmentPage() {
   const [showSuccess, setShowSuccess] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-[#f6fbf9]">
-      <main className="flex-1 lg:ml-20">
+    <main className="min-h-screen lg:ml-20 bg-[#f6fbf9]">
         <header className="sticky top-0 z-30 flex flex-wrap items-center justify-between gap-4 bg-[#f6fbf9] px-6 py-6">
           <div className="flex items-center gap-4">
             <Avatar className="h-14 w-14">
@@ -210,6 +209,7 @@ export default function PatientNewAppointmentPage() {
                   <Button
                     variant="ghost"
                     size="icon"
+                    aria-label="Go back"
                     className="h-8 w-8 rounded-full"
                     onClick={() => setShowBooking(false)}
                   >
@@ -218,6 +218,7 @@ export default function PatientNewAppointmentPage() {
                   <Button
                     variant="ghost"
                     size="icon"
+                    aria-label="Close dialog"
                     className="h-8 w-8 rounded-full"
                     onClick={() => setShowBooking(false)}
                   >
@@ -275,6 +276,7 @@ export default function PatientNewAppointmentPage() {
                 <Button
                   variant="ghost"
                   size="icon"
+                  aria-label="Next available dates"
                   className="h-11 w-11 rounded-full border border-[#e5e7eb]"
                 >
                   <ChevronRight className="h-4 w-4 text-[#228573]" />
@@ -359,6 +361,7 @@ export default function PatientNewAppointmentPage() {
                 <Button
                   variant="ghost"
                   size="icon"
+                  aria-label="Close dialog"
                   className="h-9 w-9 rounded-full"
                   onClick={() => setShowConfirm(false)}
                 >
@@ -466,6 +469,7 @@ export default function PatientNewAppointmentPage() {
                 <Button
                   variant="ghost"
                   size="icon"
+                  aria-label="Close dialog"
                   className="h-9 w-9 rounded-full"
                   onClick={() => setShowHistory(false)}
                 >
@@ -676,6 +680,7 @@ export default function PatientNewAppointmentPage() {
                   <Button
                     variant="ghost"
                     size="icon"
+                    aria-label="Go back"
                     className="h-8 w-8 rounded-full"
                     onClick={() => {
                       setShowSymptoms(false);
@@ -687,6 +692,7 @@ export default function PatientNewAppointmentPage() {
                   <Button
                     variant="ghost"
                     size="icon"
+                    aria-label="Close dialog"
                     className="h-8 w-8 rounded-full"
                     onClick={() => setShowSymptoms(false)}
                   >
@@ -732,6 +738,7 @@ export default function PatientNewAppointmentPage() {
                 <Button
                   variant="ghost"
                   size="icon"
+                  aria-label="Close dialog"
                   className="h-8 w-8 rounded-full"
                   onClick={() => setShowPayment(false)}
                 >
@@ -819,6 +826,7 @@ export default function PatientNewAppointmentPage() {
                 <Button
                   variant="ghost"
                   size="icon"
+                  aria-label="Close dialog"
                   className="h-8 w-8 rounded-full"
                   onClick={() => setShowSuccess(false)}
                 >
@@ -871,6 +879,5 @@ export default function PatientNewAppointmentPage() {
           </DialogContent>
         </Dialog>
       </main>
-    </div>
   );
 }

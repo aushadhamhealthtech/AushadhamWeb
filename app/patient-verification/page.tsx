@@ -4,15 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import gsap from "gsap";
 import { ArrowLeft, BadgeCheck, Lock, RotateCcw, Smartphone } from "lucide-react";
+import { C as _C } from "@/lib/constants/brand-colors";
 
-const C = {
-    primary: "#065b4b",
-    mid: "#228573",
-    light: "#3aa692",
-    border: "#d9e7e2",
-    bg: "#f8fffe",
-    muted: "rgba(6,91,75,0.56)",
-};
+const C = { ..._C, bg: "#f8fffe" } as const;
 
 function Logo({ variant = "teal" }: { variant?: "teal" | "white" }) {
     return (
@@ -49,7 +43,7 @@ function LeftPanel() {
     return (
         <aside
             className="hidden lg:flex w-[300px] shrink-0 px-8 py-9 flex-col justify-between relative overflow-hidden"
-            style={{ background: "linear-gradient(160deg, #032f27 0%, #065b4b 45%, #228573 100%)" }}
+            style={{ background: "linear-gradient(160deg, #032f27 0%, var(--brand-dark) 45%, var(--brand-mid) 100%)" }}
         >
             <div className="absolute top-[-52px] left-[-54px] w-[220px] h-[220px] rounded-full opacity-15" style={{ background: "radial-gradient(circle, #6ee7ca 0%, transparent 72%)" }} />
             <div className="absolute bottom-[-68px] right-[-40px] w-[200px] h-[200px] rounded-full opacity-10" style={{ background: "radial-gradient(circle, #9decd5 0%, transparent 72%)" }} />
@@ -63,8 +57,8 @@ function LeftPanel() {
                     <path d="M62 88 L120 124 L178 88" stroke="white" strokeOpacity="0.62" strokeWidth="2.7" strokeLinecap="round" />
                     <rect x="97" y="146" width="46" height="38" rx="10" fill="white" opacity="0.15" />
                     <path d="M107 146 L107 136 C107 124 133 124 133 136 L133 146" stroke="white" strokeWidth="3" strokeLinecap="round" />
-                    <circle cx="120" cy="160" r="5" fill="#228573" />
-                    <line x1="120" y1="166" x2="120" y2="176" stroke="#228573" strokeWidth="3" strokeLinecap="round" />
+                    <circle cx="120" cy="160" r="5" fill="var(--brand-mid)" />
+                    <line x1="120" y1="166" x2="120" y2="176" stroke="var(--brand-mid)" strokeWidth="3" strokeLinecap="round" />
                     <circle className="pv-float" cx="37" cy="62" r="4" fill="white" opacity="0.24" />
                     <circle className="pv-float" cx="205" cy="80" r="5" fill="white" opacity="0.2" />
                     <circle className="pv-float" cx="31" cy="180" r="6" fill="white" opacity="0.14" />
@@ -153,7 +147,7 @@ export default function PatientVerificationPage() {
                             </button>
 
                             <div className="max-w-[520px]">
-                                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold mb-4" style={{ backgroundColor: "#e8f5f2", color: C.primary }}>
+                                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold mb-4" style={{ backgroundColor: "var(--brand-surface)", color: C.primary }}>
                                     <BadgeCheck size={14} /> Verification Step
                                 </div>
 
@@ -182,7 +176,7 @@ export default function PatientVerificationPage() {
                                             onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, ""))}
                                             placeholder="Enter OTP"
                                             className="w-full pl-11 pr-11 py-3.5 rounded-full border text-sm outline-none"
-                                            style={{ borderColor: C.border, backgroundColor: "#fafffe", color: C.primary }}
+                                            style={{ borderColor: C.border, backgroundColor: "var(--brand-input-bg)", color: C.primary }}
                                             onFocus={(e) => {
                                                 e.currentTarget.style.borderColor = C.mid;
                                                 e.currentTarget.style.boxShadow = "0 0 0 3px rgba(34,133,115,0.12)";

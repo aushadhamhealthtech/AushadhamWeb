@@ -51,8 +51,7 @@ export default function PrescriptionPage() {
   const [showUpload, setShowUpload] = useState(false);
   const [showUploadComplete, setShowUploadComplete] = useState(false);
   return (
-    <div className="flex min-h-screen bg-[#f6fbf9]">
-      <main className="flex-1 lg:ml-20 px-6 py-8">
+    <main className="min-h-screen lg:ml-20 px-6 py-8 bg-[#f6fbf9]">
         <header className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <Avatar className="h-14 w-14">
@@ -224,6 +223,7 @@ export default function PrescriptionPage() {
                 <Button
                   variant="ghost"
                   size="icon"
+                  aria-label="Close dialog"
                   className="h-8 w-8 rounded-full"
                   onClick={() => setShowUpload(false)}
                 >
@@ -311,6 +311,7 @@ export default function PrescriptionPage() {
                 <Button
                   variant="ghost"
                   size="icon"
+                  aria-label="Close dialog"
                   className="h-8 w-8 rounded-full"
                   onClick={() => setShowUploadComplete(false)}
                 >
@@ -386,6 +387,5 @@ export default function PrescriptionPage() {
           </DialogContent>
         </Dialog>
       </main>
-    </div>
   );
 }

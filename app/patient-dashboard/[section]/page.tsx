@@ -61,8 +61,7 @@ export default function PatientSectionPage({
 
   if (section !== "medical-reports") {
     return (
-      <div className="flex min-h-screen bg-white">
-          <main className="flex-1 lg:ml-20 px-6 py-8">
+          <main className="min-h-screen lg:ml-20 px-6 py-8 bg-white">
           <div className="mx-auto max-w-4xl rounded-2xl border border-gray-200 bg-white p-8">
             <h1 className="text-3xl font-bold text-[#065b4b]">{title}</h1>
             <p className="mt-3 text-gray-600">
@@ -70,13 +69,11 @@ export default function PatientSectionPage({
             </p>
           </div>
         </main>
-      </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen bg-[#f6fbf9]">
-      <main className="flex-1 lg:ml-20 px-6 py-8">
+    <main className="min-h-screen lg:ml-20 px-6 py-8 bg-[#f6fbf9]">
         <header className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#e8f5f2] text-[#228573]">
@@ -227,6 +224,5 @@ export default function PatientSectionPage({
           </div>
         </div>
       </main>
-    </div>
   );
 }

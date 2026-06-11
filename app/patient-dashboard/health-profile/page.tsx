@@ -20,8 +20,7 @@ import {
 export default function PatientHealthProfilePage() {
   const router = useRouter();
   return (
-    <div className="flex min-h-screen bg-[#f3faf7]">
-      <main className="flex-1 px-5 py-5 lg:ml-20 lg:px-7">
+    <main className="min-h-screen px-5 py-5 lg:ml-20 lg:px-7 bg-[#f3faf7]">
         <header className="mb-6 flex items-start justify-between gap-4">
           <div className="flex items-start gap-3">
             <Avatar className="h-14 w-14 border border-[#dbeae5]">
@@ -210,6 +209,5 @@ export default function PatientHealthProfilePage() {
           </aside>
         </div>
       </main>
-    </div>
   );
 }

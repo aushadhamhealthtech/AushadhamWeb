@@ -45,6 +45,7 @@ export function InviteDialog({ open, onOpenChange }: InviteDialogProps) {
             type="button"
             variant="ghost"
             size="icon"
+            aria-label="Close dialog"
             onClick={handleClose}
             className="absolute right-4 top-4 rounded-full bg-gray-800 text-white w-8 h-8 hover:bg-gray-700 z-10"
           >
@@ -69,6 +70,7 @@ export function InviteDialog({ open, onOpenChange }: InviteDialogProps) {
           type="button"
           variant="ghost"
           size="icon"
+          aria-label="Close dialog"
           onClick={handleClose}
           className="absolute right-4 top-4 rounded-full bg-gray-800 text-white w-8 h-8 hover:bg-gray-700 z-10"
         >
@@ -84,19 +86,19 @@ export function InviteDialog({ open, onOpenChange }: InviteDialogProps) {
         <div className="space-y-6">
           {/* Social Media Icons */}
           <div className="flex items-center justify-center gap-4">
-            <Button type="button" size="icon" className="w-12 h-12 rounded-full bg-blue-500 hover:bg-blue-600">
+            <Button type="button" size="icon" aria-label="Share on Facebook" className="w-12 h-12 rounded-full bg-blue-500 hover:bg-blue-600">
               <Facebook className="w-6 h-6 text-white fill-white" />
             </Button>
-            <Button type="button" size="icon" className="w-12 h-12 rounded-full bg-green-500 hover:bg-green-600">
+            <Button type="button" size="icon" aria-label="Share on WhatsApp" className="w-12 h-12 rounded-full bg-green-500 hover:bg-green-600">
               <MessageCircle className="w-6 h-6 text-white" />
             </Button>
-            <Button type="button" size="icon" className="w-12 h-12 rounded-full bg-blue-400 hover:bg-blue-500">
+            <Button type="button" size="icon" aria-label="Share via message" className="w-12 h-12 rounded-full bg-blue-400 hover:bg-blue-500">
               <MessageCircle className="w-6 h-6 text-white" />
             </Button>
-            <Button type="button" size="icon" className="w-12 h-12 rounded-full bg-blue-500 hover:bg-blue-600">
+            <Button type="button" size="icon" aria-label="Share via Messenger" className="w-12 h-12 rounded-full bg-blue-500 hover:bg-blue-600">
               <MessageCircle className="w-6 h-6 text-white" />
             </Button>
-            <Button type="button" size="icon" className="w-12 h-12 rounded-full bg-blue-400 hover:bg-blue-500">
+            <Button type="button" size="icon" aria-label="Share via Telegram" className="w-12 h-12 rounded-full bg-blue-400 hover:bg-blue-500">
               <MessageCircle className="w-6 h-6 text-white" />
             </Button>
           </div>
@@ -137,6 +139,7 @@ export function InviteDialog({ open, onOpenChange }: InviteDialogProps) {
                 type="button"
                 variant="ghost"
                 size="icon"
+                aria-label="Copy link"
                 onClick={copyLink}
                 className="w-12 h-12 rounded-xl bg-gray-100 hover:bg-gray-200"
               >

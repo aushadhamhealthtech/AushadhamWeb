@@ -469,6 +469,7 @@ Other Relevant Family Medical Conditions: Her mother had hypertension and osteoa
                             type="button"
                             variant="ghost"
                             size="icon"
+                            aria-label="Remove medication"
                             className="w-8 h-8 text-red-400 hover:text-red-500 hover:bg-red-50"
                             onClick={() => removeMedicationRow(med.id)}
                           >

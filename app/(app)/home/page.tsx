@@ -98,7 +98,7 @@ export default function HomePage() {
                       <p className="text-xs text-gray-500 mt-1">{message.subtitle}</p>
                       <p className="text-xs text-gray-400 mt-1">{message.time}</p>
                     </div>
-                    <Button size="icon" variant="ghost" className="h-8 w-8 rounded-full text-red-400 hover:text-red-500 shrink-0">
+                    <Button size="icon" aria-label="Call patient" variant="ghost" className="h-8 w-8 rounded-full text-red-400 hover:text-red-500 shrink-0">
                       <Phone className="h-4 w-4" />
                     </Button>
                     <ChevronRight className="w-4 h-4 text-gray-300 shrink-0 mt-2" />

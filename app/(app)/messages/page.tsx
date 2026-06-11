@@ -293,19 +293,19 @@ export default function MessagesPage() {
           <div className="flex items-center gap-1 shrink-0">
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="w-8 h-8 hover:bg-gray-100"><Phone className="w-4 h-4 text-gray-500" /></Button>
+                <Button variant="ghost" size="icon" aria-label="Voice call" className="w-8 h-8 hover:bg-gray-100"><Phone className="w-4 h-4 text-gray-500" /></Button>
               </TooltipTrigger>
               <TooltipContent side="bottom">Voice call</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="w-8 h-8 hover:bg-gray-100"><Video className="w-4 h-4 text-gray-500" /></Button>
+                <Button variant="ghost" size="icon" aria-label="Video call" className="w-8 h-8 hover:bg-gray-100"><Video className="w-4 h-4 text-gray-500" /></Button>
               </TooltipTrigger>
               <TooltipContent side="bottom">Video call</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="w-8 h-8 hover:bg-gray-100"><MoreVertical className="w-4 h-4 text-gray-500" /></Button>
+                <Button variant="ghost" size="icon" aria-label="More options" className="w-8 h-8 hover:bg-gray-100"><MoreVertical className="w-4 h-4 text-gray-500" /></Button>
               </TooltipTrigger>
               <TooltipContent side="bottom">More options</TooltipContent>
             </Tooltip>
@@ -391,7 +391,7 @@ export default function MessagesPage() {
                 <p className="text-xs text-red-500">Diagnosed: <span className="font-semibold">{active.patientDetails.diagnosis.join(" | ")}</span></p>
               </div>
             </div>
-            <Button type="button" variant="ghost" size="icon" onClick={() => setShowPatientDetails(false)} className="w-8 h-8 text-gray-400 hover:text-gray-600">
+            <Button type="button" variant="ghost" size="icon" aria-label="Collapse patient details" onClick={() => setShowPatientDetails(false)} className="w-8 h-8 text-gray-400 hover:text-gray-600">
               <ChevronUp className="w-5 h-5 text-gray-400 hover:text-gray-600" />
             </Button>
           </div>
@@ -405,7 +405,7 @@ export default function MessagesPage() {
                     <User className="w-4 h-4 text-gray-600" />
                     <h3 className="font-semibold text-gray-800">Patient Details</h3>
                   </div>
-                  <Button type="button" variant="ghost" size="icon" className="p-1 h-6 w-6 hover:bg-gray-100 rounded">
+                  <Button type="button" variant="ghost" size="icon" aria-label="Edit patient details" className="p-1 h-6 w-6 hover:bg-gray-100 rounded">
                     <Edit2 className="w-3 h-3 text-gray-500" />
                   </Button>
                 </div>

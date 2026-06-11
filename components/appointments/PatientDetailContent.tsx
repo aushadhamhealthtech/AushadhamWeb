@@ -50,6 +50,7 @@ export function PatientDetailContent({ patient }: { patient: any }) {
           <Button
             variant="ghost"
             size="icon"
+            aria-label="Back to appointments"
             className="w-8 h-8 rounded-lg"
             onClick={() => router.push("/appointments")}
           >

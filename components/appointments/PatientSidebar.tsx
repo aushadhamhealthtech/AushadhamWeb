@@ -58,7 +58,7 @@ export function PatientSidebar({ patient }: { patient: any }) {
         title="Patient Details"
         defaultOpen={true}
         actions={
-          <Button variant="ghost" size="icon" className="w-6 h-6 p-0" onClick={(e) => e.stopPropagation()}>
+          <Button variant="ghost" size="icon" aria-label="Edit patient details" className="w-6 h-6 p-0" onClick={(e) => e.stopPropagation()}>
             <Pencil className="w-3.5 h-3.5 text-gray-400" />
           </Button>
         }
@@ -83,7 +83,7 @@ export function PatientSidebar({ patient }: { patient: any }) {
           <div className="flex items-center gap-3">
             <Phone className="w-4 h-4 text-green-600 shrink-0" />
             <span className="text-sm text-gray-700">{patient.phone}</span>
-            <Button variant="ghost" size="icon" className="w-5 h-5 p-0">
+            <Button variant="ghost" size="icon" aria-label="Call patient" className="w-5 h-5 p-0">
               <Phone className="w-3 h-3 text-gray-400" />
             </Button>
           </div>

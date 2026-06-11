@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
 type Appointment = {
+  id: string;
   time: string;
   name: string;
   status: "past" | "current" | "upcoming" | "break" | "overdue" | "pending";
@@ -20,39 +21,37 @@ type Appointment = {
 };
 
 const appointments: Appointment[] = [
-  { time: "08:00 AM", name: "Consultation Dasha Shah", status: "past" },
-  { time: "08:30 AM", name: "Consultation Nupur Baghva", status: "past" },
+  { id: "a1",  time: "08:00 AM", name: "Consultation Dasha Shah", status: "past" },
+  { id: "a2",  time: "08:30 AM", name: "Consultation Nupur Baghva", status: "past" },
   {
-    time: "09:00 AM", name: "Consultation Rohan Mehra", status: "current",
+    id: "a3",  time: "09:00 AM", name: "Consultation Rohan Mehra", status: "current",
     patient: "Rohan Mehra", duration: "9:00 - 9:45", purpose: "Report Discussion", apptStatus: "Online Appointment",
   },
-  { time: "10:00 AM", name: "Consultation Vibha M", status: "upcoming" },
-  { time: "10:30 AM", name: "Team Meeting", status: "upcoming" },
-  { time: "11:00 AM", name: "Check Report", status: "pending" },
-  { time: "11:15 AM", name: "Eye Surgery | Patient: Akash Reddy", status: "pending" },
-  { time: "01:00 PM", name: "30 min Break", status: "break" },
-  { time: "01:40 PM", name: "Consultation Laxmi Iyer", status: "pending" },
-  { time: "02:15 PM", name: "Consultation Swaminarayna", status: "pending" },
-  { time: "03:00 PM", name: "Consultation Rupesh Mishra", status: "overdue" },
-  { time: "03:30 PM", name: "Consultation Swati Naydu", status: "pending" },
-  { time: "04:00 PM", name: "Consultation Payal Singh", status: "pending" },
+  { id: "a4",  time: "10:00 AM", name: "Consultation Vibha M", status: "upcoming" },
+  { id: "a5",  time: "10:30 AM", name: "Team Meeting", status: "upcoming" },
+  { id: "a6",  time: "11:00 AM", name: "Check Report", status: "pending" },
+  { id: "a7",  time: "11:15 AM", name: "Eye Surgery | Patient: Akash Reddy", status: "pending" },
+  { id: "a8",  time: "01:00 PM", name: "30 min Break", status: "break" },
+  { id: "a9",  time: "01:40 PM", name: "Consultation Laxmi Iyer", status: "pending" },
+  { id: "a10", time: "02:15 PM", name: "Consultation Swaminarayna", status: "pending" },
+  { id: "a11", time: "03:00 PM", name: "Consultation Rupesh Mishra", status: "overdue" },
+  { id: "a12", time: "03:30 PM", name: "Consultation Swati Naydu", status: "pending" },
+  { id: "a13", time: "04:00 PM", name: "Consultation Payal Singh", status: "pending" },
 ];
 
 export default function AppointmentsPanel() {
   const [list, setList] = useState(appointments);
-  const [expandedIdx, setExpandedIdx] = useState<number | null>(2);
-  // joinState: null | "loading" | "joined"
-  const [joinState, setJoinState] = useState<Record<number, "loading" | "joined">>({});
+  const [expandedId, setExpandedId] = useState<string | null>("a3");
+  const [joinState, setJoinState] = useState<Record<string, "loading" | "joined">>({});
 
-  const deleteAppt = (idx: number) => {
-    setList(prev => prev.filter((_, i) => i !== idx));
-    if (expandedIdx === idx) setExpandedIdx(null);
-    else if (expandedIdx !== null && expandedIdx > idx) setExpandedIdx(expandedIdx - 1);
+  const deleteAppt = (id: string) => {
+    setList(prev => prev.filter(a => a.id !== id));
+    if (expandedId === id) setExpandedId(null);
   };
 
-  const handleJoin = (idx: number) => {
-    setJoinState(s => ({ ...s, [idx]: "loading" }));
-    setTimeout(() => setJoinState(s => ({ ...s, [idx]: "joined" })), 2000);
+  const handleJoin = (id: string) => {
+    setJoinState(s => ({ ...s, [id]: "loading" }));
+    setTimeout(() => setJoinState(s => ({ ...s, [id]: "joined" })), 2000);
   };
 
   return (
@@ -64,14 +63,14 @@ export default function AppointmentsPanel() {
       <Separator />
 
       <ScrollArea className="flex-1 px-4 py-2">
-        {list.map((appt, idx) => (
-          <div key={idx} className="relative">
+        {list.map((appt) => (
+          <div key={appt.id} className="relative">
             {/* Time dot row */}
             <div
               className={cn(
                 "flex items-start gap-3 py-2.5 cursor-pointer group",
               )}
-              onClick={() => setExpandedIdx(expandedIdx === idx ? null : idx)}
+              onClick={() => setExpandedId(expandedId === appt.id ? null : appt.id)}
             >
               <span
                 className={cn(
@@ -119,14 +118,14 @@ export default function AppointmentsPanel() {
                 <ChevronDown
                   className={cn(
                     "w-4 h-4 text-gray-400 transition-transform shrink-0 mt-0.5",
-                    expandedIdx === idx ? "rotate-180" : ""
+                    expandedId === appt.id ? "rotate-180" : ""
                   )}
                 />
               )}
             </div>
 
             {/* Expanded detail */}
-            {expandedIdx === idx && appt.patient && (
+            {expandedId === appt.id && appt.patient && (
               <div className="ml-19 mb-3 bg-gray-50 rounded-xl p-4 border border-gray-100">
                 <div className="space-y-2 text-sm">
                   {[
@@ -144,12 +143,13 @@ export default function AppointmentsPanel() {
                 <div className="flex items-center justify-between mt-4">
                   <Button
                     variant="ghost" size="icon"
-                    onClick={() => deleteAppt(idx)}
+                    aria-label="Delete appointment"
+                    onClick={() => deleteAppt(appt.id)}
                     className="w-8 h-8 rounded-lg bg-red-100 text-red-500 hover:bg-red-200 hover:text-red-600"
                   >
                     <Trash2 className="w-4 h-4" />
                   </Button>
-                  {joinState[idx] === "joined" ? (
+                  {joinState[appt.id] === "joined" ? (
                     <div className="flex items-center gap-1.5 text-xs font-semibold text-green-600">
                       <CheckCircle2 className="w-4 h-4" />
                       Joined!
@@ -157,11 +157,11 @@ export default function AppointmentsPanel() {
                   ) : (
                     <Button
                       size="sm"
-                      disabled={joinState[idx] === "loading"}
-                      onClick={() => handleJoin(idx)}
+                      disabled={joinState[appt.id] === "loading"}
+                      onClick={() => handleJoin(appt.id)}
                       className="bg-teal-600 hover:bg-teal-700 text-white text-xs gap-1.5 disabled:opacity-80"
                     >
-                      {joinState[idx] === "loading" ? (
+                      {joinState[appt.id] === "loading" ? (
                         <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Joining...</>
                       ) : (
                         <>Join Now</>

@@ -5,16 +5,7 @@ import { useRouter } from "next/navigation";
 import gsap from "gsap";
 import { ArrowLeft, CheckCircle2, Plus, UploadCloud } from "lucide-react";
 import { OnboardingLogo } from "@/components/onboarding/logo";
-
-const C = {
-    primary: "#065b4b",
-    mid: "#228573",
-    light: "#3aa692",
-    mint: "#e8f5f2",
-    border: "#d9e7e2",
-    bg: "#f8fffe",
-    muted: "rgba(6,91,75,0.56)",
-};
+import { C } from "@/lib/constants/brand-colors";
 
 const HEALTH_OPTIONS = ["Diabetes", "Gastritis", "High BP", "Low BP", "Thyroid", "Migraine"];
 const LIFESTYLE = ["Yoga", "Exercise", "Meditation", "Smoking", "Alcohol"];
@@ -73,7 +64,7 @@ function LeftPanel({ fullName }: { fullName: string }) {
     return (
         <aside
             className="hidden lg:flex w-[300px] shrink-0 px-8 py-9 flex-col justify-between relative overflow-hidden"
-            style={{ background: "linear-gradient(160deg, #032f27 0%, #065b4b 45%, #228573 100%)" }}
+            style={{ background: "linear-gradient(160deg, #032f27 0%, var(--brand-dark) 45%, var(--brand-mid) 100%)" }}
         >
             <div className="absolute top-[-62px] left-[-62px] w-[220px] h-[220px] rounded-full opacity-15" style={{ background: "radial-gradient(circle, #77e8ca 0%, transparent 70%)" }} />
             <div className="absolute bottom-[-70px] right-[-48px] w-[210px] h-[210px] rounded-full opacity-10" style={{ background: "radial-gradient(circle, #96f0d6 0%, transparent 72%)" }} />
@@ -237,7 +228,7 @@ export default function PatientHealthDetailsPage() {
                                         <p className="text-sm font-semibold" style={{ color: C.primary }}>Upload current prescriptions (optional)</p>
                                         <label
                                             className="w-fit px-4 py-2 rounded-full border text-xs font-semibold cursor-pointer inline-flex items-center gap-2"
-                                            style={{ borderColor: C.border, backgroundColor: "#f8fffd", color: C.primary }}
+                                            style={{ borderColor: C.border, backgroundColor: "var(--brand-input-bg)", color: C.primary }}
                                         >
                                             <UploadCloud size={13} /> Choose file
                                             <input

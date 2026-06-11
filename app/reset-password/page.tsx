@@ -13,8 +13,8 @@ export default function ResetPasswordPage() {
     return (
         <Suspense fallback={
             <div className="min-h-screen flex items-center justify-center"
-                style={{ background: "linear-gradient(160deg, #f0faf7 0%, #e8f5f2 50%, #ffffff 100%)" }}>
-                <div className="w-8 h-8 rounded-full border-3 border-[#e8f5f2] border-t-[#228573] animate-spin" />
+                style={{ background: "linear-gradient(160deg, var(--brand-surface-alt) 0%, var(--brand-surface) 50%, #ffffff 100%)" }}>
+                <div className="w-8 h-8 rounded-full border-3 border-brand-surface border-t-brand-mid animate-spin" />
             </div>
         }>
             <ResetPasswordForm />
@@ -79,7 +79,7 @@ function ResetPasswordForm() {
 
     return (
         <div className="min-h-screen flex items-center justify-center px-4 py-12"
-            style={{ background: "linear-gradient(160deg, #f0faf7 0%, #e8f5f2 50%, #ffffff 100%)" }}>
+            style={{ background: "linear-gradient(160deg, var(--brand-surface-alt) 0%, var(--brand-surface) 50%, #ffffff 100%)" }}>
 
             <div className="w-full max-w-110 flex flex-col items-center gap-8">
                 {/* Logo */}
@@ -88,12 +88,12 @@ function ResetPasswordForm() {
                 </Link>
 
                 {/* Card */}
-                <div className="w-full bg-white rounded-3xl shadow-lg border border-[#e8f5f2] p-8 md:p-10">
+                <div className="w-full bg-white rounded-3xl shadow-lg border border-brand-surface p-8 md:p-10">
 
                     {/* Loading state */}
                     {pageState === "loading" && (
                         <div className="flex flex-col items-center gap-4 py-8">
-                            <div className="w-8 h-8 rounded-full border-3 border-[#e8f5f2] border-t-[#228573] animate-spin" />
+                            <div className="w-8 h-8 rounded-full border-3 border-brand-surface border-t-brand-mid animate-spin" />
                             <p className="text-sm" style={{ color: "rgba(6,91,75,0.6)" }}>Verifying reset link...</p>
                         </div>
                     )}
@@ -106,7 +106,7 @@ function ResetPasswordForm() {
                                 <AlertTriangle size={28} style={{ color: "#ef4444" }} />
                             </div>
                             <div>
-                                <h1 className="text-xl font-extrabold mb-2" style={{ color: "#065b4b" }}>
+                                <h1 className="text-xl font-extrabold mb-2" style={{ color: "var(--brand-dark)" }}>
                                     Link expired
                                 </h1>
                                 <p className="text-sm leading-relaxed" style={{ color: "rgba(6,91,75,0.6)" }}>
@@ -116,7 +116,7 @@ function ResetPasswordForm() {
                             <Link
                                 href="/"
                                 className="w-full py-3.5 rounded-full text-white font-bold text-sm text-center transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5 block"
-                                style={{ background: "linear-gradient(135deg, #065b4b 0%, #228573 100%)" }}
+                                style={{ background: "linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-mid) 100%)" }}
                             >
                                 Back to Home
                             </Link>
@@ -127,11 +127,11 @@ function ResetPasswordForm() {
                     {pageState === "success" && (
                         <div className="flex flex-col items-center text-center gap-5 py-4">
                             <div className="w-20 h-20 rounded-full flex items-center justify-center shadow-lg"
-                                style={{ background: "linear-gradient(135deg, #065b4b 0%, #3aa692 100%)", boxShadow: "0 8px 32px rgba(34,133,115,0.32)" }}>
+                                style={{ background: "linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-light) 100%)", boxShadow: "0 8px 32px rgba(34,133,115,0.32)" }}>
                                 <CheckCircle2 size={36} className="text-white" />
                             </div>
                             <div>
-                                <h1 className="text-[22px] font-extrabold mb-2" style={{ color: "#065b4b" }}>
+                                <h1 className="text-[22px] font-extrabold mb-2" style={{ color: "var(--brand-dark)" }}>
                                     Password reset!
                                 </h1>
                                 <p className="text-sm leading-relaxed" style={{ color: "rgba(6,91,75,0.6)" }}>
@@ -141,7 +141,7 @@ function ResetPasswordForm() {
                             <button
                                 onClick={() => router.push("/")}
                                 className="w-full py-3.5 rounded-full text-white font-bold text-sm transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:shadow-[rgba(34,133,115,0.28)] hover:-translate-y-0.5"
-                                style={{ background: "linear-gradient(135deg, #065b4b 0%, #228573 100%)" }}
+                                style={{ background: "linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-mid) 100%)" }}
                             >
                                 Go to Sign In
                             </button>
@@ -152,7 +152,7 @@ function ResetPasswordForm() {
                     {pageState === "form" && (
                         <>
                             <div className="mb-6">
-                                <h1 className="text-[22px] font-extrabold mb-1" style={{ color: "#065b4b" }}>
+                                <h1 className="text-[22px] font-extrabold mb-1" style={{ color: "var(--brand-dark)" }}>
                                     Set new password
                                 </h1>
                                 <p className="text-sm" style={{ color: "rgba(6,91,75,0.55)" }}>
@@ -169,11 +169,11 @@ function ResetPasswordForm() {
                             <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
                                 {/* New Password */}
                                 <div className="flex flex-col gap-1.5">
-                                    <label htmlFor="new-password" className="text-sm font-semibold" style={{ color: "#065b4b" }}>
-                                        New Password<span className="ml-0.5" style={{ color: "#228573" }}>*</span>
+                                    <label htmlFor="new-password" className="text-sm font-semibold" style={{ color: "var(--brand-dark)" }}>
+                                        New Password<span className="ml-0.5" style={{ color: "var(--brand-mid)" }}>*</span>
                                     </label>
                                     <div className="relative">
-                                        <span className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: "#228573" }}>
+                                        <span className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: "var(--brand-mid)" }}>
                                             <Lock size={15} />
                                         </span>
                                         <input
@@ -185,12 +185,12 @@ function ResetPasswordForm() {
                                             required
                                             value={newPassword}
                                             onChange={e => setNewPassword(e.target.value)}
-                                            className="w-full pl-11 pr-12 py-3 rounded-full border border-[#e5e7eb] text-sm text-[#065b4b] bg-[#fafffe] outline-none transition-all duration-200 focus:border-[#228573] focus:shadow-[0_0_0_3px_rgba(34,133,115,0.12)]"
+                                            className="w-full pl-11 pr-12 py-3 rounded-full border border-[#e5e7eb] text-sm text-brand-dark bg-brand-input-bg outline-none transition-all duration-200 focus:border-brand-mid focus:shadow-[0_0_0_3px_rgba(34,133,115,0.12)]"
                                         />
                                         <button
                                             type="button"
                                             onClick={() => setShowPw(v => !v)}
-                                            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#228573] transition-colors"
+                                            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-brand-mid transition-colors"
                                             aria-label={showPw ? "Hide password" : "Show password"}
                                         >
                                             {showPw ? <EyeOff size={15} /> : <Eye size={15} />}
@@ -203,12 +203,12 @@ function ResetPasswordForm() {
 
                                 {/* Confirm Password */}
                                 <div className="flex flex-col gap-1.5">
-                                    <label htmlFor="confirm-password" className="text-sm font-semibold" style={{ color: "#065b4b" }}>
-                                        Confirm Password<span className="ml-0.5" style={{ color: "#228573" }}>*</span>
+                                    <label htmlFor="confirm-password" className="text-sm font-semibold" style={{ color: "var(--brand-dark)" }}>
+                                        Confirm Password<span className="ml-0.5" style={{ color: "var(--brand-mid)" }}>*</span>
                                     </label>
                                     <div className="relative">
                                         <span className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none"
-                                            style={{ color: confirmPassword === "" ? "#228573" : passwordsMatch ? "#22c55e" : "#ef4444" }}>
+                                            style={{ color: confirmPassword === "" ? "var(--brand-mid)" : passwordsMatch ? "#22c55e" : "#ef4444" }}>
                                             <Lock size={15} />
                                         </span>
                                         <input
@@ -220,7 +220,7 @@ function ResetPasswordForm() {
                                             required
                                             value={confirmPassword}
                                             onChange={e => setConfirmPassword(e.target.value)}
-                                            className="w-full pl-11 pr-12 py-3 rounded-full border text-sm text-[#065b4b] bg-[#fafffe] outline-none transition-all duration-200"
+                                            className="w-full pl-11 pr-12 py-3 rounded-full border text-sm text-brand-dark bg-brand-input-bg outline-none transition-all duration-200"
                                             style={{
                                                 borderColor: confirmPassword === "" ? "#e5e7eb" : passwordsMatch ? "#22c55e" : "#ef4444",
                                                 boxShadow: confirmPassword !== "" ? (passwordsMatch ? "0 0 0 3px rgba(34,197,94,0.12)" : "0 0 0 3px rgba(239,68,68,0.12)") : "none",
@@ -243,7 +243,7 @@ function ResetPasswordForm() {
                                     type="submit"
                                     disabled={submitting || !passwordLongEnough || !passwordsMatch || confirmPassword === ""}
                                     className="w-full py-3.5 rounded-full text-white font-bold text-sm mt-2 transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:shadow-[rgba(34,133,115,0.28)] hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed"
-                                    style={{ background: "linear-gradient(135deg, #065b4b 0%, #228573 100%)" }}
+                                    style={{ background: "linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-mid) 100%)" }}
                                 >
                                     {submitting
                                         ? <span className="flex items-center justify-center gap-2">
@@ -256,7 +256,7 @@ function ResetPasswordForm() {
                             </form>
 
                             <p className="text-center mt-5 text-sm" style={{ color: "rgba(6,91,75,0.6)" }}>
-                                <Link href="/" className="inline-flex items-center gap-1.5 font-bold hover:underline" style={{ color: "#228573" }}>
+                                <Link href="/" className="inline-flex items-center gap-1.5 font-bold hover:underline" style={{ color: "var(--brand-mid)" }}>
                                     <ArrowLeft size={14} />
                                     Back to Home
                                 </Link>

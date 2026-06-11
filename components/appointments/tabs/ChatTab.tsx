@@ -47,7 +47,7 @@ export function ChatTab({ patient }: { patient: any }) {
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex items-center gap-1">
-                      <Button variant="ghost" size="icon" className="w-6 h-6 p-0 opacity-0 group-hover:opacity-100">
+                      <Button variant="ghost" size="icon" aria-label="Message options" className="w-6 h-6 p-0 opacity-0 group-hover:opacity-100">
                         <MoreVertical className="w-3 h-3 text-gray-400" />
                       </Button>
                       <div
@@ -93,7 +93,7 @@ export function ChatTab({ patient }: { patient: any }) {
         {/* Message Input */}
         <div className="border-t border-gray-100 p-4 bg-white shrink-0">
           <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-2">
-            <Button variant="ghost" size="icon" className="w-8 h-8 p-0 text-teal-600 hover:text-teal-700">
+            <Button variant="ghost" size="icon" aria-label="Add attachment" className="w-8 h-8 p-0 text-teal-600 hover:text-teal-700">
               <Plus className="w-5 h-5" />
             </Button>
             <Input
@@ -103,16 +103,16 @@ export function ChatTab({ patient }: { patient: any }) {
               className="flex-1 border-0 bg-transparent shadow-none focus-visible:ring-0 text-sm"
             />
             <div className="flex items-center gap-1">
-              <Button variant="ghost" size="icon" className="w-8 h-8 p-0 text-gray-400 hover:text-gray-600">
+              <Button variant="ghost" size="icon" aria-label="Add emoji" className="w-8 h-8 p-0 text-gray-400 hover:text-gray-600">
                 <Smile className="w-5 h-5" />
               </Button>
-              <Button variant="ghost" size="icon" className="w-8 h-8 p-0 text-gray-400 hover:text-gray-600">
+              <Button variant="ghost" size="icon" aria-label="Record audio" className="w-8 h-8 p-0 text-gray-400 hover:text-gray-600">
                 <Mic className="w-5 h-5" />
               </Button>
-              <Button variant="ghost" size="icon" className="w-8 h-8 p-0 text-gray-400 hover:text-gray-600">
+              <Button variant="ghost" size="icon" aria-label="Attach file" className="w-8 h-8 p-0 text-gray-400 hover:text-gray-600">
                 <Paperclip className="w-5 h-5" />
               </Button>
-              <Button size="icon" className="w-8 h-8 rounded-full bg-teal-600 hover:bg-teal-700 text-white">
+              <Button size="icon" aria-label="Send message" className="w-8 h-8 rounded-full bg-teal-600 hover:bg-teal-700 text-white">
                 <Send className="w-4 h-4" />
               </Button>
             </div>

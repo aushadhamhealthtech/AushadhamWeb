@@ -18,6 +18,7 @@ export default function DownloadReportButton({
     <>
       <Button
         size="icon"
+        aria-label="Download report"
         className="h-9 w-9 rounded-full bg-[#228573]"
         onClick={() => setOpen(true)}
       >

@@ -481,6 +481,7 @@ export default function DoctorProfilePage() {
             <Button
               type="button"
               size="icon"
+              aria-label="Close dialog"
               onClick={() => setSuccessOpen(false)}
               className="absolute -right-3 -top-3 h-16 w-16 rounded-full bg-amber-950 text-white hover:bg-amber-950"
             >
@@ -501,6 +502,7 @@ export default function DoctorProfilePage() {
             <Button
               type="button"
               size="icon"
+              aria-label="Close dialog"
               onClick={() => setUploadOpen(false)}
               className="absolute -right-2 -top-2 h-10 w-10 rounded-full bg-amber-950 text-white hover:bg-amber-950"
             >
